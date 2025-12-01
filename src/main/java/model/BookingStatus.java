@@ -1,4 +1,7 @@
 package model;
 
-public enum BookingStatus {
+public enum BookingStatus
+{
+    ACTIVE,
+    CANCELLED
 }

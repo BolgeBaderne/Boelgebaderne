@@ -1,4 +1,7 @@
 package model;
 
-public enum Role {
+public enum Role
+{
+    MEMBER,
+    ADMIN
 }

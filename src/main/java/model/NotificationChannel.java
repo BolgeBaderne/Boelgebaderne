@@ -1,4 +1,7 @@
 package model;
 
-public enum NotificationChannel {
+public enum NotificationChannel
+{
+    EMAIL,
+    SMS
 }

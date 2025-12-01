@@ -1,4 +1,7 @@
 package model;
 
-public enum WaitlistType {
+public enum WaitlistType
+{
+    STANDARD,
+    PRIORITY
 }

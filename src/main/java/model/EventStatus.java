@@ -1,4 +1,8 @@
 package model;
 
-public enum EventStatus {
+public enum EventStatus
+{
+    UPCOMING,
+    FULLY_BOOKED,
+    CANCELLED
 }
