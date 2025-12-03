@@ -1,30 +1,35 @@
-package model;
+package com.example.bolgebaderne.model;
 
 import java.time.LocalDateTime;
 
 public class SaunaEvent
 {
+
     private int eventId;
     private String title;
     private String description;
+
     private String gusmesterName;
     private String gusmesterImageUrl;
+
     private LocalDateTime startTime;
     private int durationMinutes;
     private int capacity;
     private double price;
+
+    private int currentBookings; //ny attribut
+
     private EventStatus status;
 
     public int getAvailableSpots() {
-        // TODO calculate based on bookings
-        return 0;
+        return capacity - currentBookings;
     }
 
     public boolean isFull() {
         return getAvailableSpots() == 0;
     }
 
-    public SaunaEvent(int eventId, String title, String description, String gusmesterName, String gusmesterImageUrl, LocalDateTime startTime, int durationMinutes, int capacity, double price, EventStatus status)
+    public SaunaEvent(int eventId, String title, String description, String gusmesterName, String gusmesterImageUrl, LocalDateTime startTime, int durationMinutes, int capacity, double price, int currentBookings, EventStatus status)
     {
         this.eventId = eventId;
         this.title = title;
@@ -35,6 +40,7 @@ public class SaunaEvent
         this.durationMinutes = durationMinutes;
         this.capacity = capacity;
         this.price = price;
+        this.currentBookings = currentBookings;
         this.status = status;
     }
 
@@ -47,6 +53,7 @@ public class SaunaEvent
     public int getDurationMinutes() {return durationMinutes;}
     public int getCapacity() {return capacity;}
     public double getPrice() {return price;}
+    public int getCurrentBookings() {return currentBookings;}
     public EventStatus getStatus() {return status;}
 
     public void setEventId(int eventId) {this.eventId = eventId;}
@@ -58,6 +65,7 @@ public class SaunaEvent
     public void setDurationMinutes(int durationMinutes) {this.durationMinutes = durationMinutes;}
     public void setCapacity(int capacity) {this.capacity = capacity;}
     public void setPrice(double price) {this.price = price;}
+    public void setCurrentBookings(int currentBooking) {this.currentBookings = currentBookings;}
     public void setStatus(EventStatus status) {this.status = status;}
 
 }

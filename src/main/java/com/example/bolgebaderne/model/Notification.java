@@ -1,4 +1,4 @@
-package model;
+package com.example.bolgebaderne.model;
 
 import java.time.LocalDateTime;
 
