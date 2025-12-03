@@ -1,0 +1,57 @@
+package com.example.bolgebaderne.controller;
+
+import com.example.bolgebaderne.dto.BookingResponseDTO;
+import com.example.bolgebaderne.dto.MemberProfileResponseDTO;
+import com.example.bolgebaderne.dto.ShiftResponseDTO;
+import org.springframework.web.bind.annotation.*;
+import com.example.bolgebaderne.service.MemberProfileService;
+import com.example.bolgebaderne.service.MemberQuickBookingService;
+import com.example.bolgebaderne.service.MemberShiftService;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/member")
+public class MemberController {
+
+    private final MemberProfileService memberProfileService;
+    private final MemberQuickBookingService quickBookingService;
+    private final MemberShiftService shiftService;
+
+    public MemberController(MemberProfileService memberProfileService,
+                            MemberQuickBookingService quickBookingService,
+                            MemberShiftService shiftService) {
+        this.memberProfileService = memberProfileService;
+        this.quickBookingService = quickBookingService;
+        this.shiftService = shiftService;
+    }
+
+//    @GetMapping("/profile")
+//    public MemberProfileResponseDTO getProfile(@RequestParam String email) {
+//        return memberProfileService.getProfile(email); RETURNER KUN EMAIL HVIS DB KENDER TIL DEN
+
+@GetMapping("/profile")
+public MemberProfileResponseDTO getProfile(
+        @RequestParam(required = false) String email
+) {
+    if (email == null || email.isBlank()) {
+        email = "member1@example.com";   // default
+    }
+
+    return memberProfileService.getProfile(email);
+}
+    @GetMapping("/profiles")
+    public List<MemberProfileResponseDTO> getAllProfiles() {
+        return memberProfileService.getAllProfiles();
+    }
+
+    @GetMapping("/quick-booking")
+    public List<BookingResponseDTO> getQuickBooking() {
+        return quickBookingService.getQuickBookings();
+    }
+
+    @GetMapping("/shifts")
+    public List<ShiftResponseDTO> getShifts() {
+        return shiftService.getShifts();
+    }
+}
