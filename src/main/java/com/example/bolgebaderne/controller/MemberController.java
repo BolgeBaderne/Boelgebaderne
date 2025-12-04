@@ -3,6 +3,8 @@ package com.example.bolgebaderne.controller;
 import com.example.bolgebaderne.dto.BookingResponseDTO;
 import com.example.bolgebaderne.dto.MemberProfileResponseDTO;
 import com.example.bolgebaderne.dto.ShiftResponseDTO;
+import com.example.bolgebaderne.model.User;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import com.example.bolgebaderne.service.MemberProfileService;
 import com.example.bolgebaderne.service.MemberQuickBookingService;
@@ -30,16 +32,11 @@ public class MemberController {
 //    public MemberProfileResponseDTO getProfile(@RequestParam String email) {
 //        return memberProfileService.getProfile(email); RETURNER KUN EMAIL HVIS DB KENDER TIL DEN
 
-@GetMapping("/profile")
-public MemberProfileResponseDTO getProfile(
-        @RequestParam(required = false) String email
-) {
-    if (email == null || email.isBlank()) {
-        email = "member1@example.com";   // default
+    @GetMapping("/api/member/profile")
+    public MemberProfileResponseDTO getProfile(@RequestParam String email) {
+        return memberProfileService.getProfile(email);
     }
 
-    return memberProfileService.getProfile(email);
-}
     @GetMapping("/profiles")
     public List<MemberProfileResponseDTO> getAllProfiles() {
         return memberProfileService.getAllProfiles();

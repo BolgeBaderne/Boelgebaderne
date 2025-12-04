@@ -1,35 +1,41 @@
 package com.example.bolgebaderne.model;
 
 import jakarta.persistence.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import java.util.Collection;
+import java.util.List;
 
 @Entity
-@Table(name = "users") // matcher _schema.sql (CREATE TABLE users)
-public class User {
+@Table(name = "users")
+public class User implements UserDetails {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // AUTO_INCREMENT i H2/MySQL
-    @Column(name = "user_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int userId;
 
-    @Column(name = "name", nullable = false, length = 100)
     private String name;
 
-    @Column(name = "email", nullable = false, unique = true, length = 100)
+    @Column(unique = true, nullable = false)
     private String email;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "role", nullable = false, length = 20)
     private Role role;
 
-    @Column(name = "password_hash", nullable = false, length = 255)
     private String passwordHash;
 
-    @Column(name = "membership_status", nullable = false, length = 20)
     private String membershipStatus;
 
-    // JPA kræver en no-arg constructor
- public User() {
-    }
+    // ===== Dine helper-metoder =====
+
+    public boolean isMember() { return role == Role.MEMBER; }
+    public boolean isAdmin() { return role == Role.ADMIN; }
+
+    // ===== Konstruktør(er) =====
+
+    public User() { }
 
     public User(int userId, String name, String email, Role role,
                 String passwordHash, String membershipStatus) {
@@ -41,15 +47,8 @@ public class User {
         this.membershipStatus = membershipStatus;
     }
 
-    public boolean isMember() {
-        return role == Role.MEMBER;
-    }
+    // ===== Getters/setters (som du havde) =====
 
-    public boolean isAdmin() {
-        return role == Role.ADMIN;
-    }
-
-    // Getters & setters
     public int getUserId() { return userId; }
     public void setUserId(int userId) { this.userId = userId; }
 
@@ -67,4 +66,37 @@ public class User {
 
     public String getMembershipStatus() { return membershipStatus; }
     public void setMembershipStatus(String membershipStatus) { this.membershipStatus = membershipStatus; }
-}
+
+    // ===== UserDetails-implementation til Spring Security =====
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        // Spring forventer "ROLE_MEMBER", "ROLE_ADMIN", ...
+        return List.of(new SimpleGrantedAuthority("ROLE_" + role.name()));
+    }
+
+    @Override
+    public String getPassword() {
+        return passwordHash;
+    }
+
+    @Override
+    public String getUsername() {
+        // Vi logger ind med email
+        return email;
+    }
+
+    // De her kan bare være true for nu
+    @Override public boolean isAccountNonExpired() {
+        return true;
+    }
+    @Override public boolean isAccountNonLocked() {
+        return true;
+    }
+    @Override public boolean isCredentialsNonExpired() {
+        return true;
+    }
+    @Override public boolean isEnabled() {
+        return true;
+    }
+    }
