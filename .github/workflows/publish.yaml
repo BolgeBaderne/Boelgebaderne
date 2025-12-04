@@ -1,8 +1,13 @@
-name: Publish Docker Image
+---
+name: Publish Docker image
 
-on:
+'on':
   push:
     branches: ["main"]
+
+permissions:
+  contents: read
+  packages: write
 
 env:
   REGISTRY: ghcr.io
@@ -11,40 +16,42 @@ env:
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: write
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
 
-      - name: Set up JDK 21
-        uses: actions/setup-java@99d9a62ff08b4985ba97f307fbeeb887dfc98a2c
+      - name: Set up Java 21
+        uses: actions/setup-java@v4
         with:
-          java-version: '21'
           distribution: 'temurin'
+          java-version: '21'
+          cache: 'maven'
 
-      - name: Cache Maven packages
-        uses: actions/cache@6849a6489940f00c2f30c0fb8d56d5a7f2f25e94
+      - name: Cache Maven repository
+        uses: actions/cache@v4
         with:
           path: ~/.m2/repository
-          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-          restore-keys: ${{ runner.os }}-maven-
+          key: maven-${{ runner.os }}-${{ hashFiles('pom.xml') }}
+          restore-keys: |
+            maven-${{ runner.os }}-
 
-      - name: Log in to GHCR
-        uses: docker/login-action@0d63d480b9181e7e841e087ded1b3db441fb8b22
+      - name: Run Maven tests
+        run: mvn -B -ntp test
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
         with:
-          registry: ghcr.io
+          registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build and push Docker image
-        uses: docker/build-push-action@1c461cc3722d6cafe5cd0f51ddb9e3321e7f6cc2
+        uses: docker/build-push-action@v6
         with:
           context: .
           file: ./Dockerfile
           push: true
           tags: |
-            ghcr.io/bolgebaderne/boelgebaderne:latest
-            ghcr.io/bolgebaderne/boelgebaderne:${{ github.sha }}
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
