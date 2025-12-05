@@ -17,33 +17,23 @@ import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 @EnableWebSecurity
-@EnableMethodSecurity // så du kan bruge @PreAuthorize senere, hvis du vil
+@EnableMethodSecurity
 public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                // Vi bygger primært et JSON-API → CSRF slås fra for at gøre livet nemmere
                 .csrf(csrf -> csrf.disable())
-
-                .authorizeHttpRequests(auth -> auth
-                        // Offentlige endpoints (ingen login kræves)
-                        .requestMatchers("/api/public/**").permitAll()
-                        .requestMatchers("/api/auth/**").permitAll()
-                        .requestMatchers("/h2-console/**").permitAll()
-
-                        // Medlems-API: kræver rolle MEMBER eller ADMIN
-                        .requestMatchers("/api/member/**")
-                        .hasAnyRole("MEMBER", "ADMIN")
-
-                        // Alt andet kræver bare at man er logget ind
-                        .anyRequest().authenticated()
-                )
-
-                // HTTP Basic Authentication (browser/ Postman popup)
+                //               .authorizeHttpRequests(auth -> auth
+//                        .anyRequest().permitAll()  // <- MIDLERIDTIGT: alt er åbent
+//                )
+               .authorizeHttpRequests(auth -> auth
+                       .requestMatchers("/api/public/**", "/api/auth/**", "/h2-console/**").permitAll()
+                      .requestMatchers("/api/member/**").hasAnyRole("MEMBER","NON_MEMBER", "ADMIN")
+                       .anyRequest().authenticated()
+               )
                 .httpBasic(Customizer.withDefaults());
 
-        // H2-console bruger frames → tillad samme origin
         http.headers(headers -> headers.frameOptions(frame -> frame.sameOrigin()));
 
         return http.build();
@@ -51,14 +41,63 @@ public class SecurityConfig {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+     return NoOpPasswordEncoder.getInstance(); // KUN til test!
+        // return new BCryptPasswordEncoder();
+    }
 
-  }
+
+
     @Bean
     public UserDetailsService userDetailsService(UserRepository userRepository) {
         return email -> userRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found: " + email));
     }
-
-
 }
+
+//@Configuration
+//@EnableWebSecurity
+//@EnableMethodSecurity // så du kan bruge @PreAuthorize senere, hvis du vil
+//public class SecurityConfig {
+//
+//    @Bean
+//    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+//        http
+//                // Vi bygger primært et JSON-API → CSRF slås fra for at gøre livet nemmere
+//                .csrf(csrf -> csrf.disable())
+//
+//                .authorizeHttpRequests(auth -> auth
+//                        // Offentlige endpoints (ingen login kræves)
+//                        .requestMatchers("/api/public/**").permitAll()
+//                        .requestMatchers("/api/auth/**").permitAll()
+//                        .requestMatchers("/h2-console/**").permitAll()
+//
+//                        // Medlems-API: kræver rolle MEMBER eller ADMIN
+//                        .requestMatchers("/api/member/**")
+//                        .hasAnyRole("MEMBER", "ADMIN")
+//
+//                        // Alt andet kræver bare at man er logget ind
+//                        .anyRequest().authenticated()
+//                )
+//
+//                // HTTP Basic Authentication (browser/ Postman popup)
+//                .httpBasic(Customizer.withDefaults());
+//
+//        // H2-console bruger frames → tillad samme origin
+//        http.headers(headers -> headers.frameOptions(frame -> frame.sameOrigin()));
+//
+//        return http.build();
+//    }
+//
+//    @Bean
+//    public PasswordEncoder passwordEncoder() {
+//        return new BCryptPasswordEncoder();
+//
+//  }
+//    @Bean
+//    public UserDetailsService userDetailsService(UserRepository userRepository) {
+//        return email -> userRepository.findByEmail(email)
+//                .orElseThrow(() -> new UsernameNotFoundException("User not found: " + email));
+//    }
+//
+//
+//}

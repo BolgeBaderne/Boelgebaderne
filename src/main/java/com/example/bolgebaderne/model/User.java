@@ -77,7 +77,7 @@ public class User implements UserDetails {
 
     @Override
     public String getPassword() {
-        return passwordHash;
+        return passwordHash; //læser fra kolonnen password_hash
     }
 
     @Override

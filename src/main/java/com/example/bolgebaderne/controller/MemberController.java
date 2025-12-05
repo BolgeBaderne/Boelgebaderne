@@ -28,22 +28,29 @@ public class MemberController {
         this.shiftService = shiftService;
     }
 
+//// Simpel profil-endpoint til test uden login
 //    @GetMapping("/profile")
-//    public MemberProfileResponseDTO getProfile(@RequestParam String email) {
-//        return memberProfileService.getProfile(email); RETURNER KUN EMAIL HVIS DB KENDER TIL DEN
+//    public MemberProfileResponseDTO getProfile(
+//        @RequestParam(required = false) String email
+//) {
+//    if (email == null || email.isBlank()) {
+//        email = "member1@example.com";  // default test-bruger
+//    }
+//    return memberProfileService.getProfile(email);
+//}
+   @GetMapping("/profile")
+   public MemberProfileResponseDTO getProfile(@AuthenticationPrincipal User currentUser) {
+    return memberProfileService.getProfile(currentUser.getEmail());
 
-    @GetMapping("/api/member/profile")
-    public MemberProfileResponseDTO getProfile(@RequestParam String email) {
-        return memberProfileService.getProfile(email);
-    }
+   }
 
     @GetMapping("/profiles")
-    public List<MemberProfileResponseDTO> getAllProfiles() {
-        return memberProfileService.getAllProfiles();
-    }
+   public List<MemberProfileResponseDTO> getAllProfiles() {
+       return memberProfileService.getAllProfiles();
+  }
 
     @GetMapping("/quick-booking")
-    public List<BookingResponseDTO> getQuickBooking() {
+    public List<BookingResponseDTO> getQuickBookings() {
         return quickBookingService.getQuickBookings();
     }
 
