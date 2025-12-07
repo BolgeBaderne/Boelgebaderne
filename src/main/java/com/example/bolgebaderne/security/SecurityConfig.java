@@ -1,14 +1,12 @@
 package com.example.bolgebaderne.security;
 
 import com.example.bolgebaderne.repository.UserRepository;
-import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -16,136 +14,133 @@ import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
+import java.io.PrintWriter;
+
 @Configuration
 @EnableWebSecurity
-@EnableMethodSecurity //ift @preauthorize
+@EnableMethodSecurity
 public class SecurityConfig {
-
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                // Vi bygger API → gør livet nemmere mht. CSRF
-                .csrf(csrf -> csrf
-                        .ignoringRequestMatchers("/h2-console/**") // ignorér CSRF for H2
-                        .disable()
+                .csrf(csrf -> csrf.disable())
+
+                .authorizeHttpRequests(auth -> auth
+                        // login + public endpoints må være åbne
+                        .requestMatchers(
+                                "/login",
+                                "/api/public/**",
+                                "/api/auth/**",
+                                "/h2-console/**"
+                        ).permitAll()
+
+                        // kun MEMBER/ADMIN på member-API
+                        .requestMatchers("/api/member/**")
+                        .hasAnyRole("MEMBER", "ADMIN")
+
+                        // alt andet kræver login
+                        .anyRequest().authenticated()
                 )
-//        http
-//                .csrf(csrf -> csrf.disable())
-                //               .authorizeHttpRequests(auth -> auth
-//                        .anyRequest().permitAll()  // <- MIDLERIDTIGT: alt er åbent
-//                )
 
-                //adgang
-               .authorizeHttpRequests(auth -> auth
-                       .requestMatchers("/api/public/**", "/api/auth/**", "/h2-console/**").permitAll()
-                      .requestMatchers("/api/member/**").hasAnyRole("MEMBER","NON_MEMBER", "ADMIN")
+                // FORM LOGIN til browseren
+                .formLogin(form -> form
+                        .loginPage("/login")
+                        .usernameParameter("email")      // <- vigtig!
+                        .passwordParameter("password")   // valgfri, men fint
+                        .defaultSuccessUrl("/api/member/profile", true)
+                        .permitAll()
+                )
 
-                       // MEDLEMS-API → kræver rolle MEMBER eller ADMIN
-                       .requestMatchers("/api/member/**")
-                       .hasAnyRole("MEMBER", "ADMIN")
-                       .anyRequest().authenticated()
-
-               )
-                .httpBasic(Customizer.withDefaults())
-
-                // ⭐ GLOBAL SECURITY ERROR HANDLING
-                // 🔥 Her håndterer vi 401 + 403 som JSON
-                .exceptionHandling(ex -> ex
-
-                        // 401 – ikke logget ind / forkert login
-                        .authenticationEntryPoint((request, response, authException) -> {
-                            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED); // 401
-                            response.setContentType("application/json");
-                            response.getWriter().write("""
-                                {
-                                  "status": 401,
-                                  "error": "UNAUTHORIZED",
-                                  "message": "Du skal være logget ind for at se denne side."
-                                }
-                                """);
-                        })
-
-                        // 403 – logget ind, men mangler rolle
-                        .accessDeniedHandler((request, response, accessDeniedException) -> {
-                            response.setStatus(HttpServletResponse.SC_FORBIDDEN); // 403
-                            response.setContentType("application/json");
-                            response.getWriter().write("""
-                                {
-                                  "status": 403,
-                                  "error": "FORBIDDEN",
-                                  "message": "Du har ikke adgang til denne funktion."
-                                }
-                                """);
-                        })
+                // LOGOUT (bare nice to have)
+                .logout(logout -> logout
+                        .logoutUrl("/logout")
+                        .logoutSuccessUrl("/login?logout")
                 );
 
-
-
-        http.headers(headers -> headers.frameOptions(frame -> frame.sameOrigin()));   // H2-console i frames
+        // H2 console
+        http.headers(headers -> headers.frameOptions(frame -> frame.sameOrigin()));
 
         return http.build();
-    }
+    } }
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-     return NoOpPasswordEncoder.getInstance(); // KUN til test!
-        // return new BCryptPasswordEncoder();
-    }
-
-
-
-    @Bean
-    public UserDetailsService userDetailsService(UserRepository userRepository) {
-        // Vi logger ind med EMAIL
-        return email -> userRepository.findByEmail(email)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found: " + email));
-    }
-}
-
-//@Configuration
-//@EnableWebSecurity
-//@EnableMethodSecurity // så du kan bruge @PreAuthorize senere, hvis du vil
-//public class SecurityConfig {
-//
 //    @Bean
 //    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 //        http
-//                // Vi bygger primært et JSON-API → CSRF slås fra for at gøre livet nemmere
 //                .csrf(csrf -> csrf.disable())
 //
 //                .authorizeHttpRequests(auth -> auth
-//                        // Offentlige endpoints (ingen login kræves)
-//                        .requestMatchers("/api/public/**").permitAll()
-//                        .requestMatchers("/api/auth/**").permitAll()
-//                        .requestMatchers("/h2-console/**").permitAll()
+//                        // offentlige sider + login-side
+//                        .requestMatchers(
+//                                "/login",
+//                                "/api/public/**",
+//                                "/api/auth/**",
+//                                "/h2-console/**"
+//                        ).permitAll()
 //
-//                        // Medlems-API: kræver rolle MEMBER eller ADMIN
+//                        // /api/member/** kun for MEMBER eller ADMIN
 //                        .requestMatchers("/api/member/**")
 //                        .hasAnyRole("MEMBER", "ADMIN")
 //
-//                        // Alt andet kræver bare at man er logget ind
+//                        // alt andet kræver bare at man er logget ind
 //                        .anyRequest().authenticated()
 //                )
 //
-//                // HTTP Basic Authentication (browser/ Postman popup)
-//                .httpBasic(Customizer.withDefaults());
+//                // FORM LOGIN til browser-UI
+//                .formLogin(form -> form
+//                        .loginPage("/login")                // vores egen login-side
+//                        .defaultSuccessUrl("/api/member/profile", true)// kan du ændre senere
+//                        .permitAll()
+//                )
 //
-//        // H2-console bruger frames → tillad samme origin
+//                // BASIC auth bevares, så Postman stadig fungerer
+////                .httpBasic(Customizer.withDefaults())
+//
+//                // Custom 401/403 JSON-fejl (som vi lavede til #72)
+//                .exceptionHandling(ex -> ex
+//                        .authenticationEntryPoint((request, response, authException) -> {
+//                            response.setStatus(401);
+//                            response.setContentType("application/json");
+//                            try (PrintWriter out = response.getWriter()) {
+//                                out.write("""
+//                                        {
+//                                          "status": 401,
+//                                          "error": "Unauthorized",
+//                                          "message": "Du skal være logget ind for at se denne side."
+//                                        }
+//                                        """);
+//                            }
+//                        })
+//                        .accessDeniedHandler((request, response, accessDeniedException) -> {
+//                            response.setStatus(403);
+//                            response.setContentType("application/json");
+//                            try (PrintWriter out = response.getWriter()) {
+//                                out.write("""
+//                                        {
+//                                          "status": 403,
+//                                          "error": "Forbidden",
+//                                          "message": "Du har ikke adgang til denne funktion."
+//                                        }
+//                                        """);
+//                            }
+//                        })
+//                );
+//
+//        // H2 console må bruge frames
 //        http.headers(headers -> headers.frameOptions(frame -> frame.sameOrigin()));
 //
 //        return http.build();
 //    }
 //
+//
 //    @Bean
 //    public PasswordEncoder passwordEncoder() {
-//        return new BCryptPasswordEncoder();
+//        // simpelt til udvikling/eksamen – plaintext passwords
+//        return NoOpPasswordEncoder.getInstance();
+//    }
 //
-//  }
 //    @Bean
 //    public UserDetailsService userDetailsService(UserRepository userRepository) {
 //        return email -> userRepository.findByEmail(email)
 //                .orElseThrow(() -> new UsernameNotFoundException("User not found: " + email));
 //    }
-//
-//
 //}
