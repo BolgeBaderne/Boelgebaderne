@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
 @ControllerAdvice
-public class GlobalModelAttributes { //hjælpeklasse
+public class GlobalModelAttributes { //hjælpeklasse!
 
     @ModelAttribute("role")
     public String addRole(@AuthenticationPrincipal User currentUser) {
