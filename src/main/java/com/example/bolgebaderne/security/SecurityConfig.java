@@ -23,7 +23,13 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(csrf -> csrf.disable())
+                // Vi bygger API → gør livet nemmere mht. CSRF
+                .csrf(csrf -> csrf
+                        .ignoringRequestMatchers("/h2-console/**") // ignorér CSRF for H2
+                        .disable()
+                )
+//        http
+//                .csrf(csrf -> csrf.disable())
                 //               .authorizeHttpRequests(auth -> auth
 //                        .anyRequest().permitAll()  // <- MIDLERIDTIGT: alt er åbent
 //                )
