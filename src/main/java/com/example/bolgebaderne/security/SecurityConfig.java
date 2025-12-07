@@ -34,6 +34,9 @@ public class SecurityConfig {
                                 "/h2-console/**"
                         ).permitAll()
 
+                        // FRONTEND-medlemssider:
+                        .requestMatchers("/member/**").hasAnyRole("MEMBER", "ADMIN")
+
                         // kun MEMBER/ADMIN på member-API
                         .requestMatchers("/api/member/**")
                         .hasAnyRole("MEMBER", "ADMIN")
