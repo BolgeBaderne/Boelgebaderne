@@ -61,7 +61,18 @@ public class SecurityConfig {
         http.headers(headers -> headers.frameOptions(frame -> frame.sameOrigin()));
 
         return http.build();
-    } }
+    }
+    @Bean
+  public PasswordEncoder passwordEncoder() {
+      // simpelt til udvikling/eksamen – plaintext passwords
+      return NoOpPasswordEncoder.getInstance();
+   }
+
+    @Bean
+   public UserDetailsService userDetailsService(UserRepository userRepository) {
+       return email -> userRepository.findByEmail(email)
+               .orElseThrow(() -> new UsernameNotFoundException("User not found: " + email));
+}}
 
 //    @Bean
 //    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {

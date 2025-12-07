@@ -5,16 +5,21 @@
     <title>Log ind</title>
 </head>
 <body>
-<h2>Log ind</h2>
 
 <form method="post" action="/login">
-    <label>Email:</label>
-    <input type="text" name="username">
+    <h1>Log ind</h1>
 
-    <label>Password:</label>
-    <input type="password" name="password">
+    <label for="email">Email:</label>
+    <input id="email" type="text" name="email">
+
+    <label for="password">Password:</label>
+    <input id="password" type="password" name="password">
 
     <button type="submit">Log ind</button>
+
+    <div style="color:red;">
+        <span th:if="${param.error}">Forkert login. Prøv igen.</span>
+    </div>
 </form>
 
 </body>
