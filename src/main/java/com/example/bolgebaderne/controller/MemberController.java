@@ -4,6 +4,7 @@ import com.example.bolgebaderne.dto.BookingResponseDTO;
 import com.example.bolgebaderne.dto.MemberProfileResponseDTO;
 import com.example.bolgebaderne.dto.ShiftResponseDTO;
 import com.example.bolgebaderne.model.User;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import com.example.bolgebaderne.service.MemberProfileService;
@@ -14,6 +15,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/member")
+@PreAuthorize("hasAnyRole('MEMBER','ADMIN')")
 public class MemberController {
 
     private final MemberProfileService memberProfileService;

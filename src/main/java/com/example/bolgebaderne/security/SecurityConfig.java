@@ -1,6 +1,7 @@
 package com.example.bolgebaderne.security;
 
 import com.example.bolgebaderne.repository.UserRepository;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
@@ -17,7 +18,7 @@ import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 @EnableWebSecurity
-@EnableMethodSecurity
+@EnableMethodSecurity //ift @preauthorize
 public class SecurityConfig {
 
     @Bean
@@ -33,14 +34,54 @@ public class SecurityConfig {
                 //               .authorizeHttpRequests(auth -> auth
 //                        .anyRequest().permitAll()  // <- MIDLERIDTIGT: alt er åbent
 //                )
+
+                //adgang
                .authorizeHttpRequests(auth -> auth
                        .requestMatchers("/api/public/**", "/api/auth/**", "/h2-console/**").permitAll()
                       .requestMatchers("/api/member/**").hasAnyRole("MEMBER","NON_MEMBER", "ADMIN")
-                       .anyRequest().authenticated()
-               )
-                .httpBasic(Customizer.withDefaults());
 
-        http.headers(headers -> headers.frameOptions(frame -> frame.sameOrigin()));
+                       // MEDLEMS-API → kræver rolle MEMBER eller ADMIN
+                       .requestMatchers("/api/member/**")
+                       .hasAnyRole("MEMBER", "ADMIN")
+                       .anyRequest().authenticated()
+
+               )
+                .httpBasic(Customizer.withDefaults())
+
+                // ⭐ GLOBAL SECURITY ERROR HANDLING
+                // 🔥 Her håndterer vi 401 + 403 som JSON
+                .exceptionHandling(ex -> ex
+
+                        // 401 – ikke logget ind / forkert login
+                        .authenticationEntryPoint((request, response, authException) -> {
+                            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED); // 401
+                            response.setContentType("application/json");
+                            response.getWriter().write("""
+                                {
+                                  "status": 401,
+                                  "error": "UNAUTHORIZED",
+                                  "message": "Du skal være logget ind for at se denne side."
+                                }
+                                """);
+                        })
+
+                        // 403 – logget ind, men mangler rolle
+                        .accessDeniedHandler((request, response, accessDeniedException) -> {
+                            response.setStatus(HttpServletResponse.SC_FORBIDDEN); // 403
+                            response.setContentType("application/json");
+                            response.getWriter().write("""
+                                {
+                                  "status": 403,
+                                  "error": "FORBIDDEN",
+                                  "message": "Du har ikke adgang til denne funktion."
+                                }
+                                """);
+                        })
+                );
+
+
+
+        http.headers(headers -> headers.frameOptions(frame -> frame.sameOrigin()));   // H2-console i frames
 
         return http.build();
     }
@@ -55,6 +96,7 @@ public class SecurityConfig {
 
     @Bean
     public UserDetailsService userDetailsService(UserRepository userRepository) {
+        // Vi logger ind med EMAIL
         return email -> userRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found: " + email));
     }
