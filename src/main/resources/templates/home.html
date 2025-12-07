@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="da"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Forside</title>
+</head>
+<body>
+
+<div th:replace="fragments/nav :: nav"></div>
+
+<h1>Velkommen til Bølgebaderne</h1>
+
+<p th:if="${role == 'GUEST'}">
+    Du er ikke logget ind. Klik på "Log ind" i menuen.
+</p>
+
+<p th:if="${role != 'GUEST'}">
+    Du er logget ind som <span th:text="${role}">ROLLE</span>.
+</p>
+
+</body>
+</html>
