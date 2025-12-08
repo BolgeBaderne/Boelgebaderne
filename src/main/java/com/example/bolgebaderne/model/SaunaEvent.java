@@ -1,14 +1,18 @@
 package com.example.bolgebaderne.model;
 
+import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
-public class SaunaEvent
-{
+@Entity
+@Table(name = "sauna_event")
+public class SaunaEvent {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int eventId;
+
     private String title;
     private String description;
-
     private String gusmesterName;
     private String gusmesterImageUrl;
 
@@ -17,20 +21,18 @@ public class SaunaEvent
     private int capacity;
     private double price;
 
-    private int currentBookings; //ny attribut
+    private int currentBookings;
 
+    @Enumerated(EnumType.STRING)
     private EventStatus status;
 
-    public int getAvailableSpots() {
-        return capacity - currentBookings;
-    }
+    public SaunaEvent() {}
 
-    public boolean isFull() {
-        return getAvailableSpots() == 0;
-    }
+    // Din egen constructor
+    public SaunaEvent(int eventId, String title, String description, String gusmesterName,
+                      String gusmesterImageUrl, LocalDateTime startTime, int durationMinutes,
+                      int capacity, double price, int currentBookings, EventStatus status) {
 
-    public SaunaEvent(int eventId, String title, String description, String gusmesterName, String gusmesterImageUrl, LocalDateTime startTime, int durationMinutes, int capacity, double price, int currentBookings, EventStatus status)
-    {
         this.eventId = eventId;
         this.title = title;
         this.description = description;
@@ -44,28 +46,33 @@ public class SaunaEvent
         this.status = status;
     }
 
-    public int getEventId() {return eventId;}
-    public String getTitle() {return title;}
-    public String getDescription() {return description;}
-    public String getGusmesterName() {return gusmesterName;}
-    public String getGusmesterImageUrl() {return gusmesterImageUrl;}
-    public LocalDateTime getStartTime() {return startTime;}
-    public int getDurationMinutes() {return durationMinutes;}
-    public int getCapacity() {return capacity;}
-    public double getPrice() {return price;}
-    public int getCurrentBookings() {return currentBookings;}
-    public EventStatus getStatus() {return status;}
+    public int getAvailableSpots() {
+        return capacity - currentBookings;
+    }
 
-    public void setEventId(int eventId) {this.eventId = eventId;}
-    public void setTitle(String title) {this.title = title;}
-    public void setDescription(String description) {this.description = description;}
-    public void setGusmesterName(String gusmesterName) {this.gusmesterName = gusmesterName;}
-    public void setGusmesterImageUrl(String gusmesterImageUrl) {this.gusmesterImageUrl = gusmesterImageUrl;}
-    public void setStartTime(LocalDateTime startTime) {this.startTime = startTime;}
-    public void setDurationMinutes(int durationMinutes) {this.durationMinutes = durationMinutes;}
-    public void setCapacity(int capacity) {this.capacity = capacity;}
-    public void setPrice(double price) {this.price = price;}
-    public void setCurrentBookings(int currentBooking) {this.currentBookings = currentBookings;}
-    public void setStatus(EventStatus status) {this.status = status;}
+    // Getters + setters …
 
+    public int getEventId() { return eventId; }
+    public String getTitle() { return title; }
+    public String getDescription() { return description; }
+    public String getGusmesterName() { return gusmesterName; }
+    public String getGusmesterImageUrl() { return gusmesterImageUrl; }
+    public LocalDateTime getStartTime() { return startTime; }
+    public int getDurationMinutes() { return durationMinutes; }
+    public int getCapacity() { return capacity; }
+    public double getPrice() { return price; }
+    public int getCurrentBookings() { return currentBookings; }
+    public EventStatus getStatus() { return status; }
+
+    public void setEventId(int eventId) { this.eventId = eventId; }
+    public void setTitle(String title) { this.title = title; }
+    public void setDescription(String description) { this.description = description; }
+    public void setGusmesterName(String gusmesterName) { this.gusmesterName = gusmesterName; }
+    public void setGusmesterImageUrl(String gusmesterImageUrl) { this.gusmesterImageUrl = gusmesterImageUrl; }
+    public void setStartTime(LocalDateTime startTime) { this.startTime = startTime; }
+    public void setDurationMinutes(int durationMinutes) { this.durationMinutes = durationMinutes; }
+    public void setCapacity(int capacity) { this.capacity = capacity; }
+    public void setPrice(double price) { this.price = price; }
+    public void setCurrentBookings(int currentBookings) { this.currentBookings = currentBookings; }
+    public void setStatus(EventStatus status) { this.status = status; }
 }
