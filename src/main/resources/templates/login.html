@@ -1,28 +1,36 @@
 <!DOCTYPE html>
-<html lang="da">
+<html lang="da" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Log ind</title>
-    
 </head>
 <body>
-
-<div th:replace="fragments/nav :: nav"></div>
 
 <form method="post" action="/login">
     <h1>Log ind</h1>
 
-    <label for="email">Email:</label>
-    <input id="email" type="text" name="email">
+    <!-- 🔸 Fejlbesked ved forkert login -->
+    <div style="color:red;" th:if="${param.error}">
+        Forkert email eller password. Prøv igen.
+    </div>
+
+    <!-- 🔹 Besked efter logout -->
+    <div style="color:green;" th:if="${param.logout}">
+        Du er nu logget ud.
+    </div>
+
+    <!-- 🔹 Besked hvis man blev sendt hertil pga. adgangskrav -->
+    <div style="color:orange;" th:if="${param.auth}">
+        Du skal være logget ind for at se den side.
+    </div>
+
+    <label for="username">Email:</label>
+    <input id="username" type="text" name="email">
 
     <label for="password">Password:</label>
     <input id="password" type="password" name="password">
 
     <button type="submit">Log ind</button>
-
-    <div style="color:red;">
-        <span th:if="${param.error}">Forkert login. Prøv igen.</span>
-    </div>
 </form>
 
 </body>

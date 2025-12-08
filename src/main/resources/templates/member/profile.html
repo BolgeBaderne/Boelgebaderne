@@ -1,22 +1,26 @@
 <!DOCTYPE html>
-<html lang="da" xmlns:th="http://www.thymeleaf.org">
+<html lang="da">
 <head>
   <meta charset="UTF-8">
   <title>Min profil</title>
-  <link rel="stylesheet" th:href="@{/css/main.css}">
-
+  <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
-<div class="alert-error"
-     th:if="${user == null or user.role.name() != 'MEMBER'}">
-  Denne side kræver medlemskab.
+
+<div class="nav">
+  <a href="/member/profile">Profil</a>
+  <a href="/member/quick-booking">Hurtig booking</a>
+  <a href="/member/shifts">Vagtplan</a>
+  <a href="/logout">Log ud</a>
 </div>
 
-
 <h1>Min profil</h1>
-<p><strong>Navn:</strong> <span th:text="${profile.name}"></span></p>
-<p><strong>Email:</strong> <span th:text="${profile.email}"></span></p>
-<p>Her kommer medlemsprofil senere.</p>
-<p><a href="/home">Tilbage til forsiden</a></p>
+
+<div class="card">
+  <p><strong>Navn:</strong> <span th:text="${profile.name}"></span></p>
+  <p><strong>Email:</strong> <span th:text="${profile.email}"></span></p>
+  <p><strong>Medlemsstatus:</strong> <span th:text="${profile.membershipStatus}"></span></p>
+</div>
+
 </body>
 </html>
