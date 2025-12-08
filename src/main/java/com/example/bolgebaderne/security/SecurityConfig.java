@@ -22,10 +22,9 @@ import java.io.PrintWriter;
 public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
-                .csrf(csrf -> csrf.disable())
 
-                .authorizeHttpRequests(auth -> auth
+
+                http.authorizeHttpRequests(auth -> auth
                         // login + public endpoints må være åbne
                         .requestMatchers(
                                 "/login",
@@ -58,11 +57,17 @@ public class SecurityConfig {
                 .logout(logout -> logout
                         .logoutUrl("/logout")
                         .logoutSuccessUrl("/login?logout")
-                );
+                )
+                        .exceptionHandling(ex -> ex
+                                .accessDeniedHandler((request, response, accessDeniedException) -> {
+                                    // Brugeren er logget ind, men har ikke den rigtige rolle
+                                    response.sendRedirect("/membership-required");
+                                })
+                        );
 
         // H2 console
         http.headers(headers -> headers.frameOptions(frame -> frame.sameOrigin()));
-
+        http.csrf(csrf -> csrf.disable());
         return http.build();
     }
     @Bean

@@ -20,5 +20,10 @@ public class GlobalModelAttributes { //hjælpeklasse!
 
         // Hvis feltet er en String, brug i stedet:
         // return currentUser.getRole();
+
+        }
+    @ModelAttribute("user")
+    public User addUserToModel(@AuthenticationPrincipal User user) {
+        return user;
     }
 }

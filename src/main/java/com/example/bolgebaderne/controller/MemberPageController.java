@@ -8,10 +8,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/member")
 public class MemberPageController {
 
+
     @GetMapping("/profile")
     public String profilePage() {
         // peger på src/main/resources/templates/member/profile.html
         return "member/profile";
+
     }
 
     @GetMapping("/quick-booking")

@@ -10,4 +10,5 @@ public class HomeController {
     public String home() {
         return "home"; // peger på home.html
     }
+
 }
