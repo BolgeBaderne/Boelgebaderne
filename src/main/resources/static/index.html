@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bølgebaderne</title>
+    <link rel="stylesheet" href="/css/style.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<!-- 1. NAVBAR -->
+<header class="site-header">
+    <div class="header-inner">
+        <a href="/" class="logo" aria-label="Bølgebaderne - hjem">
+            <img src="/images/logo.png" alt="Bølgebaderne logo">
+        </a>
+
+        <button class="nav-toggle"
+                aria-expanded="false"
+                aria-controls="main-nav"
+                aria-label="Åbn menu">
+            <span class="bars" aria-hidden="true">☰</span>
+        </button>
+
+    <nav id="main-nav" class="main-nav" aria-label="Hovednavigation">
+        <ul class="nav-list">
+            <li><a href="#about" data-i18n="nav.about">Om os</a></li>
+            <li><a href="#membership" data-i18n="nav.membership">Medlemskab</a></li>
+            <li><a href="#booking" data-i18n="nav.booking">Book</a></li>
+            <li><a href="#contact" data-i18n="nav.contact">Kontakt</a></li>
+        </ul>
+        <div class="nav-actions">
+            <button class="lang-switch" data-lang="da">DA</button>
+            <button class="lang-switch" data-lang="en">EN</button>
+
+            <a class="btn btn-primary" href="/signup" data-i18n="actions.signup">
+                Bliv medlem
+            </a>
+            <a class="btn btn-ghost" href="/login" data-i18n="actions.login">
+                Log ind
+            </a>
+        </div>
+    </nav>
+    </div>
+</header>
+
+<!-- 2. HERO SECTION -->
+<section id="hero" class="hero">
+    <div class="hero-content">
+    <h1 data-i18n="hero.title">Bølgebaderne</h1>
+        <p data-i18n="hero.subtitle">Et fællesskab for helårsbadere ved Kalvebod Bølge i København</p>
+
+        <div class="hero-actions">
+            <a href="#membership" class="btn btn-primary" data-i18n="hero.ctaPrimary">
+                Bliv medlem
+            </a>
+            <a href="#about" class="btn btn-ghost" data-i18n="hero.ctaSecondary">
+                Læs mere
+            </a>
+
+        </div>
+    </div>
+</section>
+
+<!-- 3. INTRO / VELKOMMEN -->
+<section id="intro">
+    <h2>Velkommen til Bølgebaderne</h2>
+    <p>… tekst …</p>
+    <div class="feature-cards">
+        <article class="card">…</article>
+        <article class="card">…</article>
+        <article class="card">…</article>
+    </div>
+</section>
+
+<!-- 4. ÅBNINGSTIDER I DAG -->
+<section id="opening-today">
+    <h2>Åbningstider i dag</h2>
+    <div class="opening-card">
+        <!-- Dagens navn -->
+        <!-- Sauna tider -->
+        <!-- Åbent / lukket -->
+    </div>
+</section>
+
+<!-- 5. SAUNA & MEDLEMSKAB -->
+<section id="membership">
+    <h2>Sauna & Medlemskab</h2>
+    <p>… tekst …</p>
+
+    <div class="membership-grid">
+        <article id="sauna-info">
+            <!-- punkter for sauna-gus, adgang, etc. -->
+        </article>
+
+        <article id="membership-info">
+            <!-- pris -->
+            <!-- liste -->
+            <!-- knap -->
+        </article>
+    </div>
+</section>
+
+<!-- 6. GALLERI / SLIDER -->
+<section id="gallery">
+    <h2>Oplev Bølgebaderne</h2>
+    <div class="slider">
+        <!-- Prev button -->
+        <!-- Billede 1 -->
+        <!-- Billede 2 -->
+        <!-- Billede 3 -->
+        <!-- Billede 4 -->
+        <!-- Next button -->
+    </div>
+</section>
+
+<!-- 7. BOOKING / KALENDER -->
+<section id="booking">
+    <h2>Book Saunaen</h2>
+    <!-- filters (uge, dag, dropdowns) -->
+    <div class="calendar">
+        <!-- ugeoversigt -->
+        <!-- tidsintervaller -->
+        <!-- bookingblokke -->
+    </div>
+</section>
+
+<!-- 8. MEDLEMSOPDATERINGER -->
+<section id="updates">
+    <h2>Medlemsopdateringer</h2>
+    <div class="updates-box">
+        <p>Ingen opdateringer endnu</p>
+    </div>
+</section>
+
+<!-- 9. KONTAKT -->
+<section id="contact">
+    <h2>Kontakt os</h2>
+    <p>… tekst …</p>
+
+    <div class="contact-methods">
+        <article>… Email …</article>
+        <article>… Adresse …</article>
+        <article>… Besøg os …</article>
+    </div>
+
+    <div class="membership-interest">
+        <p>… tekst …</p>
+        <!-- Send email knap -->
+    </div>
+</section>
+
+<!-- 10. FOOTER -->
+<footer>
+    <!-- copyright -->
+    <!-- evt. små links -->
+</footer>
+
+<script src="/js/lang.js" defer></script>
+<script src="/js/main.js" defer></script>
+
+</body>
+
+</html>
