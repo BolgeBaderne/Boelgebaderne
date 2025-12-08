@@ -1,0 +1,52 @@
+package com.example.bolgebaderne.controller;
+
+import com.example.bolgebaderne.dto.EventDTO;
+import com.example.bolgebaderne.model.SaunaEvent;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import com.example.bolgebaderne.service.SaunaEventService;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/events")
+public class SaunaEventController {
+
+    private final SaunaEventService saunaEventService;
+
+    public SaunaEventController(SaunaEventService saunaEventService) {
+        this.saunaEventService = saunaEventService;
+    }
+
+    //Liste til alle events
+    @GetMapping
+    public List<EventDTO> getAllEvents() {
+        List<SaunaEvent> events = saunaEventService.getAllEvents();
+        return events.stream()
+                .map(this::toDTO)
+                .toList();
+    }
+
+    @GetMapping("/{id}")
+    public EventDTO getEventById(@PathVariable int id){
+        SaunaEvent event = saunaEventService.getById(id);
+        return toDTO(event);
+    }
+
+
+    private EventDTO toDTO(SaunaEvent e) {
+        return new EventDTO(
+                (long) e.getEventId(),
+                e.getGusmesterName(),
+                e.getGusmesterImageUrl(),
+                e.getDescription(),
+                e.getDurationMinutes(),
+                e.getCapacity(),
+                e.getPrice(),
+                e.getCurrentBookings(),
+                e.getAvailableSpots()
+        );
+    }
+}
