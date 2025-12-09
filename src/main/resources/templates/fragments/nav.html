@@ -1,14 +1,12 @@
 <!DOCTYPE html>
-<html lang="da"
-      xmlns:th="http://www.thymeleaf.org">
-<link rel="stylesheet" th:href="@{/css/main.css}">
+<html lang="da" xmlns:th="http://www.thymeleaf.org">
 <body>
-
 <nav th:fragment="nav">
+
     <!-- Offentlig menu -->
     <a href="/">Forside</a>
 
-    <!-- Kun for MEMBER og ADMIN -->
+    <!-- Kun for MEMBER eller ADMIN -->
     <span th:if="${role == 'MEMBER' or role == 'ADMIN'}">
         | <a href="/api/member/profile">Profil</a>
         | <a href="/api/member/quick-booking">Hurtig booking</a>
@@ -25,23 +23,6 @@
         | <a href="/logout">Log ud</a>
     </span>
 
-    <ul>
-        <!-- Offentlige links -->
-        <li><a href="/home">Forside</a></li>
-        <li><a href="/public/info">Information</a></li>
-
-        <!-- Medlems-links: kun hvis man er logget ind OG medlem/admin -->
-        <li th:if="${currentUser != null and (currentUser.member or currentUser.admin)}">
-            <a href="/member/profile">Profil</a>
-        </li>
-        <li th:if="${currentUser != null and (currentUser.member or currentUser.admin)}">
-            <a href="/member/quick-booking">Hurtig booking</a>
-        </li>
-        <li th:if="${currentUser != null and (currentUser.member or currentUser.admin)}">
-            <a href="/member/shifts">Vagtplan</a>
-        </li>
-    </ul>
 </nav>
-
 </body>
 </html>
