@@ -2,7 +2,7 @@ package com.example.bolgebaderne.model;
 
 import java.time.LocalDateTime;
 
-public class InfoItem
+public class InformationsHub
 {
     private int infoId;
     private String title;
@@ -11,7 +11,7 @@ public class InfoItem
     private LocalDateTime publishedAt;
     private boolean memberOnly;
 
-    public InfoItem(int infoId, String title, String content, LocalDateTime publishedAt, boolean memberOnly)
+    public InformationsHub(int infoId, String title, String content, LocalDateTime publishedAt, boolean memberOnly)
     {
         this.infoId = infoId;
         this.title = title;

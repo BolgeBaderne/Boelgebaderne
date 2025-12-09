@@ -32,13 +32,13 @@ public class Booking {
     public Booking() {
     }
 
-    public Booking(int bookingId, LocalDateTime createdAt, BookingStatus status,
-                   User user, SaunaEvent event) {
+    public Booking(int bookingId, LocalDateTime createdAt, BookingStatus bookingStatus,
+                   User user, SaunaEvent saunaEvent) {
         this.bookingId = bookingId;
         this.createdAt = createdAt;
-        this.status = status;
+        this.status = bookingStatus;
         this.user = user;
-        this.event = event;
+        this.event = saunaEvent;
     }
 
     public void cancel() {
@@ -63,5 +63,5 @@ public class Booking {
     public void setUser(User user) { this.user = user; }
 
     public SaunaEvent getEvent() { return event; }
-    public void setEvent(SaunaEvent event) { this.event = event; }
+    public void setEvent(SaunaEvent saunaEvent) { this.event = saunaEvent; }
 }
