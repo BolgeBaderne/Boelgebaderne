@@ -51,13 +51,7 @@ public class Booking
         this.status = status;
     }
 
-    public int getBookingId() {return bookingId;}
-    public LocalDateTime getCreatedAt() {return createdAt;}
-    public BookingStatus getStatus() {return status;}
 
-    public void setBookingId(int bookingId) {this.bookingId = bookingId;}
-    public void setCreatedAt(LocalDateTime createdAt) {this.createdAt = createdAt;}
-    public void setStatus(BookingStatus status) {this.status = status;}
     // getters & setters
     public int getBookingId() { return bookingId; }
     public void setBookingId(int bookingId) { this.bookingId = bookingId; }

@@ -35,6 +35,7 @@ public class SaunaEvent {
     private double price;
 
     private int currentBookings;
+    private int availableSpots;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false, length = 20)
@@ -43,20 +44,25 @@ public class SaunaEvent {
     public SaunaEvent() {}
 
     // Din egen constructor
-    public SaunaEvent(int eventId, String title, String description, String gusmesterName,
+    public SaunaEvent(int eventId, String title, String description, String gusmesterName, String gusmesterImageUrl,
                       LocalDateTime startTime, int durationMinutes, int capacity,
-                      double price, EventStatus status) {
+                      double price, EventStatus status, int currentBookings, int availableSpots) {
         this.eventId = eventId;
         this.title = title;
         this.description = description;
         this.gusmesterName = gusmesterName;
+        this.gusmesterImageUrl = gusmesterImageUrl;
         this.startTime = startTime;
         this.durationMinutes = durationMinutes;
         this.capacity = capacity;
         this.price = price;
         this.status = status;
+        this.currentBookings = currentBookings;
+        this.availableSpots = availableSpots;
     }
 
+
+    //Getters and Setters
     public int getEventId() {
         return eventId;
     }
@@ -87,6 +93,14 @@ public class SaunaEvent {
 
     public void setGusmesterName(String gusmesterName) {
         this.gusmesterName = gusmesterName;
+    }
+
+    public String getGusmesterImageUrl() {
+        return gusmesterImageUrl;
+    }
+
+    public void setgusmesterImageUrl(String gusmesterImageUrl) {
+        this.gusmesterImageUrl = gusmesterImageUrl;
     }
 
     public LocalDateTime getStartTime() {
@@ -126,12 +140,24 @@ public class SaunaEvent {
     }
 
     public void setStatus(EventStatus status) {
-        this.currentBookings = currentBookings;
         this.status = status;
     }
 
+    public int getCurrentBookings() {
+        return currentBookings;
     }
 
+    public void setCurrentBooking(int currentBookings) {
+        this.currentBookings = currentBookings;
+    }
+
+    public int getAvailableSpots() {
+        return availableSpots;
+    }
+
+    public void setAvailableSpots(int availableSpots) {
+        this.availableSpots = availableSpots;
+    }
 
 
 }

@@ -1,8 +1,8 @@
 package com.example.bolgebaderne.dto;
 
 public record EventDTO(Long id,
-                       String saunagusMasterName,
-                       String saunagusMasterImageUrl,
+                       String gusmesterNameName,
+                       String gusmesterImageUrl,
                        String description,
                        int durationMinutes,
                        int capacity,
