@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="da"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Admin – Events</title>
+</head>
+
+<body>
+
+<!-- Navbar -->
+<div th:replace="fragments/nav :: nav"></div>
+
+<h1>Administration af events</h1>
+
+<!-- Kun ADMIN må se siden -->
+<div th:if="${role == 'ADMIN'}">
+    <button onclick="window.location.href='/admin/events/create'">
+        ➕ Rediger
+    </button>
+    <button onclick="window.location.href='/admin/events/create'">
+        ➕ Slet
+    </button>
+
+    <button onclick="window.location.href='/admin/events/create'">
+        ➕ Opret nyt event
+    </button>
+
+    <hr>
+
+    <h2>Eventliste</h2>
+    <div id="event-list">
+        <!-- udfyldes via JS i #152 -->
+    </div>
+
+</div>
+
+<div th:if="${role != 'ADMIN'}">
+    <p>Adgang nægtet – kun administratorer må se denne side.</p>
+</div>
+
+</body>
+</html>
