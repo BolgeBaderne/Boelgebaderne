@@ -33,10 +33,9 @@ function formatPrice(price) {
 }
 
 function updatePage(data) {
-    // tilpas til dine faktiske DTO-felter
     els.title.textContent = data.title || "Saunagus event";
 
-    els.status.textContent = "Event"; // evt. data.status hvis I har det
+    els.status.textContent = "Event";
 
     if (data.startTime) {
         const [date, time] = data.startTime.split("T");
@@ -100,7 +99,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         const e = await response.json();
 
-        // Tilpas IDs til dine rigtige HTML-elementer
+
         document.querySelector("#event-title").textContent = e.title;
         document.querySelector("#event-description").textContent = e.description;
         document.querySelector("#gusmester-name").textContent = e.gusmesterName;

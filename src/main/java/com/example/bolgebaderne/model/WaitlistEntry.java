@@ -31,26 +31,23 @@ public class WaitlistEntry {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "event_id", nullable = false)
-    private SaunaEvent event;
+    private SaunaEvent saunaEvent;
 
     public WaitlistEntry() {
     }
 
-    public WaitlistEntry(int entryId, int position, LocalDateTime createdAt,
-                         boolean promoted, WaitlistType type,
-                         User user, SaunaEvent event) {
-        this.entryId = entryId;
+    public WaitlistEntry(int position, WaitlistType type, User user, SaunaEvent saunaEvent) {
         this.position = position;
-        this.createdAt = createdAt;
-        this.promoted = promoted;
         this.type = type;
         this.user = user;
-        this.event = event;
+        this.saunaEvent = saunaEvent;
+        this.createdAt = LocalDateTime.now();
+        this.promoted = false;
     }
+
 
     public void promoteToBooking() {
         this.promoted = true;
-        // TODO: lave logik der opretter en Booking baseret på denne
     }
 
     public int getEntryId() {
@@ -101,11 +98,11 @@ public class WaitlistEntry {
         this.user = user;
     }
 
-    public SaunaEvent getEvent() {
-        return event;
+    public SaunaEvent getSaunaEvent() {
+        return saunaEvent;
     }
 
-    public void setEvent(SaunaEvent event) {
-        this.event = event;
+    public void setEvent(SaunaEvent saunaEvent) {
+        this.saunaEvent = saunaEvent;
     }
 }
