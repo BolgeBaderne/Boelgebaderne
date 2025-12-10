@@ -1,6 +1,6 @@
 package com.example.bolgebaderne.controller;
 
-import com.example.bolgebaderne.dto.EventDTO;
+import com.example.bolgebaderne.dto.SaunaEventDTO;
 import com.example.bolgebaderne.model.SaunaEvent;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,7 +22,7 @@ public class SaunaEventController {
 
     //Liste til alle events
     @GetMapping
-    public List<EventDTO> getAllEvents() {
+    public List<SaunaEventDTO> getAllEvents() {
         List<SaunaEvent> events = saunaEventService.getAllEvents();
         return events.stream()
                 .map(this::toDTO)
@@ -30,14 +30,14 @@ public class SaunaEventController {
     }
 
     @GetMapping("/{id}")
-    public EventDTO getEventById(@PathVariable int id){
+    public SaunaEventDTO getEventById(@PathVariable int id){
         SaunaEvent event = saunaEventService.getById(id);
         return toDTO(event);
     }
 
 
-    private EventDTO toDTO(SaunaEvent e) {
-        return new EventDTO(
+    private SaunaEventDTO toDTO(SaunaEvent e) {
+        return new SaunaEventDTO(
                 (long) e.getEventId(),
                 e.getGusmesterName(),
                 e.getGusmesterImageUrl(),

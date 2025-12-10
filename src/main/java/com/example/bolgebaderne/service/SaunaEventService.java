@@ -1,11 +1,14 @@
 package com.example.bolgebaderne.service;
 
-import com.example.bolgebaderne.controller.EventAdminRequest;
+import com.example.bolgebaderne.dto.SaunaEventAdminRequestDTO;
 import com.example.bolgebaderne.exceptions.EventNotFoundException;
+import com.example.bolgebaderne.model.EventStatus;
 import com.example.bolgebaderne.model.SaunaEvent;
 import com.example.bolgebaderne.repository.SaunaEventRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -30,16 +33,17 @@ public class SaunaEventService {
 
     // ===== Oprettelse =====
 
-    public SaunaEvent createEvent(EventAdminRequest dto) {
+    public SaunaEvent createEvent(SaunaEventAdminRequestDTO dto) {
         SaunaEvent event = new SaunaEvent();
+        event.setCurrentBookings(0);       // nye events starter uden bookinger
         copyDtoToEntity(dto, event);
         return repository.save(event);
     }
 
     // ===== Opdatering =====
 
-    public SaunaEvent updateEvent(int id, EventAdminRequest dto) {
-        SaunaEvent event = getById(id);   // smider EventNotFoundException hvis ikke findes
+    public SaunaEvent updateEvent(int id, SaunaEventAdminRequestDTO dto) {
+        SaunaEvent event = getById(id);    // smider EventNotFoundException hvis ikke findes
         copyDtoToEntity(dto, event);
         return repository.save(event);
     }
@@ -55,12 +59,37 @@ public class SaunaEventService {
 
     // ===== Helper: kopier data fra admin-DTO til entity =====
 
-    private void copyDtoToEntity(EventAdminRequest dto, SaunaEvent event) {
-        event.setGusmesterName(dto.getSaunagusMasterName());
-        event.setGusmesterImageUrl(dto.getSaunagusMasterImageUrl());
-        event.setDescription(dto.getDescription());
-        event.setDurationMinutes(dto.getDurationMinutes());
-        event.setCapacity(dto.getCapacity());
-        event.setPrice(dto.getPrice());
+    private void copyDtoToEntity(SaunaEventAdminRequestDTO dto, SaunaEvent event) {
+
+        // title (default hvis null)
+        if (dto.title() != null && !dto.title().isBlank()) {
+            event.setTitle(dto.title());
+        } else if (event.getTitle() == null) {
+            event.setTitle("Saunagus");
+        }
+
+        event.setGusmesterName(dto.saunagusMasterName());
+        event.setGusmesterImageUrl(dto.saunagusMasterImageUrl());
+        event.setDescription(dto.description());
+        event.setDurationMinutes(dto.durationMinutes());
+        event.setCapacity(dto.capacity());
+        event.setPrice(dto.price());
+
+        // start_time: hvis du sender noget, brug det – ellers nu
+        if (dto.start_time() != null) {
+            event.setStartTime(LocalDateTime.of(
+                    LocalDate.now(),
+                    dto.start_time()
+            ));
+        } else if (event.getStartTime() == null) {
+            event.setStartTime(LocalDateTime.now());
+        }
+
+        // status: brug værdi fra DTO hvis muligt, ellers UPCOMING
+        EventStatus status = EventStatus.UPCOMING;   // default
+        if (dto.status() != null && !dto.status().isBlank()) {
+            status = EventStatus.valueOf(dto.status().toUpperCase());
+        }
+        event.setStatus(status);
     }
 }

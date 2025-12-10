@@ -1,4 +1,8 @@
+
+
 package com.example.bolgebaderne.security;
+
+import org.springframework.security.web.SecurityFilterChain;
 
 import com.example.bolgebaderne.repository.UserRepository;
 import org.springframework.context.annotation.Bean;
@@ -9,12 +13,10 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.SecurityFilterChain;
 
-import java.io.PrintWriter;
+
 
 @Configuration
 @EnableWebSecurity
@@ -70,8 +72,10 @@ public class SecurityConfig {
                                     // Brugeren er logget ind, men har ikke den rigtige rolle
                                     response.sendRedirect("/membership-required");
                                 })
-                        );
+                        )
 
+        // VIGTIGT: Basic Auth til Postman / API-kald
+            .httpBasic(Customizer.withDefaults());
         // H2 console
         http.headers(headers -> headers.frameOptions(frame -> frame.sameOrigin()));
 
@@ -88,4 +92,5 @@ public class SecurityConfig {
        return email -> userRepository.findByEmail(email)
                .orElseThrow(() -> new UsernameNotFoundException("User not found: " + email));
 }}
+
 
