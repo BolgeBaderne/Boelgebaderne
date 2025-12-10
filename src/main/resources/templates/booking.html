@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="da" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Book Saunaen</title>
+
+    <style>
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            margin: 0;
+            background-color: #f5f7fb;
+        }
+
+        .booking-wrapper {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 32px 16px 48px;
+        }
+
+        .booking-header {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .booking-header h1 {
+            margin: 0 0 8px;
+            font-size: 32px;
+        }
+
+        .booking-header p {
+            margin: 0;
+            color: #555;
+        }
+
+        .week-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .week-nav button {
+            border: 1px solid #ccc;
+            background: white;
+            padding: 6px 10px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .week-nav button:hover {
+            background: #f0f0f0;
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: 80px repeat(7, 1fr);
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+            overflow: hidden;
+        }
+
+        .calendar-time-col {
+            border-right: 1px solid #eee;
+            padding: 8px;
+            font-size: 12px;
+            color: #888;
+        }
+
+        .time-slot-label {
+            height: 60px;
+            border-bottom: 1px solid #f3f3f3;
+        }
+
+        .calendar-day-col {
+            border-left: 1px solid #f7f7f7;
+            padding: 4px;
+        }
+
+        .day-header {
+            text-align: center;
+            padding: 8px 4px;
+            border-bottom: 1px solid #eee;
+            font-size: 12px;
+            color: #555;
+        }
+
+        .day-header strong {
+            display: block;
+            font-size: 13px;
+            margin-bottom: 2px;
+        }
+
+        .day-body {
+            position: relative;
+            min-height: 11 * 60px;
+        }
+
+        .session-card {
+            position: absolute;
+            left: 6px;
+            right: 6px;
+            border-radius: 8px;
+            padding: 6px 8px;
+            font-size: 11px;
+            box-sizing: border-box;
+            cursor: pointer;
+            overflow: hidden;
+        }
+
+        .session-member {
+            background: #e1f0ff;
+            border: 1px solid #b7d4ff;
+        }
+
+        .session-guest {
+            background: #f0e4ff;
+            border: 1px solid #d5c0ff;
+        }
+
+        .session-vagt {
+            background: #e3ffe5;
+            border: 1px solid #b9f1bf;
+        }
+
+        .session-full {
+            opacity: 0.5;
+        }
+
+        .session-card-title {
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+
+        .session-card-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .session-capacity {
+            font-size: 10px;
+        }
+
+        .session-lock {
+            font-size: 11px;
+        }
+
+        /* Simpel modal */
+        .modal-backdrop {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.35);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .modal {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            max-width: 360px;
+            width: 100%;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.18);
+        }
+
+        .modal h2 {
+            margin-top: 0;
+        }
+
+        .modal-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 8px;
+            margin-top: 16px;
+        }
+
+        .btn {
+            border-radius: 8px;
+            border: 1px solid #0070f3;
+            background: #0070f3;
+            color: white;
+            padding: 6px 12px;
+            cursor: pointer;
+            font-size: 13px;
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #0070f3;
+        }
+
+        .alert {
+            margin-top: 12px;
+            font-size: 13px;
+        }
+
+        .alert-error {
+            color: #b00020;
+        }
+
+        .alert-success {
+            color: #0b7a31;
+        }
+    </style>
+</head>
+<body>
+
+<div class="booking-wrapper">
+    <div class="booking-header">
+        <h1>Book saunaen</h1>
+        <p>Vælg et tidsrum for at booke saunaen. Medlemmer kan booke alle medlemstider.</p>
+        <p th:text="'Du er logget ind som: ' + ${userName}"></p>
+    </div>
+
+    <div class="week-header">
+        <div class="week-nav">
+            <button id="prevWeekBtn">&lt; Forrige uge</button>
+        </div>
+        <div id="weekLabel"></div>
+        <div class="week-nav">
+            <button id="nextWeekBtn">Næste uge &gt;</button>
+        </div>
+    </div>
+
+    <div id="calendarContainer"></div>
+
+    <div id="messageContainer"></div>
+</div>
+
+<!-- modal -->
+<div class="modal-backdrop" id="bookingModal">
+    <div class="modal">
+        <h2>Bekræft booking</h2>
+        <p id="modalText"></p>
+        <div class="modal-actions">
+            <button class="btn-secondary btn" id="cancelBtn">Annullér</button>
+            <button class="btn" id="confirmBtn">Book tid</button>
+        </div>
+        <div id="modalMessage" class="alert"></div>
+    </div>
+</div>
+
+<script>
+    const userId = [[${userId}]];
+</script>
+<script src="/js/booking.js"></script>
+</body>
+</html>
