@@ -11,7 +11,7 @@ import com.example.bolgebaderne.service.SaunaEventService;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/events")
+@RequestMapping("/api/events") //only shows events (ADMIN)
 public class SaunaEventController {
 
     private final SaunaEventService saunaEventService;

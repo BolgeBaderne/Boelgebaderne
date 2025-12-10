@@ -12,11 +12,11 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/admin/events")
 @PreAuthorize("hasRole('ADMIN')")
-public class AdminEventController {
+public class SaunaAdminEventController {
 
     private final SaunaEventService saunaEventService;
 
-    public AdminEventController(SaunaEventService saunaEventService) {
+    public SaunaAdminEventController(SaunaEventService saunaEventService) {
         this.saunaEventService = saunaEventService;
     }
 

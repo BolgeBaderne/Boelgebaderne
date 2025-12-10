@@ -2,7 +2,6 @@
 
 package com.example.bolgebaderne.security;
 
-import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.web.SecurityFilterChain;
 
 import com.example.bolgebaderne.repository.UserRepository;
@@ -60,22 +59,12 @@ public class SecurityConfig {
                         .permitAll()
                 )
 
-                // LOGOUT (bare nice to have)
-//                .logout(logout -> logout
-//                        .logoutUrl("/logout")
-//                        .logoutSuccessUrl("/login?logout") // 👈 vigtig for “du er logget ud”
-//                )
-//                        .exceptionHandling(ex -> ex
-//                                // Ikke logget ind
-//                                .authenticationEntryPoint((request, response, authException) -> {
-//                                    response.setStatus(HttpServletResponse.SC_UNAUTHORIZED); // 401
-//                                })
-//                                // Logget ind men forkert rolle
-//                                .accessDeniedHandler((request, response, accessDeniedException) -> {
-//                                    response.setStatus(HttpServletResponse.SC_FORBIDDEN); // 403
-//                                })
-//                        )
-//                )
+                        // LOGOUT (bare nice to have)
+                .logout(logout -> logout
+                        .logoutUrl("/logout")
+                        .logoutSuccessUrl("/login?logout") // 👈 vigtig for “du er logget ud”
+                )
+
                         .exceptionHandling(ex -> ex
                                 // Ikke logget ind → redirect til login med auth=required
                                 .authenticationEntryPoint((request, response, authException) -> {
@@ -88,23 +77,37 @@ public class SecurityConfig {
                                 })
                         )
 
-        // VIGTIGT: Basic Auth til Postman / API-kald
-            .httpBasic(Customizer.withDefaults());
+                        // VIGTIGT: Basic Auth til Postman / API-kald
+                        .httpBasic(Customizer.withDefaults());
         // H2 console
         http.headers(headers -> headers.frameOptions(frame -> frame.sameOrigin()));
 
         return http.build();
     }
     @Bean
-  public PasswordEncoder passwordEncoder() {
-      // simpelt til udvikling/eksamen – plaintext passwords
-      return NoOpPasswordEncoder.getInstance();
-   }
+    public PasswordEncoder passwordEncoder() {
+        // simpelt til udvikling/eksamen – plaintext passwords
+        return NoOpPasswordEncoder.getInstance();
+    }
 
     @Bean
-   public UserDetailsService userDetailsService(UserRepository userRepository) {
-       return email -> userRepository.findByEmail(email)
-               .orElseThrow(() -> new UsernameNotFoundException("User not found: " + email));
-}}
+    public UserDetailsService userDetailsService(UserRepository userRepository) {
+        return email -> userRepository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found: " + email));
+    }}
+
+
+//                    !!!!    ANDEN METODE AT GIVE FEJLBESKED MHT HTTP RESPONS !!!!
+//                        .exceptionHandling(ex -> ex
+//                                // Ikke logget ind
+//                                .authenticationEntryPoint((request, response, authException) -> {
+//                                    response.setStatus(HttpServletResponse.SC_UNAUTHORIZED); // 401
+//                                })
+//                                // Logget ind men forkert rolle
+//                                .accessDeniedHandler((request, response, accessDeniedException) -> {
+//                                    response.setStatus(HttpServletResponse.SC_FORBIDDEN); // 403
+//                                })
+//                        )
+//                )
 
 

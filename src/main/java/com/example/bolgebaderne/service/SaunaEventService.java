@@ -2,6 +2,8 @@ package com.example.bolgebaderne.service;
 
 import com.example.bolgebaderne.dto.SaunaEventAdminRequestDTO;
 import com.example.bolgebaderne.exceptions.EventNotFoundException;
+import com.example.bolgebaderne.exceptions.InvalidSaunaEventException;
+import com.example.bolgebaderne.exceptions.SaunaEventHasBookingsException;
 import com.example.bolgebaderne.model.EventStatus;
 import com.example.bolgebaderne.model.SaunaEvent;
 import com.example.bolgebaderne.repository.SaunaEventRepository;
@@ -34,40 +36,68 @@ public class SaunaEventService {
     // ===== Oprettelse =====
 
     public SaunaEvent createEvent(SaunaEventAdminRequestDTO dto) {
+        validateDto(dto);
+
         SaunaEvent event = new SaunaEvent();
-        event.setCurrentBookings(0);       // nye events starter uden bookinger
         copyDtoToEntity(dto, event);
+
+        // nyt event → ingen bookinger endnu
+        event.setCurrentBookings(0);
+
         return repository.save(event);
     }
 
     // ===== Opdatering =====
 
     public SaunaEvent updateEvent(int id, SaunaEventAdminRequestDTO dto) {
-        SaunaEvent event = getById(id);    // smider EventNotFoundException hvis ikke findes
+        validateDto(dto);
+
+        SaunaEvent event = getById(id);   // smider EventNotFoundException hvis ikke findes
         copyDtoToEntity(dto, event);
+
+        // currentBookings bevares, vi overskriver det ikke
         return repository.save(event);
     }
 
     // ===== Sletning =====
 
     public void deleteEvent(int id) {
-        if (!repository.existsById(id)) {
-            throw new EventNotFoundException("Det valgte event findes ikke.");
+        SaunaEvent event = getById(id);   // smider EventNotFoundException hvis ikke findes
+
+        // Simpel “afhængigheds-check”: har eventet bookinger?
+        if (event.getCurrentBookings() > 0) {
+            throw new SaunaEventHasBookingsException(
+                    "Event med id " + id + " har aktive bookinger og kan ikke slettes."
+            );
         }
+
         repository.deleteById(id);
+    }
+
+    // ===== Helper: valider input =====
+
+    private void validateDto(SaunaEventAdminRequestDTO dto) {
+        if (dto.title() == null || dto.title().isBlank()) {
+            throw new InvalidSaunaEventException("Titel må ikke være tom.");
+        }
+        if (dto.saunagusMasterName() == null || dto.saunagusMasterName().isBlank()) {
+            throw new InvalidSaunaEventException("Gusmester-navn må ikke være tomt.");
+        }
+        if (dto.durationMinutes() <= 0) {
+            throw new InvalidSaunaEventException("Varighed skal være større end 0.");
+        }
+        if (dto.capacity() <= 0) {
+            throw new InvalidSaunaEventException("Kapacitet skal være større end 0.");
+        }
+        if (dto.price() < 0) {
+            throw new InvalidSaunaEventException("Pris kan ikke være negativ.");
+        }
     }
 
     // ===== Helper: kopier data fra admin-DTO til entity =====
 
     private void copyDtoToEntity(SaunaEventAdminRequestDTO dto, SaunaEvent event) {
-
-        // title (default hvis null)
-        if (dto.title() != null && !dto.title().isBlank()) {
-            event.setTitle(dto.title());
-        } else if (event.getTitle() == null) {
-            event.setTitle("Saunagus");
-        }
-
+        event.setTitle(dto.title());
         event.setGusmesterName(dto.saunagusMasterName());
         event.setGusmesterImageUrl(dto.saunagusMasterImageUrl());
         event.setDescription(dto.description());
@@ -75,21 +105,17 @@ public class SaunaEventService {
         event.setCapacity(dto.capacity());
         event.setPrice(dto.price());
 
-        // start_time: hvis du sender noget, brug det – ellers nu
+        // start_time er kun LocalTime → vi sætter dato = i dag (simpel løsning)
         if (dto.start_time() != null) {
-            event.setStartTime(LocalDateTime.of(
-                    LocalDate.now(),
-                    dto.start_time()
-            ));
-        } else if (event.getStartTime() == null) {
-            event.setStartTime(LocalDateTime.now());
+            LocalDateTime startDateTime = LocalDateTime.of(LocalDate.now(), dto.start_time());
+            event.setStartTime(startDateTime);
         }
 
-        // status: brug værdi fra DTO hvis muligt, ellers UPCOMING
-        EventStatus status = EventStatus.UPCOMING;   // default
-        if (dto.status() != null && !dto.status().isBlank()) {
-            status = EventStatus.valueOf(dto.status().toUpperCase());
-        }
+        // status: hvis null → default UPCOMING
+        EventStatus status =
+                (dto.status() == null || dto.status().isBlank())
+                        ? EventStatus.UPCOMING
+                        : EventStatus.valueOf(dto.status().toUpperCase());
         event.setStatus(status);
     }
 }
