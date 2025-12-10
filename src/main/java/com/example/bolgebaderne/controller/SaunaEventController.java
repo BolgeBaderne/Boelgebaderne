@@ -9,9 +9,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.bolgebaderne.service.SaunaEventService;
 
 import java.util.List;
-
 @RestController
-@RequestMapping("/api/events") //only shows events (ADMIN)
+@RequestMapping("/api/events")
 public class SaunaEventController {
 
     private final SaunaEventService saunaEventService;
@@ -20,11 +19,10 @@ public class SaunaEventController {
         this.saunaEventService = saunaEventService;
     }
 
-    //Liste til alle events
     @GetMapping
     public List<SaunaEventDTO> getAllEvents() {
-        List<SaunaEvent> events = saunaEventService.getAllEvents();
-        return events.stream()
+        return saunaEventService.getAllEvents()
+                .stream()
                 .map(this::toDTO)
                 .toList();
     }
@@ -35,18 +33,20 @@ public class SaunaEventController {
         return toDTO(event);
     }
 
-
     private SaunaEventDTO toDTO(SaunaEvent e) {
         return new SaunaEventDTO(
-                (long) e.getEventId(),
+                e.getEventId(),
+                e.getTitle(),
                 e.getGusmesterName(),
                 e.getGusmesterImageUrl(),
                 e.getDescription(),
+                e.getStartTime(),
                 e.getDurationMinutes(),
                 e.getCapacity(),
                 e.getPrice(),
                 e.getCurrentBookings(),
-                e.getAvailableSpots()
+                e.getAvailableSpots(),
+                e.getStatus().name()
         );
     }
 }

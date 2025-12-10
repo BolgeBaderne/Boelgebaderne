@@ -1,6 +1,6 @@
 package com.example.bolgebaderne.controller;
 
-import com.example.bolgebaderne.dto.SaunaEventAdminRequestDTO;
+import com.example.bolgebaderne.dto.SaunaAdminEventDTO;
 import com.example.bolgebaderne.dto.SaunaEventDTO;
 import com.example.bolgebaderne.model.SaunaEvent;
 import com.example.bolgebaderne.service.SaunaEventService;
@@ -34,13 +34,13 @@ public class SaunaAdminEventController {
     }
 
     @PostMapping
-    public SaunaEventDTO create(@RequestBody SaunaEventAdminRequestDTO dto) {
+    public SaunaEventDTO create(@RequestBody SaunaAdminEventDTO dto) {
         SaunaEvent created = saunaEventService.createEvent(dto);
         return toDTO(created);
     }
 
     @PutMapping("/{id}")
-    public SaunaEventDTO update(@PathVariable int id, @RequestBody SaunaEventAdminRequestDTO dto) {
+    public SaunaEventDTO update(@PathVariable int id, @RequestBody SaunaAdminEventDTO dto) {
         SaunaEvent updated = saunaEventService.updateEvent(id, dto);
         return toDTO(updated);
     }
@@ -50,18 +50,20 @@ public class SaunaAdminEventController {
         saunaEventService.deleteEvent(id);
     }
 
-    // Helper til at mappe entity -> EventDTO (samme som i public controller)
     private SaunaEventDTO toDTO(SaunaEvent e) {
         return new SaunaEventDTO(
-                (long) e.getEventId(),
+                e.getEventId(),
+                e.getTitle(),
                 e.getGusmesterName(),
                 e.getGusmesterImageUrl(),
                 e.getDescription(),
+                e.getStartTime(),
                 e.getDurationMinutes(),
                 e.getCapacity(),
                 e.getPrice(),
                 e.getCurrentBookings(),
-                e.getAvailableSpots()
+                e.getAvailableSpots(),
+                e.getStatus().name()
         );
     }
 }
