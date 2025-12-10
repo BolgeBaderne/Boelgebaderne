@@ -1,0 +1,251 @@
+/* src/main/resources/static/css/admin-events.css */
+
+:root {
+    --color-bg: #f4f7fb;
+    --color-surface: #ffffff;
+    --color-primary: #0077a3;
+    --color-primary-soft: #e0f3fb;
+    --color-text: #1f2933;
+    --color-muted: #6b7280;
+    --color-border: #e5e7eb;
+    --radius-lg: 16px;
+    --shadow-soft: 0 10px 30px rgba(15, 23, 42, 0.08);
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--color-bg);
+    color: var(--color-text);
+}
+
+/* HERO */
+
+.hero {
+    position: relative;
+    height: 220px;
+    background-image: url("https://images.pexels.com/photos/111085/pexels-photo-111085.jpeg?auto=compress&cs=tinysrgb&w=1600");
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: flex-end;
+    padding: 2.5rem 4vw;
+    color: #fff;
+}
+
+.hero__overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.15));
+}
+
+.hero__content {
+    position: relative;
+    max-width: 700px;
+}
+
+.hero__badge {
+    display: inline-block;
+    padding: 0.25rem 0.7rem;
+    border-radius: 999px;
+    background: rgba(0, 0, 0, 0.5);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+
+.hero h1 {
+    margin: 0.5rem 0 0.25rem;
+    font-size: 2.3rem;
+}
+
+.hero__meta {
+    margin: 0;
+    font-size: 0.95rem;
+}
+
+/* LAYOUT */
+
+.event {
+    padding: 2.5rem 4vw 3rem;
+}
+
+.event__container {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 1.4fr);
+    gap: 2rem;
+    align-items: flex-start;
+}
+
+.event__column {
+    min-width: 0;
+}
+
+.card {
+    background: var(--color-surface);
+    border-radius: var(--radius-lg);
+    padding: 1.4rem 1.6rem;
+    box-shadow: var(--shadow-soft);
+}
+
+.event__description {
+    color: var(--color-muted);
+    line-height: 1.6;
+}
+
+/* INFO CARD / TABLE */
+
+.card--info h3 {
+    margin-top: 0;
+    margin-bottom: 0.75rem;
+}
+
+.events-table-wrapper {
+    max-height: 480px;
+    overflow: auto;
+    border-radius: 12px;
+    border: 1px solid var(--color-border);
+}
+
+.events-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+    font-size: 0.9rem;
+}
+
+.events-table thead {
+    background: var(--color-primary-soft);
+}
+
+.events-table th,
+.events-table td {
+    padding: 0.55rem 0.75rem;
+    text-align: left;
+    border-bottom: 1px solid var(--color-border);
+    white-space: nowrap;
+}
+
+.events-table tbody tr:nth-child(even) {
+    background: #f9fafb;
+}
+
+/* BADGES */
+
+.badge {
+    padding: 3px 8px;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    display: inline-block;
+}
+
+.badge.UPCOMING {
+    background-color: #dcfce7;
+    color: #166534;
+}
+
+.badge.FULLY_BOOKED {
+    background-color: #fee2e2;
+    color: #b91c1c;
+}
+
+.badge.CANCELLED {
+    background-color: #e5e7eb;
+    color: #374151;
+}
+
+/* BUTTONS */
+
+.btn {
+    border-radius: 999px;
+    padding: 0.65rem 1.3rem;
+    font-size: 0.9rem;
+    border: none;
+    cursor: pointer;
+    font-weight: 500;
+    transition:
+            background 0.15s ease,
+            transform 0.05s ease,
+            box-shadow 0.15s ease;
+}
+
+.btn--primary {
+    background: var(--color-primary);
+    color: #fff;
+    box-shadow: 0 4px 14px rgba(0, 119, 163, 0.25);
+}
+
+.btn--primary:hover {
+    background: #005f82;
+    transform: translateY(-1px);
+}
+
+.btn.icon-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 2px 4px;
+    font-size: 1.1rem;
+}
+
+.btn.icon-btn.edit {
+    color: #2563eb;
+}
+
+.btn.icon-btn.delete {
+    color: #dc2626;
+}
+
+/* MESSAGE CARD */
+
+.card--message {
+    margin-top: 1rem;
+    font-size: 0.9rem;
+    color: var(--color-text);
+    background: #eff6ff;
+}
+
+.card--message.error {
+    background: #fef2f2;
+    color: #b91c1c;
+}
+
+/* HINT */
+
+.hint {
+    font-size: 0.8rem;
+    color: var(--color-muted);
+    margin-top: 0.6rem;
+}
+
+/* FOOTER */
+
+.footer {
+    padding: 1.5rem 4vw 2rem;
+    text-align: center;
+    font-size: 0.85rem;
+    color: var(--color-muted);
+}
+
+/* UTIL */
+
+.hidden {
+    display: none;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 900px) {
+    .event__container {
+        grid-template-columns: 1fr;
+    }
+}

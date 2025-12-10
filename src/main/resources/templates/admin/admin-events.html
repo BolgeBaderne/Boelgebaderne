@@ -16,14 +16,14 @@
 
 <!-- Kun ADMIN må se siden -->
 <div th:if="${role == 'ADMIN'}">
-    <button onclick="window.location.href='/admin/events/create'">
+    <button onclick="window.location.href='/api/admin/events'">
         ➕ Rediger
     </button>
-    <button onclick="window.location.href='/admin/events/create'">
+    <button onclick="window.location.href='/api/admin/events'">
         ➕ Slet
     </button>
 
-    <button onclick="window.location.href='/admin/events/create'">
+    <button onclick="window.location.href='/api/admin/events'">
         ➕ Opret nyt event
     </button>
 
