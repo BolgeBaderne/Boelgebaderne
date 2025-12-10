@@ -4,12 +4,18 @@
     <meta charset="UTF-8">
     <title>Bølgebaderne – Event detaljer</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="event.css">
+    <link rel="stylesheet" href="../../static/event.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
+<div th:replace="fragments/nav :: nav"></div>
+
+<h1>Administration af events</h1>
+
+<!-- Kun ADMIN må se siden -->
+<div th:if="${role == 'ADMIN'}">   </div>
 
 <header class="navbar">
     <div class="navbar__logo">

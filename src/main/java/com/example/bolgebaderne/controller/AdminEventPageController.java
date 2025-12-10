@@ -12,6 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class AdminEventPageController {
     @GetMapping
     public String adminEventsPage() {
-        return "static/event";
+        return "admin/admin-events";
     }
 }
