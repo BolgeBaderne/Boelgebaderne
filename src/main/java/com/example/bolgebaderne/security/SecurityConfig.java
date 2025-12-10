@@ -2,6 +2,7 @@
 
 package com.example.bolgebaderne.security;
 
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.web.SecurityFilterChain;
 
 import com.example.bolgebaderne.repository.UserRepository;
@@ -39,9 +40,11 @@ public class SecurityConfig {
                         // FRONTEND-medlemssider:
                         .requestMatchers("/member/**").hasAnyRole("MEMBER", "ADMIN")
 
+                        //ADMIN API TIL EVENTS
+                                .requestMatchers("/api/admin/**").hasAnyRole("ADMIN")
+
                         // kun MEMBER/ADMIN på member-API
-                        .requestMatchers("/api/member/**")
-                        .hasAnyRole("MEMBER", "ADMIN")
+                        .requestMatchers("/api/member/**").hasAnyRole("MEMBER", "ADMIN")
 
                         // alt andet kræver login
                         .anyRequest().authenticated()
@@ -58,10 +61,21 @@ public class SecurityConfig {
                 )
 
                 // LOGOUT (bare nice to have)
-                .logout(logout -> logout
-                        .logoutUrl("/logout")
-                        .logoutSuccessUrl("/login?logout") // 👈 vigtig for “du er logget ud”
-                )
+//                .logout(logout -> logout
+//                        .logoutUrl("/logout")
+//                        .logoutSuccessUrl("/login?logout") // 👈 vigtig for “du er logget ud”
+//                )
+//                        .exceptionHandling(ex -> ex
+//                                // Ikke logget ind
+//                                .authenticationEntryPoint((request, response, authException) -> {
+//                                    response.setStatus(HttpServletResponse.SC_UNAUTHORIZED); // 401
+//                                })
+//                                // Logget ind men forkert rolle
+//                                .accessDeniedHandler((request, response, accessDeniedException) -> {
+//                                    response.setStatus(HttpServletResponse.SC_FORBIDDEN); // 403
+//                                })
+//                        )
+//                )
                         .exceptionHandling(ex -> ex
                                 // Ikke logget ind → redirect til login med auth=required
                                 .authenticationEntryPoint((request, response, authException) -> {
