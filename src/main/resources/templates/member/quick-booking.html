@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+    <meta charset="UTF-8">
+    <title>Hurtig booking</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+
+<div class="nav">
+    <a href="/member/profile">Profil</a>
+    <a href="/member/quick-booking">Hurtig booking</a>
+    <a href="/member/shifts">Vagtplan</a>
+    <a href="/logout">Log ud</a>
+</div>
+
+<h1>Hurtig booking</h1>
+
+<div th:each="booking : ${bookings}" class="card">
+    <p><strong>Event:</strong> <span th:text="${booking.eventName}"></span></p>
+    <p><strong>Dato:</strong> <span th:text="${booking.date}"></span></p>
+    <p><strong>Status:</strong> <span th:text="${booking.status}"></span></p>
+</div>
+
+</body>
+</html>
