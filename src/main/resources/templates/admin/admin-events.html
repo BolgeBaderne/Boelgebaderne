@@ -26,6 +26,65 @@
     <button onclick="window.location.href='/api/admin/events'">
         ➕ Opret nyt event
     </button>
+    <section class="card" style="margin-top: 20px;">
+        <h2>Opret nyt event</h2>
+
+        <form id="create-event-form" class="create-form">
+            <div class="form-row">
+                <label for="title">Titel</label>
+                <input id="title" name="title" type="text" required placeholder="F.eks. Morgengus">
+            </div>
+
+            <div class="form-row">
+                <label for="gusmesterName">Gusmester</label>
+                <input id="gusmesterName" name="gusmesterName" type="text" required placeholder="Navn på gusmester">
+            </div>
+
+            <div class="form-row">
+                <label for="gusmesterImageUrl">Billede-URL</label>
+                <input id="gusmesterImageUrl" name="gusmesterImageUrl" type="url" placeholder="https://...">
+            </div>
+
+            <div class="form-row">
+                <label for="description">Beskrivelse</label>
+                <textarea id="description" name="description" rows="3"
+                          placeholder="Kort beskrivelse af saunagusset"></textarea>
+            </div>
+
+            <div class="form-row">
+                <label for="startTime">Starttid (HH:MM)</label>
+                <input id="startTime" name="startTime" type="time" required>
+            </div>
+
+            <div class="form-row">
+                <label for="durationMinutes">Varighed (minutter)</label>
+                <input id="durationMinutes" name="durationMinutes" type="number" min="1" required>
+            </div>
+
+            <div class="form-row">
+                <label for="capacity">Kapacitet</label>
+                <input id="capacity" name="capacity" type="number" min="1" required>
+            </div>
+
+            <div class="form-row">
+                <label for="price">Pris (kr.)</label>
+                <input id="price" name="price" type="number" min="0" step="0.01" required>
+            </div>
+
+            <div class="form-row">
+                <label for="status">Status</label>
+                <select id="status" name="status">
+                    <option value="UPCOMING">UPCOMING</option>
+                    <option value="FULLY_BOOKED">FULLY_BOOKED</option>
+                    <option value="CANCELLED">CANCELLED</option>
+                </select>
+            </div>
+
+            <button type="submit" class="btn btn--primary" style="margin-top: 10px;">
+                Gem nyt event
+            </button>
+        </form>
+    </section>
 
     <hr>
 
