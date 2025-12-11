@@ -50,7 +50,7 @@ public class SecurityConfig {
                         .loginPage("/login")
                         .usernameParameter("email")      // <- vigtig!
                         .passwordParameter("password")   // valgfri, men fint
-                        .defaultSuccessUrl("/api/member/profile", true)
+//                        .defaultSuccessUrl("/api/member/profile", false)
                         .failureUrl("/login?error")         // 👈 vigtig for fejlbesked
                         .permitAll()
                 )

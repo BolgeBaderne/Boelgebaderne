@@ -4,7 +4,7 @@ INSERT INTO users (name, email, password_hash, role, membership_status) VALUES
 ('Admin One',  'admin1@example.com', 'admin',    'ADMIN', 'ACTIVE');
 
 -- Eksempel-data til sauna events (uge med gæst/medlem/vagt tider)
-INSERT INTO sauna_events (title, description, gussmester_name, start_time, duration_minutes, capacity, price, status)
+INSERT INTO sauna_events (title, description, gusmester_name, start_time, duration_minutes, capacity, price, status)
 VALUES
     ('GÆSTER • Onsdag Sauna • 09:00-11:00',
      'Åben sauna for gæster',
@@ -13,7 +13,7 @@ VALUES
      120,
      12,
      40.00,
-     'ACTIVE'),
+     'UPCOMING'),
 
     ('MEDLEMSGUS • Tirsdag Gus • 20:00-21:00',
      'Saunagus kun for medlemmer',
@@ -22,7 +22,7 @@ VALUES
      60,
      12,
      0.00,
-     'ACTIVE'),
+     'UPCOMING'),
 
     ('ÅBEN GUS • Fredag Gus • 19:00-20:00',
      'Åben gus for alle',
@@ -31,7 +31,7 @@ VALUES
      60,
      15,
      60.00,
-     'ACTIVE'),
+     'UPCOMING'),
 
     ('VAGT • Onsdag Vagt • 15:00-21:00',
      'Medlem kan tage vagt og tjekke billetter',
@@ -40,4 +40,4 @@ VALUES
      360,
      1,
      0.00,
-     'ACTIVE');
+     'UPCOMING');

@@ -1,40 +1,71 @@
 // booking.js
-// Bruger userId fra booking.html (Thymeleaf)
 
-let currentWeekStart = startOfWeek(new Date()); // mandag i denne uge
-let allSlots = []; // fyldes fra backend
+// Mandag i den aktuelle uge
+let currentWeekStart = startOfWeek(new Date());
+// Fyldes fra backend (/api/bookings/available?userId=...)
+let allSlots = [];
+// Gemmer valgt slot til modal
+let selectedSlot = null;
 
+// ------------------------------
+// INITIALISERING
+// ------------------------------
 document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("prevWeekBtn").addEventListener("click", () => {
         currentWeekStart.setDate(currentWeekStart.getDate() - 7);
-        renderCalendar();
+        loadSlots();
     });
 
     document.getElementById("nextWeekBtn").addEventListener("click", () => {
         currentWeekStart.setDate(currentWeekStart.getDate() + 7);
-        renderCalendar();
+        loadSlots();
     });
 
     document.getElementById("cancelBtn").addEventListener("click", closeModal);
 
+    // Første load
     loadSlots();
+
+    // Opdater rød tidslinje hvert minut
+    setInterval(updateCurrentTimeLine, 60_000);
 });
 
+// ------------------------------
+// Hjælp: find mandag i uge
+// ------------------------------
 function startOfWeek(date) {
     const d = new Date(date);
-    const day = d.getDay(); // 0 = søn, 1 = man...
-    const diff = (day === 0 ? -6 : 1 - day); // juster til mandag
+    const day = d.getDay();           // 0 = søn, 1 = man ...
+    const diff = (day === 0 ? -6 : 1 - day); // flyt til mandag
     d.setDate(d.getDate() + diff);
-    d.setHours(0,0,0,0);
+    d.setHours(0, 0, 0, 0);
     return d;
 }
 
+// ------------------------------
+// Hent slots fra backend
+// ------------------------------
 async function loadSlots() {
-    const res = await fetch(`/api/bookings/available?userId=${userId}`);
-    allSlots = await res.json();
+    try {
+        const res = await fetch(`/api/bookings/available?userId=${userId}`);
+        if (!res.ok) {
+            console.error("Fejl fra backend:", res.status);
+            allSlots = [];
+        } else {
+            allSlots = await res.json();
+        }
+    } catch (e) {
+        console.error("Netværksfejl:", e);
+        allSlots = [];
+    }
+
     renderCalendar();
+    updateCurrentTimeLine();
 }
 
+// ------------------------------
+// Tegn kalender-ugen
+// ------------------------------
 function renderCalendar() {
     const container = document.getElementById("calendarContainer");
     container.innerHTML = "";
@@ -42,18 +73,23 @@ function renderCalendar() {
     const weekEnd = new Date(currentWeekStart);
     weekEnd.setDate(weekEnd.getDate() + 6);
 
-    const formatter = new Intl.DateTimeFormat("da-DK", { day: "numeric", month: "short", year: "numeric" });
+    const formatter = new Intl.DateTimeFormat("da-DK", {
+        day: "numeric",
+        month: "short",
+        year: "numeric"
+    });
+
     document.getElementById("weekLabel").innerText =
         formatter.format(currentWeekStart) + " - " + formatter.format(weekEnd);
 
-    // tidsrækker (fx 8-20)
     const startHour = 8;
     const endHour = 21;
 
+    // Hele uge-kalenderen
     const grid = document.createElement("div");
     grid.className = "calendar-grid";
 
-    // venstre tids-kolonne
+    // VENSTRE tids-kolonne
     const timeCol = document.createElement("div");
     timeCol.className = "calendar-time-col";
 
@@ -65,7 +101,14 @@ function renderCalendar() {
     }
     grid.appendChild(timeCol);
 
-    // 7 dag-kolonner
+    // Dato-logik til grå dage
+    const today = new Date();
+    const todayAtMidnight = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+    const isCurrentWeek = isSameDay(startOfWeek(today), currentWeekStart);
+
+    const weekdayNames = ["Man", "Tir", "Ons", "Tor", "Fre", "Lør", "Søn"];
+
+    // 7 DAG-KOLONNER
     for (let i = 0; i < 7; i++) {
         const dayDate = new Date(currentWeekStart);
         dayDate.setDate(dayDate.getDate() + i);
@@ -76,11 +119,8 @@ function renderCalendar() {
         const header = document.createElement("div");
         header.className = "day-header";
 
-        const weekdayNames = ["Man", "Tir", "Ons", "Tor", "Fre", "Lør", "Søn"];
-        const dayName = weekdayNames[i];
-
         const strong = document.createElement("strong");
-        strong.innerText = dayName;
+        strong.innerText = weekdayNames[i];
         header.appendChild(strong);
 
         const small = document.createElement("span");
@@ -92,26 +132,38 @@ function renderCalendar() {
         const body = document.createElement("div");
         body.className = "day-body";
 
-        // slots til denne dag
-        const daySlots = allSlots.filter(slot => {
-            const d = parseSlotDate(slot.startTime);
-            return isSameDay(d, dayDate);
-        });
+        // GRÅ og lås dage, der ligger tidligere i ugen end i dag
+        if (isCurrentWeek && dayDate < todayAtMidnight) {
+            body.classList.add("past-day");
+            dayCol.classList.add("past-day");
+        }
+
+        // Slots for denne dag
+        const daySlots = Array.isArray(allSlots)
+            ? allSlots.filter(slot => {
+                const d = parseSlotDate(slot.startTime);
+                return isSameDay(d, dayDate);
+            })
+            : [];
 
         daySlots.forEach(slot => {
             const d = parseSlotDate(slot.startTime);
-            const top = (d.getHours() - startHour) * 60 + (d.getMinutes() / 60) * 60;
-            const height = 60; // 1 time = 60px (simpelt)
+
+            const top = (d.getHours() - startHour) * 60 + d.getMinutes();
+            const height = 60; // 1 time = 60px
 
             const card = document.createElement("div");
             card.className = "session-card";
 
-            // type-farve
-            const title = slot.title.toUpperCase();
-            if (title.includes("MEDLEM")) {
+            const titleUpper = slot.title.toUpperCase();
+
+            // Du vil ikke vise vagt-tider i skemaet
+            if (titleUpper.includes("VAGT")) {
+                return;
+            } else if (titleUpper.includes("GUS")) {
+                card.classList.add("session-gus");
+            } else if (titleUpper.includes("MEDLEM")) {
                 card.classList.add("session-member");
-            } else if (title.includes("VAGT")) {
-                card.classList.add("session-vagt");
             } else {
                 card.classList.add("session-guest");
             }
@@ -132,7 +184,10 @@ function renderCalendar() {
             metaDiv.className = "session-card-meta";
 
             const timeSpan = document.createElement("span");
-            timeSpan.innerText = d.toLocaleTimeString("da-DK", { hour: "2-digit", minute: "2-digit" });
+            timeSpan.innerText = d.toLocaleTimeString("da-DK", {
+                hour: "2-digit",
+                minute: "2-digit"
+            });
             metaDiv.appendChild(timeSpan);
 
             const capacitySpan = document.createElement("span");
@@ -140,10 +195,9 @@ function renderCalendar() {
             capacitySpan.innerText = `${slot.booked}/${slot.capacity}`;
             metaDiv.appendChild(capacitySpan);
 
-            // lille "lås" ikon hvis kun medlemmer
             const lockSpan = document.createElement("span");
             lockSpan.className = "session-lock";
-            if (title.includes("MEDLEM") || title.includes("VAGT")) {
+            if (titleUpper.includes("MEDLEM")) {
                 lockSpan.innerText = "🔒";
             } else {
                 lockSpan.innerText = "🔓";
@@ -152,11 +206,15 @@ function renderCalendar() {
 
             card.appendChild(metaDiv);
 
-            if (!slot.full && slot.userAllowed) {
+            // Kun klikbar hvis:
+            // - ikke fuld
+            // - bruger må booke
+            // - dagen ikke er grå (fortid)
+            if (!slot.full && slot.userAllowed && !body.classList.contains("past-day")) {
                 card.addEventListener("click", () => openModal(slot));
             } else if (slot.full) {
                 card.addEventListener("click", () => showMessage("Denne tid er fuldt booket.", true));
-            } else {
+            } else if (!body.classList.contains("past-day")) {
                 card.addEventListener("click", () => showMessage("Du har ikke adgang til denne tid.", true));
             }
 
@@ -167,11 +225,25 @@ function renderCalendar() {
         grid.appendChild(dayCol);
     }
 
+    // LAV RØD TIDSLINJE SOM BARN AF GRID
+    const timeLine = document.createElement("div");
+    timeLine.id = "current-time-line";
+    grid.appendChild(timeLine);
+
     container.appendChild(grid);
+
+    // Opdater position på den røde linje når kalenderen er tegnet
+    updateCurrentTimeLine();
 }
 
+// ------------------------------
+// Dato-hjælp
+// ------------------------------
 function parseSlotDate(str) {
-    // format: "yyyy-MM-dd HH:mm"
+    // Håndtér både "yyyy-MM-dd HH:mm" og ISO med "T"
+    if (str.includes("T")) {
+        return new Date(str);
+    }
     const [datePart, timePart] = str.split(" ");
     const [year, month, day] = datePart.split("-").map(Number);
     const [hour, minute] = timePart.split(":").map(Number);
@@ -184,17 +256,36 @@ function isSameDay(a, b) {
         a.getDate() === b.getDate();
 }
 
-// --- Modal og booking ---
+// ------------------------------
+// Rød tids-linje (nu inde i grid)
+// ------------------------------
+function updateCurrentTimeLine() {
+    const grid = document.querySelector(".calendar-grid");
+    const line = document.getElementById("current-time-line");
+    if (!grid || !line) return;
 
-let selectedSlot = null;
+    const now = new Date();
+    const hour = now.getHours();
+    const minutes = now.getMinutes();
 
+    const startHour = 8;
+    const minutesFromStart = (hour - startHour) * 60 + minutes;
+
+    // 1 minut = 1px (fordi 60px = 1 time)
+    const y = minutesFromStart;
+
+    line.style.top = y + "px";
+}
+
+// ------------------------------
+// Modal + booking
+// ------------------------------
 function openModal(slot) {
     selectedSlot = slot;
     document.getElementById("modalText").innerText =
         `${slot.title}\n${slot.startTime}\nPladser: ${slot.booked}/${slot.capacity}`;
     document.getElementById("modalMessage").innerText = "";
     document.getElementById("modalMessage").className = "alert";
-
     document.getElementById("bookingModal").style.display = "flex";
 
     document.getElementById("confirmBtn").onclick = confirmBooking;
@@ -210,8 +301,8 @@ async function confirmBooking() {
 
     const res = await fetch("/api/bookings", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ userId, eventId: selectedSlot.eventId })
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({userId, eventId: selectedSlot.eventId})
     });
 
     const msgEl = document.getElementById("modalMessage");
@@ -234,7 +325,6 @@ async function confirmBooking() {
     msgEl.innerText = "Du har nu booket en tid ✅";
     msgEl.className = "alert alert-success";
 
-    // opdater kalender efter kort delay
     setTimeout(() => {
         closeModal();
         loadSlots();
@@ -242,6 +332,9 @@ async function confirmBooking() {
     }, 800);
 }
 
+// ------------------------------
+// Besked øverst på siden
+// ------------------------------
 function showMessage(text, isError) {
     const container = document.getElementById("messageContainer");
     container.innerHTML = "";

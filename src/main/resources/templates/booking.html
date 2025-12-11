@@ -51,6 +51,7 @@
             background: #f0f0f0;
         }
 
+        /* Selve uge-kalenderen */
         .calendar-grid {
             display: grid;
             grid-template-columns: 80px repeat(7, 1fr);
@@ -58,6 +59,7 @@
             border-radius: 12px;
             box-shadow: 0 4px 20px rgba(0,0,0,0.06);
             overflow: hidden;
+            position: relative; /* vigtig for den røde tids-linje */
         }
 
         .calendar-time-col {
@@ -93,7 +95,7 @@
 
         .day-body {
             position: relative;
-            min-height: 11 * 60px;
+            min-height: 660px; /* 11 timer á 60px fx 8–19 */
         }
 
         .session-card {
@@ -118,9 +120,9 @@
             border: 1px solid #d5c0ff;
         }
 
-        .session-vagt {
-            background: #e3ffe5;
-            border: 1px solid #b9f1bf;
+        .session-gus {
+            background: #ffe7f0;
+            border: 1px solid #ffc5de;
         }
 
         .session-full {
@@ -144,6 +146,28 @@
 
         .session-lock {
             font-size: 11px;
+        }
+
+        /* RØD TIDS-LINJE (current time) */
+        #current-time-line {
+            position: absolute;
+            left: 80px;     /* svarer til bredden på tids-kolonnen */
+            right: 0;
+            height: 2px;
+            background-color: #ff2d55;
+            z-index: 10;
+            pointer-events: none;
+        }
+
+        /* Grå/låste dage (tidligere i ugen) */
+        .past-day {
+            opacity: 0.35;
+            background-color: #f0f0f0;
+            pointer-events: none; /* kan ikke klikkes */
+        }
+
+        .past-day .session-card {
+            cursor: default;
         }
 
         /* Simpel modal */
@@ -225,7 +249,10 @@
         </div>
     </div>
 
-    <div id="calendarContainer"></div>
+    <div id="calendarContainer">
+        <!-- .calendar-grid OG den røde linje bliver lagt ind her fra booking.js -->
+    </div>
+
 
     <div id="messageContainer"></div>
 </div>

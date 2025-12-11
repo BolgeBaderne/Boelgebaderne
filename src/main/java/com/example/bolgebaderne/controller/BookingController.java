@@ -6,6 +6,7 @@ import com.example.bolgebaderne.model.Booking;
 import com.example.bolgebaderne.service.BookingService;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -27,4 +28,14 @@ public class BookingController {
     public Booking create(@RequestBody CreateBookingRequest request) {
         return bookingService.createBooking(request);
     }
+
+    @GetMapping("/api/bookings/week")
+    public List<AvailableTimeSlotDTO> getWeek(
+            @RequestParam int userId,
+            @RequestParam String weekStart) {
+
+        LocalDate start = LocalDate.parse(weekStart);
+        return bookingService.generateWeeklySchedule(userId, start);
+    }
+
 }
