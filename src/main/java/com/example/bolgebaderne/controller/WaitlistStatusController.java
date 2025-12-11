@@ -1,13 +1,14 @@
 package com.example.bolgebaderne.controller;
 
 import com.example.bolgebaderne.dto.WaitlistEntryDTO;
+import com.example.bolgebaderne.dto.WaitlistJoinRequest;
+import com.example.bolgebaderne.dto.WaitlistStatusDTO;
 import com.example.bolgebaderne.model.SaunaEvent;
+import com.example.bolgebaderne.model.WaitlistEntry;
 import com.example.bolgebaderne.service.WaitlistEntryService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/timeslots")
@@ -19,15 +20,37 @@ public class WaitlistStatusController {
     }
 
     @GetMapping("/{id}/waitlist")
-    public ResponseEntity<WaitlistEntryDTO> getWaitlistStatus(@PathVariable int id) {
+    public ResponseEntity<WaitlistStatusDTO> getWaitlistStatus(@PathVariable int id) {
 
         SaunaEvent event = waitlistService.getEventOrThrow(id);
 
         boolean fullyBooked = waitlistService.isEventFullyBooked(event);
         int waitlistCount = waitlistService.getWaitlistCount(event);
 
-        WaitlistEntryDTO dto = new WaitlistEntryDTO(fullyBooked, waitlistCount);
+        WaitlistStatusDTO dto = new WaitlistStatusDTO(fullyBooked, waitlistCount);
 
         return ResponseEntity.ok(dto);
+    }
+
+    @PostMapping("/{id}/waitlist")
+    public ResponseEntity<WaitlistEntryDTO> joinWaitList(
+            @PathVariable int id,
+            @RequestBody WaitlistJoinRequest request) {
+
+        WaitlistEntry entry = waitlistService.joinWaitlist(
+                id,
+                request.getUserId(),
+                request.getType()
+        );
+
+        WaitlistEntryDTO dto = new WaitlistEntryDTO(
+                entry.getEntryId(),
+                entry.getPosition(),
+                entry.getUser().getUserId(),
+                entry.getSaunaEvent().getEventId(),
+                entry.getType().name()
+        );
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(dto);
     }
 }

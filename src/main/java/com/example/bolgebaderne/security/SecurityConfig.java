@@ -3,13 +3,11 @@ package com.example.bolgebaderne.security;
 import com.example.bolgebaderne.repository.UserRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -19,10 +17,10 @@ import java.io.PrintWriter;
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
-public class SecurityConfig {
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
+    public class SecurityConfig {
+        @Bean
+        public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+            http
                 .csrf(csrf -> csrf.disable());
 
                 http.authorizeHttpRequests(auth -> auth
@@ -31,11 +29,16 @@ public class SecurityConfig {
                                 "/login",
                                 "/api/public/**",
                                 "/api/auth/**",
-                                "/h2-console/**"
+                                "/h2-console/**",
+                                "/api/timeslots/**",
+                                "/api/timeslots/*/waitlist/**"
                         ).permitAll()
 
                         // FRONTEND-medlemssider:
                         .requestMatchers("/member/**").hasAnyRole("MEMBER", "ADMIN")
+
+                                //Waitlist API
+                               // .requestMatchers("/api/timeslots/**").hasAnyRole("MEMBER", "ADMIN")
 
                         // kun MEMBER/ADMIN på member-API
                         .requestMatchers("/api/member/**")
@@ -51,7 +54,7 @@ public class SecurityConfig {
                         .usernameParameter("email")      // <- vigtig!
                         .passwordParameter("password")   // valgfri, men fint
                         .defaultSuccessUrl("/api/member/profile", false) //false, så den redirecter mig til den oprindelige side
-                        .failureUrl("/login?error")         // 👈 vigtig for fejlbesked
+                        .failureUrl("/login?error")
                         .permitAll()
                 )
 
@@ -77,15 +80,17 @@ public class SecurityConfig {
 
         return http.build();
     }
-    @Bean
-  public PasswordEncoder passwordEncoder() {
-      // simpelt til udvikling/eksamen – plaintext passwords
-      return NoOpPasswordEncoder.getInstance();
-   }
 
     @Bean
-   public UserDetailsService userDetailsService(UserRepository userRepository) {
+    public PasswordEncoder passwordEncoder() {
+      // simpelt til udvikling/eksamen – plaintext passwords
+      return NoOpPasswordEncoder.getInstance();
+     }
+
+    @Bean
+    public UserDetailsService userDetailsService(UserRepository userRepository) {
        return email -> userRepository.findByEmail(email)
                .orElseThrow(() -> new UsernameNotFoundException("User not found: " + email));
-}}
+    }
+}
 

@@ -1,11 +1,8 @@
 package com.example.bolgebaderne.service;
 
 import com.example.bolgebaderne.exceptions.EventNotFoundException;
-import com.example.bolgebaderne.model.SaunaEvent;
-import com.example.bolgebaderne.model.User;
-import com.example.bolgebaderne.model.WaitlistEntry;
-import com.example.bolgebaderne.model.WaitlistType;
-import com.example.bolgebaderne.repository.BookingRepository;
+import com.example.bolgebaderne.exceptions.WaitlistNotAllowedException;
+import com.example.bolgebaderne.model.*;
 import com.example.bolgebaderne.repository.SaunaEventRepository;
 import com.example.bolgebaderne.repository.UserRepository;
 import com.example.bolgebaderne.repository.WaitlistEntryRepository;
@@ -19,15 +16,14 @@ public class WaitlistEntryService {
     private WaitlistEntryRepository waitlistRepo;
     private SaunaEventRepository eventRepo;
     private UserRepository userRepo;
-    private BookingRepository bookingRepo;
+
 
     public WaitlistEntryService(WaitlistEntryRepository waitlistRepo,
                            SaunaEventRepository eventRepo,
-                           UserRepository userRepo, BookingRepository bookingRepo) {
+                           UserRepository userRepo) {
         this.waitlistRepo = waitlistRepo;
         this.eventRepo = eventRepo;
         this.userRepo = userRepo;
-        this.bookingRepo = bookingRepo;
     }
 
     public WaitlistEntry addToWaitlist(int userId, int eventId, WaitlistType type) {
@@ -79,14 +75,49 @@ public class WaitlistEntryService {
         return waitlistRepo.countBySaunaEvent(saunaEvent);
     }
 
+
     public boolean isEventFullyBooked(SaunaEvent saunaEvent) {
-        // Hvor mange bookings findes der for det her event?
-        int bookingCount = bookingRepo.countBySaunaEvent(saunaEvent);
-
-        // Regner ud hvor mange pladser vi har i alt.
+        // Brug bare de felter der allerede ligger på eventet
+        int current = saunaEvent.getCurrentBookings();
         int capacity = saunaEvent.getCapacity();
+        return current >= capacity;
+    }
 
-        // Fuldt booket hvis antal bookings >= kapacitet
-        return bookingCount >= capacity;
+
+    //Metode til at tilmelde bruger til en venteliste
+    public WaitlistEntry joinWaitlist(int eventId, int userId, WaitlistType type) {
+
+        SaunaEvent event = getEventOrThrow(eventId);
+
+        // 1) Tjek om tiden er fuldt booket
+        if (!isEventFullyBooked(event)) {
+            throw new WaitlistNotAllowedException("Tiden er ikke fuldt booket – venteliste er ikke tilladt.");
+        }
+
+        // 2) Find user
+        User user = userRepo.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found: " + userId));
+        // (Hvis I har en custom UserNotFoundException, brug den i stedet)
+
+        // 3) Tjek om brugeren allerede står på listen
+        boolean alreadyOnList = waitlistRepo.existsByUserAndEvent(user, event);
+        if (alreadyOnList) {
+            throw new WaitlistNotAllowedException("Brugeren står allerede på ventelisten.");
+        }
+
+        // 4) Beregn ny position (sidst i køen)
+        int position = waitlistRepo.countByEvent(event) + 1;
+
+        // 5) Opret entry
+        WaitlistEntry entry = new WaitlistEntry();
+        entry.setPosition(position);
+        entry.setCreatedAt(LocalDateTime.now());
+        entry.setPromoted(false);
+        entry.setType(type);
+        entry.setUser(user);
+        entry.setEvent(event);
+
+        // 6) Gem og returnér
+        return waitlistRepo.save(entry);
     }
 }
