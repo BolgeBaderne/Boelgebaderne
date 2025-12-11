@@ -9,13 +9,22 @@
 </head>
 <body>
 
-<!-- 1. NAVBAR -->
+<!-- NAVBAR -->
 <header class="site-header">
     <div class="header-inner">
+
+        <!-- LEFT: Logo -->
         <a href="/" class="logo" aria-label="Bølgebaderne - hjem">
             <img src="/images/logo.png" alt="Bølgebaderne logo">
         </a>
 
+        <!-- MOBILE LANGUAGE SWITCH -->
+        <div class="mobile-lang">
+            <button class="lang-switch" data-lang="da">DA</button>
+            <button class="lang-switch" data-lang="en">EN</button>
+        </div>
+
+        <!-- HAMBURGER -->
         <button class="nav-toggle"
                 aria-expanded="false"
                 aria-controls="main-nav"
@@ -23,27 +32,40 @@
             <span class="bars" aria-hidden="true">☰</span>
         </button>
 
-    <nav id="main-nav" class="main-nav" aria-label="Hovednavigation">
-        <ul class="nav-list">
-            <li><a href="#about" data-i18n="nav.about">Om os</a></li>
-            <li><a href="#membership" data-i18n="nav.membership">Medlemskab</a></li>
-            <li><a href="#booking" data-i18n="nav.booking">Book</a></li>
-            <li><a href="#contact" data-i18n="nav.contact">Kontakt</a></li>
-        </ul>
-        <div class="nav-actions">
-            <button class="lang-switch" data-lang="da">DA</button>
-            <button class="lang-switch" data-lang="en">EN</button>
+        <!-- NAVIGATION WRAPPER -->
+        <nav id="main-nav" class="main-nav" aria-label="Hovednavigation">
 
-            <a class="btn btn-primary" href="/signup" data-i18n="actions.signup">
-                Bliv medlem
-            </a>
-            <a class="btn btn-ghost" href="/login" data-i18n="actions.login">
-                Log ind
-            </a>
-        </div>
-    </nav>
+            <!-- CLOSE BUTTON (MOBILE) -->
+            <button class="close-menu" aria-label="Luk menu">×</button>
+
+            <!-- CENTERED NAVIGATION -->
+            <ul class="nav-list">
+                <li><a href="#about" data-i18n="nav.about">Om os</a></li>
+                <li><a href="#membership" data-i18n="nav.membership">Medlemskab</a></li>
+                <li><a href="#booking" data-i18n="nav.booking">Book</a></li>
+                <li><a href="#contact" data-i18n="nav.contact">Kontakt</a></li>
+            </ul>
+
+            <!-- LANGUAGE SWITCH (DESKTOP)-->
+            <div class="desktop-lang">
+                <button class="lang-switch" data-lang="da">DA</button>
+                <button class="lang-switch" data-lang="en">EN</button>
+            </div>
+
+            <!-- RIGHT SIDE (DESKTOP) -->
+            <div class="top-right-controls">
+
+                <a class="btn btn-primary" href="/signup" data-i18n="actions.signup">Bliv medlem</a>
+                <a class="btn btn-ghost" href="/login" data-i18n="actions.login">Log ind</a>
+            </div>
+
+        </nav>
     </div>
 </header>
+
+<!-- OVERLAY -->
+<div class="menu-overlay"></div>
+
 
 <!-- 2. HERO SECTION -->
 <section id="hero" class="hero">
@@ -63,68 +85,255 @@
     </div>
 </section>
 
-<!-- 3. INTRO / VELKOMMEN -->
-<section id="intro">
+<!-- INTRO -->
+<section id="intro" class="intro">
     <h2>Velkommen til Bølgebaderne</h2>
-    <p>… tekst …</p>
+    <p class="intro-text">
+        Bølgebaderne er en forening af passionerede københavnere, der vinterbader ved Bølgen.
+        Vi har stiftet en forening med det formål at være med til at skabe et positivt og inkluderende fællesskab ved Bølgen.
+        Vi vil gerne have, at alle har adgang til stedet og til at blive inspireret af vinterbadning og det skønne sammenhold på tværs alle befolkningsgrupper.
+    </p>
+
     <div class="feature-cards">
-        <article class="card">…</article>
-        <article class="card">…</article>
-        <article class="card">…</article>
-    </div>
-</section>
-
-<!-- 4. ÅBNINGSTIDER I DAG -->
-<section id="opening-today">
-    <h2>Åbningstider i dag</h2>
-    <div class="opening-card">
-        <!-- Dagens navn -->
-        <!-- Sauna tider -->
-        <!-- Åbent / lukket -->
-    </div>
-</section>
-
-<!-- 5. SAUNA & MEDLEMSKAB -->
-<section id="membership">
-    <h2>Sauna & Medlemskab</h2>
-    <p>… tekst …</p>
-
-    <div class="membership-grid">
-        <article id="sauna-info">
-            <!-- punkter for sauna-gus, adgang, etc. -->
+        <article class="feature-card">
+            <div class="icon-circle">
+                <img src="/icons/wave.svg" alt="bølge ikon">
+            </div>
+            <h3>Havbad året rundt</h3>
+            <p>Et levende fællesskab af helårsbadere ved Kalvebod Bølge.</p>
         </article>
 
-        <article id="membership-info">
-            <!-- pris -->
-            <!-- liste -->
-            <!-- knap -->
+        <article class="feature-card">
+            <div class="icon-circle sauna">
+                <img src="/icons/flame.svg" alt="flamme ikon">
+            </div>
+            <h3>Sauna & varme</h3>
+            <p>Mulighed for varme omgivelser og afslapning efter vinterbadningen.</p>
+        </article>
+
+        <article class="feature-card">
+            <div class="icon-circle snow">
+                <img src="/icons/snowflake.svg" alt="snefnug ikon">
+            </div>
+            <h3>Frisk luft & kulde</h3>
+            <p>Et sundt boost til krop og sind i vinterhalvåret.</p>
         </article>
     </div>
 </section>
 
-<!-- 6. GALLERI / SLIDER -->
-<section id="gallery">
-    <h2>Oplev Bølgebaderne</h2>
-    <div class="slider">
-        <!-- Prev button -->
-        <!-- Billede 1 -->
-        <!-- Billede 2 -->
-        <!-- Billede 3 -->
-        <!-- Billede 4 -->
-        <!-- Next button -->
+<!-- SAUNA & MEDLEMSKAB -->
+<section class="sauna-membership" id="sauna">
+    <h2 class="section-title">Sauna & Medlemskab</h2>
+    <p class="section-subtitle">Oplev varmen efter dit kolde dyp</p>
+
+    <div class="sauna-grid">
+
+        <!-- Sauna info card -->
+        <div class="sauna-card">
+            <h3>Saunagus</h3>
+            <p class="sauna-text">
+                Vores sauna er tilgængelig for både medlemmer og gæster i medlemsgus og åben gus perioder.
+            </p>
+
+            <ul class="sauna-list">
+                <li>
+                    <img src="/icons/flame.svg" alt="" />
+                    <div>
+                        <strong>Medlemsgus</strong>
+                        <p>Kun for medlemmer – rolig og privat atmosfære</p>
+                    </div>
+                </li>
+
+                <li>
+                    <img src="/icons/wave.svg" alt="" />
+                    <div>
+                        <strong>Åben gus</strong>
+                        <p>Åben for alle – mød nye mennesker</p>
+                    </div>
+                </li>
+
+                <li>
+                    <img src="/icons/thermometer.svg" alt="" />
+                    <div>
+                        <strong>Faciliteter</strong>
+                        <p>Elektrisk sauna med plads til 8–10 personer</p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Membership card -->
+        <div class="membership-card">
+            <h3>Medlemskab</h3>
+
+            <p class="membership-price">
+                <span class="amount">500 kr</span><span class="period">/år</span>
+            </p>
+
+            <ul class="membership-benefits">
+                <li>Adgang til medlemsgus i saunaen</li>
+                <li>Prioriteret booking af saunatider</li>
+                <li>Del af et stærkt fællesskab</li>
+                <li>Adgang til medlemsopdateringer</li>
+                <li>Events og sociale aktiviteter</li>
+            </ul>
+
+            <a href="#" class="btn btn-primary membership-btn">Bliv medlem nu</a>
+        </div>
+
     </div>
 </section>
 
-<!-- 7. BOOKING / KALENDER -->
-<section id="booking">
-    <h2>Book Saunaen</h2>
-    <!-- filters (uge, dag, dropdowns) -->
-    <div class="calendar">
-        <!-- ugeoversigt -->
-        <!-- tidsintervaller -->
-        <!-- bookingblokke -->
+
+<!-- OPENING HOURS -->
+<section class="hours-section" id="hours">
+    <div class="hours-header">
+        <img src="/icons/clock.svg" alt="Ur-ikon" class="hours-icon">
+        <h2>Åbningstider i dag</h2>
+    </div>
+
+    <div class="hours-card">
+        <h3 id="today-name">Onsdag</h3>
+
+        <p class="hours-line">
+            <span class="label membergus-label">Medlemsgus:</span>
+            <span id="member-hours" class="hours-value">14–18</span>
+        </p>
+
+        <p class="hours-line">
+            <span class="label opengus-label">Åben gus:</span>
+            <span id="open-hours" class="hours-value">19–21</span>
+        </p>
     </div>
 </section>
+
+
+<!-- 6. GALLERY / SLIDER -->
+<section class="gallery-section" id="gallery">
+    <h2 class="gallery-title">Oplev Bølgebaderne</h2>
+    <p class="gallery-subtitle">
+        Et kig ind i vores fællesskab ved havet – fra gusoplevelser til vinterbadning
+    </p>
+
+    <div class="gallery-wrapper">
+
+        <button class="gallery-btn left" id="galleryPrev">‹</button>
+
+        <div class="gallery-track" id="galleryTrack">
+            <img src="/images/gallery-stand-in-1.jpg" alt="" class="gallery-item">
+            <img src="/images/gallery-stand-in-8.jpg" alt="" class="gallery-item">
+            <img src="/images/gallery-stand-in-2.jpg" alt="" class="gallery-item">
+            <img src="/images/gallery-stand-in-9.jpg" alt="" class="gallery-item">
+            <img src="/images/gallery-stand-in-3.jpg" alt="" class="gallery-item">
+            <img src="/images/gallery-stand-in-10.jpg" alt="" class="gallery-item">
+            <img src="/images/gallery-stand-in-4.jpg" alt="" class="gallery-item">
+            <img src="/images/gallery-stand-in-11.jpg" alt="" class="gallery-item">
+            <img src="/images/gallery-stand-in-5.jpg" alt="" class="gallery-item">
+            <img src="/images/gallery-stand-in-12.jpg" alt="" class="gallery-item">
+            <img src="/images/gallery-stand-in-6.jpg" alt="" class="gallery-item">
+            <img src="/images/gallery-stand-in-7.jpg" alt="" class="gallery-item">
+        </div>
+
+        <button class="gallery-btn right" id="galleryNext">›</button>
+
+    </div>
+</section>
+
+
+<!-- 7. BOOKING / CALENDAR -->
+<section id="booking" class="booking-section">
+    <div class="container">
+        <h2 class="section-title">Book Saunaen</h2>
+        <p class="section-sub">Vælg et tidsrum for at booke saunaen. Medlemmer kan booke alle tidsrum.</p>
+
+        <div class="booking-controls">
+            <button class="week-nav prev-week" aria-label="Forrige uge">‹ Forrige uge</button>
+            <div class="week-range" aria-live="polite">Loading…</div>
+            <button class="week-nav next-week" aria-label="Næste uge">Næste uge ›</button>
+        </div>
+
+        <div class="calendar-wrapper" aria-hidden="false">
+            <!-- current time indicator -->
+            <div class="time-indicator" aria-hidden="true"></div>
+
+            <!-- grid: left column times + days columns -->
+            <div class="calendar-grid" role="grid" aria-label="Uge kalender">
+                <div class="time-col" aria-hidden="true">
+                    <!-- times rendered by CSS/JS -->
+                    <div class="time-slot">08:00</div>
+                    <div class="time-slot">09:00</div>
+                    <div class="time-slot">10:00</div>
+                    <div class="time-slot">11:00</div>
+                    <div class="time-slot">12:00</div>
+                    <div class="time-slot">13:00</div>
+                    <div class="time-slot">14:00</div>
+                    <div class="time-slot">15:00</div>
+                    <div class="time-slot">16:00</div>
+                    <div class="time-slot">17:00</div>
+                    <div class="time-slot">18:00</div>
+                    <div class="time-slot">19:00</div>
+                    <div class="time-slot">20:00</div>
+                    <div class="time-slot">21:00</div>
+                    <div class="time-slot">22:00</div>
+                </div>
+
+                <div class="days-col">
+                    <!-- DAYS HEADER will be filled by JS (Mon..Sun) -->
+                    <div class="days-row" role="row" aria-hidden="true"></div>
+
+                    <!-- day columns grid -->
+                    <div class="days-body">
+                        <!-- Repeat 7 columns (JS will populate datestamps) -->
+                        <div class="day-col" data-day-index="0" role="gridcell"></div>
+                        <div class="day-col" data-day-index="1" role="gridcell"></div>
+                        <div class="day-col" data-day-index="2" role="gridcell"></div>
+                        <div class="day-col" data-day-index="3" role="gridcell"></div>
+                        <div class="day-col" data-day-index="4" role="gridcell"></div>
+                        <div class="day-col" data-day-index="5" role="gridcell"></div>
+                        <div class="day-col" data-day-index="6" role="gridcell"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- POPUP / POPOVER -->
+        <div id="booking-pop" class="booking-pop" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="booking-pop-title">
+            <button class="pop-close" aria-label="Luk">✕</button>
+            <div class="pop-inner">
+                <h3 id="booking-pop-title">Booking</h3>
+                <div class="pop-content">
+                    <!-- details injected by JS -->
+                </div>
+                <form id="booking-form" class="booking-form" aria-hidden="true">
+                    <div class="form-row">
+                        <label for="bk-name">Navn</label>
+                        <input id="bk-name" name="name" type="text" required>
+                    </div>
+                    <div class="form-row">
+                        <label for="bk-email">Email</label>
+                        <input id="bk-email" name="email" type="email" required>
+                    </div>
+                    <div class="form-row">
+                        <label for="bk-phone">Telefon</label>
+                        <input id="bk-phone" name="phone" type="tel" required>
+                    </div>
+
+                    <div class="pop-actions">
+                        <button type="button" class="btn btn-ghost pop-login">Log ind</button>
+                        <button type="submit" class="btn btn-primary">Book nu</button>
+                    </div>
+                </form>
+
+                <div class="booking-confirm" aria-hidden="true">
+                    <p class="confirm-msg">Tak — din booking er modtaget.</p>
+                    <button class="btn btn-primary confirm-ok">OK</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
 
 <!-- 8. MEDLEMSOPDATERINGER -->
 <section id="updates">
@@ -159,6 +368,8 @@
 
 <script src="/js/lang.js" defer></script>
 <script src="/js/main.js" defer></script>
+<script src="/js/calendar.js" defer></script>
+
 
 </body>
 
