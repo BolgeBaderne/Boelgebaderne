@@ -17,6 +17,14 @@ public class WaitlistEntryDTO {
     public int getWaitlistCount() {
         return waitlistCount;
     }
+
+    public void setWaitlistCount(int waitlistCount) {
+        this.waitlistCount = waitlistCount;
+    }
+
+    public void setFullyBooked(boolean fullyBooked) {
+        this.fullyBooked = fullyBooked;
+    }
 }
 
 

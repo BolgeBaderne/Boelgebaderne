@@ -23,10 +23,11 @@ public class WaitlistEntryService {
 
     public WaitlistEntryService(WaitlistEntryRepository waitlistRepo,
                            SaunaEventRepository eventRepo,
-                           UserRepository userRepo) {
+                           UserRepository userRepo, BookingRepository bookingRepo) {
         this.waitlistRepo = waitlistRepo;
         this.eventRepo = eventRepo;
         this.userRepo = userRepo;
+        this.bookingRepo = bookingRepo;
     }
 
     public WaitlistEntry addToWaitlist(int userId, int eventId, WaitlistType type) {
@@ -34,7 +35,7 @@ public class WaitlistEntryService {
         SaunaEvent event = eventRepo.findById(eventId).orElseThrow();
 
         // metode til at undgå dubletter
-        if (waitlistRepo.existByUserAndEvent(user, event)) {
+        if (waitlistRepo.existsByUserAndEvent(user, event)) {
             throw new IllegalStateException("User is already on waitlist for this event");
         }
 

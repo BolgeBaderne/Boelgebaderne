@@ -50,7 +50,7 @@ public class SecurityConfig {
                         .loginPage("/login")
                         .usernameParameter("email")      // <- vigtig!
                         .passwordParameter("password")   // valgfri, men fint
-                        .defaultSuccessUrl("/api/member/profile", true)
+                        .defaultSuccessUrl("/api/member/profile", false) //false, så den redirecter mig til den oprindelige side
                         .failureUrl("/login?error")         // 👈 vigtig for fejlbesked
                         .permitAll()
                 )
@@ -58,7 +58,7 @@ public class SecurityConfig {
                 // LOGOUT (bare nice to have)
                 .logout(logout -> logout
                         .logoutUrl("/logout")
-                        .logoutSuccessUrl("/login?logout") // 👈 vigtig for “du er logget ud”
+                        .logoutSuccessUrl("/login?logout") //vigtig for “du er logget ud”
                 )
                         .exceptionHandling(ex -> ex
                                 // Ikke logget ind → redirect til login med auth=required

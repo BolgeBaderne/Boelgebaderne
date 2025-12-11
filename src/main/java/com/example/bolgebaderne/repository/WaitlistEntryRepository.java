@@ -11,6 +11,7 @@ import java.util.List;
 @Repository
 public interface WaitlistEntryRepository extends JpaRepository<WaitlistEntry, Integer> {
     List<WaitlistEntry> findBySaunaEventOrderByPositionAsc(SaunaEvent saunaEvent);
-    boolean existByUserAndEvent(User user, SaunaEvent saunaEvent);
+    boolean existsByUserAndEvent(User user, SaunaEvent saunaEvent);
     int countBySaunaEvent(SaunaEvent saunaEvent);
 }
+
