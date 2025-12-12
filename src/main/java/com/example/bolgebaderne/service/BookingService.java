@@ -12,6 +12,8 @@ import com.example.bolgebaderne.repository.BookingRepository;
 import com.example.bolgebaderne.repository.SaunaEventRepository;
 import com.example.bolgebaderne.repository.UserRepository;
 import org.springframework.stereotype.Service;
+import com.example.bolgebaderne.model.EventStatus;
+
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -71,8 +73,54 @@ public class BookingService {
 
     public Booking createBooking(CreateBookingRequest req) {
 
+        // Find bruger
         User user = userRepo.findById(req.userId()).orElseThrow();
-        SaunaEvent event = eventRepo.findById(req.eventId()).orElseThrow();
+
+        // 1) Prøv først at finde event på det eventId, vi har fået
+        SaunaEvent event = eventRepo.findById(req.eventId()).orElse(null);
+
+        // 2) Hvis det ikke findes
+        //    prøver vi at finde et event ud fra titel + starttid
+        LocalDateTime start = null;
+        if (event == null) {
+            start = LocalDateTime.parse(req.startTime());
+            event = eventRepo.findByTitleAndStartTime(req.title(), start).orElse(null);
+        }
+
+        // 3) Hvis der stadig ikke findes et event, opretter vi et nyt
+        if (event == null) {
+            if (start == null) {
+                start = LocalDateTime.parse(req.startTime());
+            }
+
+            // Pris: 80 kr for offentlig åbent, 120 kr for gæste-gus
+            double price = 0.0;
+            String upper = req.title().toUpperCase();
+            if (upper.contains("GÆSTE-GUS")) {
+                price = 120.0;
+            } else if (upper.contains("OFFENTLIG")) {
+                price = 80.0;
+            }
+
+            // Brug den offentlige constructor:
+            // SaunaEvent(int eventId, String title, String description, String gusmesterName,
+            //            LocalDateTime startTime, int durationMinutes, int capacity,
+            //            double price, EventStatus status)
+            SaunaEvent newEvent = new SaunaEvent(
+                    0,
+                    req.title(),
+                    "",
+                    "",
+                    start,
+                    60,
+                    req.capacity(),
+                    price,
+                    EventStatus.UPCOMING
+            );
+
+            event = eventRepo.save(newEvent);
+        }
+
 
         boolean member = user.isMember();
 
@@ -95,9 +143,9 @@ public class BookingService {
         booking.setCreatedAt(LocalDateTime.now());
         booking.setStatus(BookingStatus.ACTIVE);
 
-
         return bookingRepo.save(booking);
     }
+
     public List<AvailableTimeSlotDTO> generateWeeklySchedule(int userId, LocalDate weekStart) {
 
         User user = userRepo.findById(userId).orElseThrow();
@@ -105,68 +153,82 @@ public class BookingService {
 
         List<AvailableTimeSlotDTO> slots = new ArrayList<>();
 
-        // Sauna kapacitet
-        int capacity = 12;
+        int capacity = 12; // max antal personer i saunaen
 
-        // Tider vi genererer for hver dag (7 dage)
+        // 7 dage: mandag (weekStart) til søndag
         for (int i = 0; i < 7; i++) {
             LocalDate date = weekStart.plusDays(i);
             DayOfWeek day = date.getDayOfWeek();
 
-            // ---------- MEDLEMS-ÅBNINGSTIDER ----------
+            // ---------- MEDLEMS-ÅBNINGSTIDER (ALLE DAGE UNDTAGEN ONSDAG) ----------
             if (day != DayOfWeek.WEDNESDAY) {
                 // Morgen 07:00–11:00
-                slots.add(makeOpenSlot(date.atTime(7,0), 240, capacity, "Medlems åbent", isMember));
+                slots.add(makeOpenSlot(date.atTime(7, 0), 240, capacity, "Medlems åbent", isMember));
                 // Aften 16:00–21:00
-                slots.add(makeOpenSlot(date.atTime(16,0), 300, capacity, "Medlems åbent", isMember));
+                slots.add(makeOpenSlot(date.atTime(16, 0), 300, capacity, "Medlems åbent", isMember));
             }
 
             // ---------- ONSDAG SÆRLIG ----------
             if (day == DayOfWeek.WEDNESDAY) {
                 // Medlemmer kun 07:00–09:00
-                slots.add(makeOpenSlot(date.atTime(7,0), 120, capacity, "Medlems åbent", isMember));
+                slots.add(makeOpenSlot(date.atTime(7, 0), 120, capacity, "Medlems åbent", isMember));
 
-                // Offentlig 09:00–11:00
-                slots.add(makeGuestSlot(date.atTime(9,0), 120, capacity));
+                // Offentlig 09:00–11:00 (2 x 1 time)
+                for (int h = 9; h < 11; h++) {
+                    slots.add(makeGuestSlot(date.atTime(h, 0), 60, capacity));
+                }
 
-                // Offentlig 15:00–21:00
-                slots.add(makeGuestSlot(date.atTime(15,0), 360, capacity));
+                // Offentlig 15:00–21:00 (6 x 1 time)
+                for (int h = 15; h < 21; h++) {
+                    slots.add(makeGuestSlot(date.atTime(h, 0), 60, capacity));
+                }
             }
 
             // ---------- WEEKEND OFFENTLIG ----------
-            if (day == DayOfWeek.SATURDAY || day == DayOfWeek.SUNDAY) {
-                slots.add(makeGuestSlot(date.atTime(11,0), 240, capacity));
+            // LØRDAG: offentlig 11–15
+            if (day == DayOfWeek.SATURDAY) {
+                for (int h = 11; h < 15; h++) {
+                    slots.add(makeGuestSlot(date.atTime(h, 0), 60, capacity));
+                }
+            }
+
+            // SØNDAG: præcis det samme som lørdag
+            if (day == DayOfWeek.SUNDAY) {
+                for (int h = 11; h < 15; h++) {
+                    slots.add(makeGuestSlot(date.atTime(h, 0), 60, capacity));
+                }
             }
 
             // ---------- GUS-TIDER ----------
-            // Tirsdag 20–21
+            // Tirsdag 20–21 (medlemsgus)
             if (day == DayOfWeek.TUESDAY) {
-                slots.add(makeGusSlot(date.atTime(20,0), 60, capacity, "Medlemsgus"));
+                slots.add(makeGusSlot(date.atTime(20, 0), 60, capacity, "Medlemsgus"));
             }
 
-            // Torsdag 17:30–18:30
+            // Torsdag 17:30–18:30 (medlemsgus)
             if (day == DayOfWeek.THURSDAY) {
-                slots.add(makeGusSlot(date.atTime(17,30), 60, capacity, "Medlemsgus"));
+                slots.add(makeGusSlot(date.atTime(17, 30), 60, capacity, "Medlemsgus"));
             }
 
-            // Torsdag 20–21
+            // Torsdag 20–21 (medlemsgus)
             if (day == DayOfWeek.THURSDAY) {
-                slots.add(makeGusSlot(date.atTime(20,0), 60, capacity, "Medlemsgus"));
+                slots.add(makeGusSlot(date.atTime(20, 0), 60, capacity, "Medlemsgus"));
             }
 
-            // Fredag 07–08 (gus)
+            // Fredag 07–08 (medlemsgus)
             if (day == DayOfWeek.FRIDAY) {
-                slots.add(makeGusSlot(date.atTime(7,0), 60, capacity, "Medlemsgus"));
+                slots.add(makeGusSlot(date.atTime(7, 0), 60, capacity, "Medlemsgus"));
             }
 
-            // Onsdag gæste-gus
+            // Onsdag gæste-gus 20–21
             if (day == DayOfWeek.WEDNESDAY) {
-                slots.add(makeGusSlot(date.atTime(20,0), 60, capacity, "Gæste-gus"));
+                slots.add(makeGusSlot(date.atTime(20, 0), 60, capacity, "Gæste-gus"));
             }
         }
 
         return slots;
     }
+
 
     // ---------- HJÆLPEMETHODS ----------
     private AvailableTimeSlotDTO makeOpenSlot(LocalDateTime start, int duration, int capacity, String label, boolean isMember) {
@@ -181,25 +243,71 @@ public class BookingService {
     }
 
     private AvailableTimeSlotDTO makeGuestSlot(LocalDateTime start, int duration, int capacity) {
-        return new AvailableTimeSlotDTO(999,
-                "Offentlig åbent • " + start.toLocalTime() + "-" + start.plusMinutes(duration).toLocalTime(),
+        String title = "Offentlig åbent • "
+                + start.toLocalTime()
+                + "-" + start.plusMinutes(duration).toLocalTime();
+
+        // Forsøg at finde et eksisterende event i DB
+        SaunaEvent event = eventRepo.findByTitleAndStartTime(title, start).orElse(null);
+
+        int effectiveCapacity = capacity;
+        int booked = 0;
+        int eventId = 0;
+        boolean full = false;
+
+        if (event != null) {
+            eventId = event.getEventId();
+            effectiveCapacity = event.getCapacity();
+            booked = (int) bookingRepo.countByEvent_EventId(event.getEventId());
+            full = booked >= effectiveCapacity;
+        }
+
+        int available = Math.max(effectiveCapacity - booked, 0);
+
+        return new AvailableTimeSlotDTO(
+                eventId,             // 0 hvis intet event endnu, ellers rigtig ID
+                title,
                 start.toString(),
-                capacity,
-                0,
-                capacity,
-                false,
-                true);
+                effectiveCapacity,
+                booked,
+                available,
+                full,
+                true                  // alle må booke offentlig åbent
+        );
     }
 
-    private AvailableTimeSlotDTO makeGusSlot(LocalDateTime start, int duration, int capacity, String title) {
-        return new AvailableTimeSlotDTO(999,
-                title + " • " + start.toLocalTime() + "-" + start.plusMinutes(duration).toLocalTime(),
+    private AvailableTimeSlotDTO makeGusSlot(LocalDateTime start, int duration, int capacity, String titlePrefix) {
+        String title = titlePrefix + " • "
+                + start.toLocalTime()
+                + "-" + start.plusMinutes(duration).toLocalTime();
+
+        // Slå op i DB om der allerede findes et event for den her gus
+        SaunaEvent event = eventRepo.findByTitleAndStartTime(title, start).orElse(null);
+
+        int effectiveCapacity = capacity;
+        int booked = 0;
+        int eventId = 0;
+        boolean full = false;
+
+        if (event != null) {
+            eventId = event.getEventId();
+            effectiveCapacity = event.getCapacity();
+            booked = (int) bookingRepo.countByEvent_EventId(event.getEventId());
+            full = booked >= effectiveCapacity;
+        }
+
+        int available = Math.max(effectiveCapacity - booked, 0);
+
+        return new AvailableTimeSlotDTO(
+                eventId,
+                title,
                 start.toString(),
-                capacity,
-                0,
-                capacity,
-                false,
-                true);
+                effectiveCapacity,
+                booked,
+                available,
+                full,
+                true   // både medlemmer og gæster (selve reglerne håndteres via userAllowed/JS)
+        );
     }
 
 }

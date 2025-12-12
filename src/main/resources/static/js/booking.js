@@ -1,5 +1,3 @@
-// booking.js
-
 // Mandag i den aktuelle uge
 let currentWeekStart = startOfWeek(new Date());
 // Fyldes fra backend (/api/bookings/available?userId=...)
@@ -48,7 +46,11 @@ function startOfWeek(date) {
 
 async function loadSlots() {
     // currentWeekStart er allerede mandag i den uge vi viser
-    const weekStartStr = currentWeekStart.toISOString().split("T")[0]; // "yyyy-MM-dd"
+// currentWeekStart er allerede mandag i den uge vi viser (lokal tid)
+    const y = currentWeekStart.getFullYear();
+    const m = String(currentWeekStart.getMonth() + 1).padStart(2, "0");
+    const d = String(currentWeekStart.getDate()).padStart(2, "0");
+    const weekStartStr = `${y}-${m}-${d}`; // "yyyy-MM-dd" i lokal tid
 
     try {
         const res = await fetch(
@@ -326,6 +328,77 @@ function updateCurrentTimeLine() {
     line.style.width = todayCol.offsetWidth + "px";
 }
 
+function getGusInfo(slot) {
+    const d = parseSlotDate(slot.startTime);
+    const weekday = d.getDay(); // 0 = søndag, 1 = mandag, ... 6 = lørdag
+    const hour = d.getHours();
+    const minute = d.getMinutes();
+
+    const upper = slot.title.toUpperCase();
+    if (!upper.includes("GUS")) {
+        return null;
+    }
+
+    // ---------------------------
+    // GÆSTE-GUS (onsdag 20-21) → LARS
+    // ---------------------------
+    if (weekday === 3 && hour === 20) { // 3 = onsdag
+        return {
+            name: "Lars Svendsen",
+            label: "Klassisk finsk gus",
+            description:
+                "Lars' gæste-gus er en varm og rolig oplevelse med klassiske finske elementer, duft af birk og behagelige sving – perfekt til både begyndere og erfarne."
+        };
+    }
+
+    // ---------------------------
+    // MEDLEMSGUS
+    // ---------------------------
+
+    // Tirsdag 20-21 → LARS
+    if (weekday === 2 && hour === 20) { // tirsdag
+        return {
+            name: "Lars Svendsen",
+            label: "Klassisk finsk gus",
+            description:
+                "Lars laver klassiske finske gus med fokus på varme, ro og rene dufte. En dyb og traditionel gusoplevelse."
+        };
+    }
+
+    // Torsdag 17:30–18:30 → METTE
+    if (weekday === 4 && hour === 17 && minute === 30) {
+        return {
+            name: "Mette Nielsen",
+            label: "Russisk banya-stil",
+            description:
+                "Mette kombinerer varme, rytme og banya-teknikker for en intens og meditativ oplevelse."
+        };
+    }
+
+    // Torsdag 20–21 → THOMAS
+    if (weekday === 4 && hour === 20) {
+        return {
+            name: "Thomas Andersen",
+            label: "Aromaterapi-gus",
+            description:
+                "Thomas bruger æteriske olier og rolige bevægelser til at skabe et afstressende og sanseligt gus."
+        };
+    }
+
+    // Fredag 07–08 → SOFIE
+    if (weekday === 5 && hour === 7) {
+        return {
+            name: "Sofie Kristensen",
+            label: "Moderne fusion-gus",
+            description:
+                "Sofie blander moderne teknikker, kreative dufte og et hint af energi til en let og opløftende morgengus."
+        };
+    }
+
+    // Fallback
+    return null;
+}
+
 
 
 // ------------------------------
@@ -333,8 +406,28 @@ function updateCurrentTimeLine() {
 // ------------------------------
 function openModal(slot) {
     selectedSlot = slot;
+
+    const upper = slot.title.toUpperCase();
+    let ekstraLinje = "";
+
+    // Pris-tekst for offentlig åbent (gul)
+    if (upper.includes("OFFENTLIG") && !upper.includes("GUS")) {
+        ekstraLinje += "\nPris: 80 kr. for 1 times adgang";
+    }
+
+    // Pris-tekst for gæste-gus
+    if (upper.includes("GÆSTE-GUS")) {
+        ekstraLinje += "\nPris: 120 kr. for 1 times gus";
+    }
+
+    // Hent info om gusmester + beskrivelse hvis det er en gus-session
+    const gusInfo = getGusInfo(slot);
+    if (gusInfo) {
+        ekstraLinje += `\n\nGusmester: ${gusInfo.name}\n${gusInfo.label}\n${gusInfo.description}`;
+    }
+
     document.getElementById("modalText").innerText =
-        `${slot.title}\n${slot.startTime}\nPladser: ${slot.booked}/${slot.capacity}`;
+        `${slot.title}\n${slot.startTime}\nPladser: ${slot.booked}/${slot.capacity}${ekstraLinje}`;
     document.getElementById("modalMessage").innerText = "";
     document.getElementById("modalMessage").className = "alert";
     document.getElementById("bookingModal").style.display = "flex";
@@ -353,7 +446,13 @@ async function confirmBooking() {
     const res = await fetch("/api/bookings", {
         method: "POST",
         headers: {"Content-Type": "application/json"},
-        body: JSON.stringify({userId, eventId: selectedSlot.eventId})
+        body: JSON.stringify({
+            userId: userId,
+            eventId: selectedSlot.eventId,
+            title: selectedSlot.title,
+            startTime: selectedSlot.startTime,
+            capacity: selectedSlot.capacity
+        })
     });
 
     const msgEl = document.getElementById("modalMessage");
