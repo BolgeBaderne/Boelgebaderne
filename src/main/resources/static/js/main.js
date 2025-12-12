@@ -6,6 +6,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const overlay = document.querySelector(".menu-overlay");
     const menuLinks = nav.querySelectorAll("a");
 
+
+    // Accessibility (aria labels)
     function openMenu() {
         header.classList.add("is-open");
         toggle.setAttribute("aria-expanded", "true");
@@ -41,17 +43,17 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 // -------------------------------------------
-// 4. TODAY'S SAUNA HOURS (DYNAMIC)
+// TODAY'S SAUNA HOURS (DYNAMIC)
 // -------------------------------------------
 
 const gusSchedule = {
-    mandag:     { medlem: "14-18", åben: "19-21" },
-    tirsdag:    { medlem: "06-10", åben: "17-20" },
-    onsdag:     { medlem: "14-18", åben: "19-21" },
-    torsdag:    { medlem: "06-10", åben: "17-20" },
-    fredag:     { medlem: "14-18", åben: "18-21" },
-    lørdag:     { medlem: "09-12", åben: "12-15" },
-    søndag:     { medlem: "09-12", åben: "12-15" }
+    mandag:     { medlem: "7-11 & 16-21", åben: "-" },
+    tirsdag:    { medlem: "7-11 & 16-21", åben: "-" },
+    onsdag:     { medlem: "7-9", åben: "9-11 & 15-21" },
+    torsdag:    { medlem: "7-11 & 16-21", åben: "-" },
+    fredag:     { medlem: "7-11 & 16-21", åben: "-" },
+    lørdag:     { medlem: "7-11 & 16-21", åben: "11-15" },
+    søndag:     { medlem: "7-11 & 16-21", åben: "11-15" }
 };
 
 const weekdays = [
@@ -97,4 +99,22 @@ btnPrev.addEventListener("click", () => {
         position += itemWidth;
         track.style.transform = `translateX(${position}px)`;
     }
+});
+
+// -------------------------------------------
+// SCROLL TO TOP BUTTON
+// -------------------------------------------
+
+const scrollBtn = document.getElementById("scrollTopBtn");
+
+window.addEventListener("scroll", () => {
+    if (window.scrollY > 400) {
+        scrollBtn.classList.add("show");
+    } else {
+        scrollBtn.classList.remove("show");
+    }
+});
+
+scrollBtn.addEventListener("click", () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
 });

@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="https://foreninglet-static-files.s3.eu-west-1.amazonaws.com/static/icon/favicon.ico">
     <title>Bølgebaderne</title>
     <link rel="stylesheet" href="/css/style.css" />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
@@ -13,7 +14,7 @@
 <header class="site-header">
     <div class="header-inner">
 
-        <!-- LEFT: Logo -->
+        <!-- LOGO -->
         <a href="/" class="logo" aria-label="Bølgebaderne - hjem">
             <img src="/images/logo.png" alt="Bølgebaderne logo">
         </a>
@@ -24,7 +25,7 @@
             <button class="lang-switch" data-lang="en">EN</button>
         </div>
 
-        <!-- HAMBURGER -->
+        <!-- HAMBURGER MENU -->
         <button class="nav-toggle"
                 aria-expanded="false"
                 aria-controls="main-nav"
@@ -40,9 +41,10 @@
 
             <!-- CENTERED NAVIGATION -->
             <ul class="nav-list">
-                <li><a href="#about" data-i18n="nav.about">Om os</a></li>
-                <li><a href="#membership" data-i18n="nav.membership">Medlemskab</a></li>
-                <li><a href="#booking" data-i18n="nav.booking">Book</a></li>
+                <li><a href="/about.html" data-i18n="nav.about">Om os</a></li>
+                <li><a href="/membership.html" data-i18n="nav.membership">Medlemskab</a></li>
+                <li><a href="/sauna-info.html" data-i18n="nav.sauna">Sauna info</a></li>
+                <li><a href="/faq.html" data-i18n="faq">FAQ</a></li>
                 <li><a href="#contact" data-i18n="nav.contact">Kontakt</a></li>
             </ul>
 
@@ -54,9 +56,7 @@
 
             <!-- RIGHT SIDE (DESKTOP) -->
             <div class="top-right-controls">
-
-                <a class="btn btn-primary" href="/signup" data-i18n="actions.signup">Bliv medlem</a>
-                <a class="btn btn-ghost" href="/login" data-i18n="actions.login">Log ind</a>
+                <a class="btn btn-primary" href="/login" data-i18n="actions.login">Log ind</a>
             </div>
 
         </nav>
@@ -67,7 +67,7 @@
 <div class="menu-overlay"></div>
 
 
-<!-- 2. HERO SECTION -->
+<!-- HERO SECTION -->
 <section id="hero" class="hero">
     <div class="hero-content">
     <h1 data-i18n="hero.title">Bølgebaderne</h1>
@@ -107,21 +107,21 @@
             <div class="icon-circle sauna">
                 <img src="/icons/flame.svg" alt="flamme ikon">
             </div>
-            <h3>Sauna & varme</h3>
-            <p>Mulighed for varme omgivelser og afslapning efter vinterbadningen.</p>
+            <h3>Sauna</h3>
+            <p>Saunagus og afslapning efter vinterbadningen.</p>
         </article>
 
         <article class="feature-card">
             <div class="icon-circle snow">
                 <img src="/icons/snowflake.svg" alt="snefnug ikon">
             </div>
-            <h3>Frisk luft & kulde</h3>
-            <p>Et sundt boost til krop og sind i vinterhalvåret.</p>
+            <h3>Frisk luft & kolde dyp</h3>
+            <p>Et boost til krop og sind i vinterhalvåret.</p>
         </article>
     </div>
 </section>
 
-<!-- SAUNA & MEDLEMSKAB -->
+<!-- SAUNA & MEMBERSHIP -->
 <section class="sauna-membership" id="sauna">
     <h2 class="section-title">Sauna & Medlemskab</h2>
     <p class="section-subtitle">Oplev varmen efter dit kolde dyp</p>
@@ -132,7 +132,7 @@
         <div class="sauna-card">
             <h3>Saunagus</h3>
             <p class="sauna-text">
-                Vores sauna er tilgængelig for både medlemmer og gæster i medlemsgus og åben gus perioder.
+                Vores saunagus er tilgængelig for medlemmer og gæster er velkommen i åben sauna.
             </p>
 
             <ul class="sauna-list">
@@ -147,7 +147,7 @@
                 <li>
                     <img src="/icons/wave.svg" alt="" />
                     <div>
-                        <strong>Åben gus</strong>
+                        <strong>Åben sauna</strong>
                         <p>Åben for alle – mød nye mennesker</p>
                     </div>
                 </li>
@@ -156,7 +156,7 @@
                     <img src="/icons/thermometer.svg" alt="" />
                     <div>
                         <strong>Faciliteter</strong>
-                        <p>Elektrisk sauna med plads til 8–10 personer</p>
+                        <p>Elektrisk sauna med plads til 12 personer</p>
                     </div>
                 </li>
             </ul>
@@ -167,14 +167,13 @@
             <h3>Medlemskab</h3>
 
             <p class="membership-price">
-                <span class="amount">500 kr</span><span class="period">/år</span>
+                <span class="amount">650 kr</span><span class="period">/år</span>
             </p>
 
             <ul class="membership-benefits">
-                <li>Adgang til medlemsgus i saunaen</li>
-                <li>Prioriteret booking af saunatider</li>
+                <li>Adgang til saunaen i alle åbningstider</li>
+                <li>Adgang til medlemsgus</li>
                 <li>Del af et stærkt fællesskab</li>
-                <li>Adgang til medlemsopdateringer</li>
                 <li>Events og sociale aktiviteter</li>
             </ul>
 
@@ -196,23 +195,25 @@
         <h3 id="today-name">Onsdag</h3>
 
         <p class="hours-line">
-            <span class="label membergus-label">Medlemsgus:</span>
+            <span class="label membersauna-label">Medlem:</span>
             <span id="member-hours" class="hours-value">14–18</span>
         </p>
 
         <p class="hours-line">
-            <span class="label opengus-label">Åben gus:</span>
-            <span id="open-hours" class="hours-value">19–21</span>
+            <span class="label opensauna-label">Offentlig:</span>
+            <span id="open-hours" class="hours-value">9-11</span>
         </p>
+
+        <p>I timer med offentlig adgang har gæster med billet fortrinsret. Medlemmer af foreningen kan dog benytte saunaen, hvis der er ledige pladser.</p>
     </div>
 </section>
 
 
-<!-- 6. GALLERY / SLIDER -->
+<!-- GALLERY / SLIDER -->
 <section class="gallery-section" id="gallery">
     <h2 class="gallery-title">Oplev Bølgebaderne</h2>
     <p class="gallery-subtitle">
-        Et kig ind i vores fællesskab ved havet – fra gusoplevelser til vinterbadning
+        Et kig ind i vores fællesskab ved havet – fra gusoplevelser til helårsbadning
     </p>
 
     <div class="gallery-wrapper">
@@ -240,135 +241,105 @@
 </section>
 
 
-<!-- 7. BOOKING / CALENDAR -->
-<section id="booking" class="booking-section">
-    <div class="container">
-        <h2 class="section-title">Book Saunaen</h2>
-        <p class="section-sub">Vælg et tidsrum for at booke saunaen. Medlemmer kan booke alle tidsrum.</p>
+<!-- BOOKING / CALENDAR -->
+TODO: Needs implementation
 
-        <div class="booking-controls">
-            <button class="week-nav prev-week" aria-label="Forrige uge">‹ Forrige uge</button>
-            <div class="week-range" aria-live="polite">Loading…</div>
-            <button class="week-nav next-week" aria-label="Næste uge">Næste uge ›</button>
+<!-- MEMBER UPDATES -->
+<section id="updates" class="updates-section">
+    <div class="updates-header">
+        <h2 data-i18n="updates.title">Medlemsopdateringer</h2>
+    </div>
+
+    <div class="updates-card">
+        <div class="updates-empty-icon">
+            <img src="/icons/speech-balloon.svg" alt="tankeboble" />
         </div>
+        <p class="updates-empty-title" data-i18n="updates.emptyTitle">
+            Ingen opdateringer endnu
+        </p>
+        <p class="updates-empty-text" data-i18n="updates.emptyText">
+            Log ind for at oprette opdateringer som medlem
+        </p>
+    </div>
+</section>
 
-        <div class="calendar-wrapper" aria-hidden="false">
-            <!-- current time indicator -->
-            <div class="time-indicator" aria-hidden="true"></div>
 
-            <!-- grid: left column times + days columns -->
-            <div class="calendar-grid" role="grid" aria-label="Uge kalender">
-                <div class="time-col" aria-hidden="true">
-                    <!-- times rendered by CSS/JS -->
-                    <div class="time-slot">08:00</div>
-                    <div class="time-slot">09:00</div>
-                    <div class="time-slot">10:00</div>
-                    <div class="time-slot">11:00</div>
-                    <div class="time-slot">12:00</div>
-                    <div class="time-slot">13:00</div>
-                    <div class="time-slot">14:00</div>
-                    <div class="time-slot">15:00</div>
-                    <div class="time-slot">16:00</div>
-                    <div class="time-slot">17:00</div>
-                    <div class="time-slot">18:00</div>
-                    <div class="time-slot">19:00</div>
-                    <div class="time-slot">20:00</div>
-                    <div class="time-slot">21:00</div>
-                    <div class="time-slot">22:00</div>
-                </div>
+<!-- CONTACT -->
+<section id="contact" class="contact-section">
+    <h2 class="contact-title">Kontakt os</h2>
+    <p class="contact-sub">Har du spørgsmål eller vil du være en del af fællesskabet?</p>
 
-                <div class="days-col">
-                    <!-- DAYS HEADER will be filled by JS (Mon..Sun) -->
-                    <div class="days-row" role="row" aria-hidden="true"></div>
-
-                    <!-- day columns grid -->
-                    <div class="days-body">
-                        <!-- Repeat 7 columns (JS will populate datestamps) -->
-                        <div class="day-col" data-day-index="0" role="gridcell"></div>
-                        <div class="day-col" data-day-index="1" role="gridcell"></div>
-                        <div class="day-col" data-day-index="2" role="gridcell"></div>
-                        <div class="day-col" data-day-index="3" role="gridcell"></div>
-                        <div class="day-col" data-day-index="4" role="gridcell"></div>
-                        <div class="day-col" data-day-index="5" role="gridcell"></div>
-                        <div class="day-col" data-day-index="6" role="gridcell"></div>
-                    </div>
-                </div>
+    <div class="contact-grid">
+        <!-- EMAIL -->
+        <div class="contact-card">
+            <div class="icon-circle">
+                <img src="icons/email.svg" alt="Email-ikon">
             </div>
+            <h3>Email</h3>
+            <p>kontakt@bolgebaderne.dk</p>
         </div>
 
-        <!-- POPUP / POPOVER -->
-        <div id="booking-pop" class="booking-pop" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="booking-pop-title">
-            <button class="pop-close" aria-label="Luk">✕</button>
-            <div class="pop-inner">
-                <h3 id="booking-pop-title">Booking</h3>
-                <div class="pop-content">
-                    <!-- details injected by JS -->
-                </div>
-                <form id="booking-form" class="booking-form" aria-hidden="true">
-                    <div class="form-row">
-                        <label for="bk-name">Navn</label>
-                        <input id="bk-name" name="name" type="text" required>
-                    </div>
-                    <div class="form-row">
-                        <label for="bk-email">Email</label>
-                        <input id="bk-email" name="email" type="email" required>
-                    </div>
-                    <div class="form-row">
-                        <label for="bk-phone">Telefon</label>
-                        <input id="bk-phone" name="phone" type="tel" required>
-                    </div>
-
-                    <div class="pop-actions">
-                        <button type="button" class="btn btn-ghost pop-login">Log ind</button>
-                        <button type="submit" class="btn btn-primary">Book nu</button>
-                    </div>
-                </form>
-
-                <div class="booking-confirm" aria-hidden="true">
-                    <p class="confirm-msg">Tak — din booking er modtaget.</p>
-                    <button class="btn btn-primary confirm-ok">OK</button>
-                </div>
+        <!-- ADDRESS -->
+        <div class="contact-card">
+            <div class="icon-circle">
+                <img src="icons/location.svg" alt="Lokation-ikon">
             </div>
+            <h3>Adresse</h3>
+            <p>
+                Kalvebod Bølge<br>
+                København
+            </p>
         </div>
 
+        <!-- VISIT US -->
+        <div class="contact-card">
+            <div class="icon-circle">
+                <img src="icons/clock.svg" alt="Ur-ikon">
+            </div>
+            <h3>Besøg os</h3>
+            <p>
+                Vi er ved vandet hver dag<br>
+                Se åbningstider ovenfor
+            </p>
+        </div>
     </div>
 </section>
 
+<!-- FOOTER -->
+<footer class="footer">
+    <div class="footer-inner">
 
-<!-- 8. MEDLEMSOPDATERINGER -->
-<section id="updates">
-    <h2>Medlemsopdateringer</h2>
-    <div class="updates-box">
-        <p>Ingen opdateringer endnu</p>
+        <p class="footer-title">Følg os</p>
+
+        <div class="footer-socials">
+            <a href="https://www.facebook.com/groups/405258223878568" target="_blank" aria-label="Facebook">
+                <img src="/icons/facebook.svg" alt="facebook-ikon">
+            </a>
+            <a href="https://www.instagram.com/boelge.baderne/" target="_blank" aria-label="Instagram">
+                <img src="/icons/instagram.svg" alt="instagram-ikon">
+            </a>
+        </div>
+
+        <div class="footer-links">
+            <a href="#">Handelsbetingelser</a>
+            <span>•</span>
+            <a href="#">Privatlivspolitik</a>
+        </div>
+
+        <p class="footer-copy">© 2025 Bølgebaderne</p>
+
     </div>
-</section>
-
-<!-- 9. KONTAKT -->
-<section id="contact">
-    <h2>Kontakt os</h2>
-    <p>… tekst …</p>
-
-    <div class="contact-methods">
-        <article>… Email …</article>
-        <article>… Adresse …</article>
-        <article>… Besøg os …</article>
-    </div>
-
-    <div class="membership-interest">
-        <p>… tekst …</p>
-        <!-- Send email knap -->
-    </div>
-</section>
-
-<!-- 10. FOOTER -->
-<footer>
-    <!-- copyright -->
-    <!-- evt. små links -->
 </footer>
 
+<!-- SCROLL TO TOP BUTTON -->
+<button id="scrollTopBtn" aria-label="Til toppen">
+    <img src="/icons/up-arrow.svg" alt="pil op-ikon" />
+</button>
+
+
+<!-- SCRIPTS -->
 <script src="/js/lang.js" defer></script>
 <script src="/js/main.js" defer></script>
-<script src="/js/calendar.js" defer></script>
 
 
 </body>

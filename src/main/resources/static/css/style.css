@@ -42,16 +42,16 @@ body {
     padding: 0.6rem 0;
     z-index: 1000;
 
-    background: rgba(255,255,255,0.95);
+    background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(6px);
-    border-bottom: 1px solid rgba(0,0,0,0.05);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
     transition: background 0.3s ease, box-shadow 0.3s ease;
 }
 
 .site-header.scrolled {
     position: fixed;
-    background: rgba(255,255,255,0.98);
-    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    background: rgba(255, 255, 255, 0.98);
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
 }
 
 .header-inner {
@@ -147,7 +147,7 @@ body {
 }
 
 .btn-ghost:hover {
-    background: rgba(10,122,140,0.1);
+    background: rgba(10, 122, 140, 0.1);
 }
 
 /* Desktop language buttons */
@@ -171,7 +171,7 @@ body {
 }
 
 .desktop-lang .lang-switch:hover {
-    background: rgba(10,122,140,0.1);
+    background: rgba(10, 122, 140, 0.1);
 }
 
 /* ========================================================= */
@@ -207,7 +207,6 @@ body {
         display: none;
     }
 
-    /* DA EN placeret i headeren (Variant 1) */
     .mobile-lang {
         display: flex;
         gap: 0.4rem;
@@ -227,7 +226,7 @@ body {
     }
 
     .mobile-lang .lang-switch:hover {
-        background: rgba(10,122,140,0.1);
+        background: rgba(10, 122, 140, 0.1);
     }
 }
 
@@ -272,20 +271,14 @@ body {
         color: #0b2430;
     }
 
-    /* Mobile styling of nav buttons */
     .nav-actions .btn-primary,
     .nav-actions .btn-ghost {
         width: auto;
         padding: 0.9rem 1.1rem;
         border-color: #0A7A8C;
-        background: transparent;
+        background: rgba(10, 122, 140, 0.1);
         color: #0A7A8C;
         border-radius: 8px;
-    }
-
-    .nav-actions .btn-primary:hover,
-    .nav-actions .btn-ghost:hover {
-        background: rgba(10,122,140,0.1);
     }
 }
 
@@ -314,7 +307,7 @@ body {
 .menu-overlay {
     position: fixed;
     inset: 0;
-    background: rgba(0,0,0,0.45);
+    background: rgba(0, 0, 0, 0.45);
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.25s ease;
@@ -350,12 +343,12 @@ body {
     inset: 0;
     background: linear-gradient(
             180deg,
-            rgba(0,0,0,0.55) 0%,
-            rgba(0,0,0,0.42) 25%,
-            rgba(0,0,0,0.28) 45%,
-            rgba(0,0,0,0.12) 60%,
-            rgba(255,255,255,0.0) 78%,
-            rgba(255,255,255,1) 100%
+            rgba(0, 0, 0, 0.55) 0%,
+            rgba(0, 0, 0, 0.42) 25%,
+            rgba(0, 0, 0, 0.28) 45%,
+            rgba(0, 0, 0, 0.12) 60%,
+            rgba(255, 255, 255, 0.0) 78%,
+            rgba(255, 255, 255, 1) 100%
     );
     z-index: 1;
 }
@@ -372,14 +365,14 @@ body {
     font-size: clamp(2.5rem, 6vw, 4.5rem);
     color: white;
     margin-bottom: 1rem;
-    text-shadow: 0 2px 12px rgba(0,0,0,0.6);
+    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.6);
 }
 
 .hero p {
     font-size: clamp(1.1rem, 2vw, 1.4rem);
-    color: rgba(255,255,255,0.95);
+    color: rgba(255, 255, 255, 0.95);
     margin-bottom: 2rem;
-    text-shadow: 0 2px 12px rgba(0,0,0,0.6);
+    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.6);
 }
 
 .hero-actions {
@@ -397,26 +390,26 @@ body {
     background: #0A7A8C;
     color: #ffffff;
     border: none;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
 }
 
 .hero-actions .btn-primary:hover {
     background: #086b7a;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.35);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.35);
 }
 
 .hero-actions .btn-ghost {
-    background: rgba(255,255,255,0.18);
-    border: 1px solid rgba(255,255,255,0.9);
+    background: rgba(255, 255, 255, 0.18);
+    border: 1px solid rgba(255, 255, 255, 0.9);
     color: #ffffff;
-    text-shadow: 0 2px 8px rgba(0,0,0,0.55);
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.55);
     backdrop-filter: blur(4px);
-    box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
 }
 
 .hero-actions .btn-ghost:hover {
-    background: rgba(255,255,255,0.28);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.35);
+    background: rgba(255, 255, 255, 0.28);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
     color: #ffffff; /* stadig hvid tekst */
 }
 
@@ -425,7 +418,7 @@ body {
 /*                     MOBILE HERO TWEAKS                    */
 /* ========================================================= */
 
-@media (max-width: 600px) {
+@media (max-width: 767px) {
     .hero {
         height: clamp(420px, 60vh, 520px);
         padding-top: 3rem;
@@ -476,7 +469,10 @@ body {
     line-height: 1.6;
 }
 
-/* Feature cards layout */
+/* ========================== */
+/*      FEATURE CARDS         */
+/* ========================== */
+
 .feature-cards {
     display: flex;
     justify-content: center;
@@ -489,23 +485,22 @@ body {
     border-radius: 16px;
     padding: 2rem 1.5rem;
     max-width: 300px;
-    box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
     text-align: center;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .feature-card:hover {
     transform: translateY(-4px);
-    box-shadow: 0 12px 28px rgba(0,0,0,0.12);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
 }
 
-/* Circle behind icon */
 .icon-circle {
     width: 80px;
     height: 80px;
     border-radius: 50%;
     margin: 0 auto 1rem;
-    background: #E2F3F5;   /* lys turkis standardcirkel */
+    background: #E2F3F5;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -516,13 +511,12 @@ body {
     height: 44px;
 }
 
-/* Optional farvekodning */
 .icon-circle.sauna {
-    background: #FBE8D3; /* varm beige/orange */
+    background: #FBE8D3;
 }
 
 .icon-circle.snow {
-    background: #E5F0FF; /* kold blålig */
+    background: #E5F0FF;
 }
 
 .feature-card h3 {
@@ -559,7 +553,6 @@ body {
     margin-bottom: 3rem;
 }
 
-/* Grid layout */
 .sauna-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -572,14 +565,13 @@ body {
     }
 }
 
-/* Sauna card */
 .sauna-card,
 .membership-card {
     background: #ffffff;
     border-radius: 12px;
     padding: 2.5rem;
     text-align: left;
-    border: 2px solid rgba(0,0,0,0.08);
+    border: 2px solid rgba(0, 0, 0, 0.08);
 }
 
 .sauna-card h3,
@@ -589,7 +581,6 @@ body {
     font-weight: 700;
 }
 
-/* Sauna list */
 .sauna-list {
     list-style: none;
     margin-top: 2rem;
@@ -610,7 +601,6 @@ body {
     flex-shrink: 0;
 }
 
-/* Membership card styling */
 .membership-card {
     border: 2px solid #0A7A8C;
 }
@@ -654,7 +644,6 @@ body {
     font-weight: 700;
 }
 
-/* Button full width */
 .membership-btn {
     width: 100%;
     text-align: center;
@@ -664,7 +653,7 @@ body {
 }
 
 /* -------------------------------------- */
-/* OPENING HOURS SECTION                   */
+/*          OPENING HOURS SECTION         */
 /* -------------------------------------- */
 
 .hours-section {
@@ -699,8 +688,8 @@ body {
     background: white;
     padding: 2.5rem 2rem;
     border-radius: 18px;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.08);
-    border: 1px solid rgba(10,122,140,0.15);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+    border: 1px solid rgba(10, 122, 140, 0.15);
 }
 
 .hours-card h3 {
@@ -718,11 +707,11 @@ body {
     font-weight: 500;
 }
 
-.membergus-label {
+.membersauna-label {
     color: #0A7A8C;
 }
 
-.opengus-label {
+.opensauna-label {
     color: #D97304;
 }
 
@@ -732,7 +721,7 @@ body {
 }
 
 /* MOBILE */
-@media (max-width: 600px) {
+@media (max-width: 767px) {
     .hours-card {
         padding: 2rem 1.2rem;
     }
@@ -747,7 +736,7 @@ body {
 }
 
 /* ============================ */
-/*     GALLERY / SLIDER         */
+/*      GALLERY / SLIDER        */
 /* ============================ */
 
 .gallery-section {
@@ -789,10 +778,9 @@ body {
     object-fit: cover;
     border-radius: 16px;
     flex-shrink: 0;
-    box-shadow: 0 8px 28px rgba(0,0,0,0.15);
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.15);
 }
 
-/* Buttons */
 .gallery-btn {
     position: absolute;
     top: 50%;
@@ -805,14 +793,14 @@ body {
     font-size: 1.4rem;
     color: #0b2430;
     cursor: pointer;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.18);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.18);
     transition: background 0.2s ease, box-shadow 0.2s ease;
     z-index: 5;
 }
 
 .gallery-btn:hover {
     background: #eef9fa;
-    box-shadow: 0 4px 14px rgba(0,0,0,0.25);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
 }
 
 .gallery-btn.left {
@@ -823,319 +811,290 @@ body {
     right: -10px;
 }
 
-/* Mobile adjustments */
-@media (max-width: 600px) {
+/* ============================ */
+/*        MOBILE GALLERY        */
+/* ============================ */
+
+@media (max-width: 767px) {
     .gallery-item {
         width: 85vw;
         height: 240px;
     }
-
     .gallery-btn {
         display: none;
     }
-}
-/* =========================================================
-   BOOK SAUNA — SECTION WRAPPER
-   ========================================================= */
+    .gallery-track {
+        display: flex;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        gap: 1rem;
+        padding: 0 1rem;
+    }
 
-.booking-section {
-    padding: 4.5rem 1rem;
-    background: #ffffff;
+    .gallery-item {
+        flex: 0 0 85%;
+        scroll-snap-align: center;
+        border-radius: 16px;
+        overflow: hidden;
+    }
+
+    /* Hide arrows on mobile */
+    .gallery-arrow {
+        display: none;
+    }
 }
 
-.booking-section .container {
-    max-width: 1200px;
+/* ========================= */
+/*  MEMBER UPDATES SECTION   */
+/* ========================= */
+
+.updates-section {
+    padding: 4rem 1rem 6rem;
+    max-width: 900px;
     margin: 0 auto;
+    text-align: center;
 }
 
-.section-title {
+.updates-header {
+    margin-bottom: 2rem;
+}
+
+.updates-empty-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 64px;
+    height: 64px;
+
+    background: #e8f4f8;
+    border-radius: 50%;
+    margin: 0 auto 1rem auto;
+}
+
+.updates-empty-icon img {
+    width: 28px;
+    height: 28px;
+    opacity: 0.85;
+}
+
+.updates-header h2 {
     font-family: "Playfair Display", serif;
     font-size: 2.6rem;
     color: #0b2430;
-    text-align: center;
-    margin-bottom: 0.25rem;
+    display: block;
+    margin-top: .5rem;
 }
 
-.section-sub {
-    text-align: center;
-    color: rgba(11, 36, 48, 0.65);
-    margin-bottom: 1.6rem;
+.updates-card {
+    padding: 4rem 2rem;
+    background: #ffffff;
+    border-radius: 18px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.06);
+    margin-bottom: 2rem;
+    border: 1px solid rgba(10, 122, 140, 0.15);
+}
+
+.updates-empty-title {
+    font-size: 1.4rem;
+    color: #0b2430;
+    font-weight: 600;
+    margin-bottom: .4rem;
+}
+
+.updates-empty-text {
+    font-size: 1rem;
+    color: rgba(11,36,48,0.65);
 }
 
 
-/* =========================================================
-   WEEK CONTROLS
-   ========================================================= */
+/* ========================= */
+/*     CONTACT SECTION       */
+/* ========================= */
 
-.booking-controls {
+.contact-section {
+    padding: 4rem 1rem 5rem;
+    text-align: center;
+}
+
+.contact-title {
+    font-family: "Playfair Display", serif;
+    font-size: 2.8rem;
+    color: #0b2430;
+    margin-bottom: .4rem;
+}
+
+.contact-sub {
+    color: rgba(11,36,48,0.65);
+    font-size: 1.2rem;
+    margin-bottom: 2.5rem;
+}
+
+.contact-grid {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+}
+
+.contact-card {
+    background: #ffffff;
+    padding: 2.5rem 1.6rem;
+    border-radius: 16px;
+    box-shadow: 0 12px 32px rgba(0,0,0,0.06);
+    transition: transform .2s ease, box-shadow .2s ease;
+    border: 1px solid rgba(10, 122, 140, 0.15);
+}
+
+.contact-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 18px 38px rgba(0,0,0,0.08);
+}
+
+.icon-circle {
+    width: 90px;
+    height: 90px;
+    background: #e8f4f8;
+    border-radius: 50%;
+    margin: 0 auto 1rem;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 1rem;
-    margin-bottom: 1.25rem;
 }
 
-.week-nav {
-    background: transparent;
-    border: 1px solid rgba(11, 36, 48, 0.08);
-    padding: 0.6rem 1rem;
-    border-radius: 8px;
-    cursor: pointer;
+.icon-circle img {
+    width: 42px;
+    height: 42px;
 }
 
-.week-range {
+.contact-card h3 {
+    font-size: 1.4rem;
+    color: #0b2430;
+    margin-bottom: .6rem;
+}
+
+.contact-card p {
+    color: rgba(11,36,48,0.75);
+    font-size: 1.05rem;
+    line-height: 1.45;
+}
+
+/* MOBILE */
+@media (max-width: 767px) {
+    .contact-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+}
+
+/* ========================= */
+/*          FOOTER           */
+/* ========================= */
+
+.footer {
+    background: #f7fbfc;
+    padding: 3rem 1rem;
+    margin-top: 4rem;
+    border-top: 1px solid rgba(0,0,0,0.06);
+}
+
+.footer-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.footer-title {
+    font-size: 1.4rem;
     font-weight: 600;
     color: #0b2430;
+    margin-bottom: 1rem;
 }
 
-
-/* =========================================================
-   CALENDAR LAYOUT
-   ========================================================= */
-
-.calendar-wrapper {
-    position: relative;
-    overflow: visible;
-}
-
-.calendar-grid {
+.footer-socials {
     display: flex;
-    align-items: flex-start;
-    gap: 1rem;
+    justify-content: center;
+    gap: 1.4rem;
+    margin-bottom: 1.5rem;
 }
 
+.footer-socials img {
+    width: 26px;
+    height: 26px;
+    opacity: 0.9;
+    transition: opacity .25s ease;
+}
 
-/* =========================================================
-   TIME COLUMN (LEFT)
-   ========================================================= */
+.footer-socials a:hover img {
+    opacity: 1;
+}
 
-.time-col {
-    width: 88px;
+.footer-links {
     display: flex;
-    flex-direction: column;
-    gap: 1.35rem;
-    padding-top: 1.2rem;
-    color: rgba(11, 36, 48, 0.6);
+    justify-content: center;
+    gap: 0.7rem;
+    margin-bottom: 1.2rem;
     font-size: 0.95rem;
 }
 
-.time-col .time-slot {
-    height: 56px;
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    padding-right: 10px;
+.footer-links a {
+    color: #0A7A8C;
+    text-decoration: none;
 }
 
-
-/* =========================================================
-   DAYS — HEADER ROW
-   ========================================================= */
-
-.days-col {
-    flex: 1;
+.footer-links a:hover {
+    text-decoration: underline;
 }
 
-.days-row {
-    display: flex;
-    justify-content: space-between;
-    gap: 1rem;
-    padding: 0.6rem 0;
+.footer-copy {
+    font-size: 0.85rem;
+    color: rgba(11,36,48,0.55);
 }
 
-.days-row .day {
-    flex: 1;
-    text-align: center;
-    font-weight: 600;
-    color: rgba(11, 36, 48, 0.8);
-}
+/* ============================ */
+/*    SCROLL TO TOP BUTTON      */
+/* ============================ */
 
-
-/* =========================================================
-   DAYS — COLUMN GRID BODY
-   ========================================================= */
-
-.days-body {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 1rem;
-    position: relative;
-}
-
-.day-col {
-    min-height: calc(56px * 15); /* enough for 15 hourly rows */
-    padding-top: 1.2rem;
-    position: relative;
-    background: transparent;
-    border-radius: 8px;
-}
-
-
-/* =========================================================
-   GUS BLOCKS — SHARED BASE STYLES
-   ========================================================= */
-
-.gus-block {
-    position: absolute;
-    left: 12%;
-    right: 8%;
-    padding: 0.75rem 1rem;
-    border-radius: 10px;
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    cursor: pointer;
-
-    box-shadow: 0 6px 16px rgba(9, 22, 26, 0.06);
-    border-left: 4px solid transparent;
-}
-
-/* Medlemsgus */
-.gus-member {
-    background: linear-gradient(180deg, #e8f6f8 0%, #dff2f4 100%);
-    border-left-color: #0A7A8C;
-    color: #083b43;
-}
-
-/* Åben gus */
-.gus-open {
-    background: linear-gradient(180deg, #f6ecff 0%, #f3e8ff 100%);
-    border-left-color: #8b5cf6;
-    color: #1e2b3a;
-}
-
-/* Block inner text */
-.gus-block .title {
-    font-weight: 700;
-    font-size: 1rem;
-}
-
-.gus-block .meta {
-    font-size: 0.9rem;
-    color: rgba(11, 36, 48, 0.65);
-    display: flex;
-    gap: 0.5rem;
-    align-items: center;
-}
-
-.gus-cap {
-    font-weight: 600;
-    color: #0b2430;
-}
-
-
-/* =========================================================
-   CURRENT TIME INDICATOR LINE
-   ========================================================= */
-
-.time-indicator {
-    position: absolute;
-    left: 88px;
-    right: 0;
-    height: 2px;
-    background: #d53f3f;
-    transform: translateY(-1px);
-    z-index: 6;
-    display: none; /* toggled via JS */
-}
-
-
-/* =========================================================
-   RESPONSIVE
-   ========================================================= */
-
-@media (max-width: 900px) {
-
-    .calendar-grid {
-        flex-direction: column;
-    }
-
-    .time-col {
-        display: none;
-    }
-
-    .days-body {
-        grid-template-columns: 1fr;
-    }
-
-    .days-row {
-        display: none;
-    }
-}
-
-
-/* =========================================================
-   POPUP — OVERLAY + WINDOW
-   ========================================================= */
-
-.booking-pop {
+#scrollTopBtn {
     position: fixed;
-    inset: 0;
-    display: grid;
-    place-items: center;
-    padding: 2rem;
-
-    pointer-events: none;
-    z-index: 1200;
-}
-
-.booking-pop[aria-hidden="true"] {
+    bottom: 32px;
+    right: 32px;
+    width: 48px;
+    height: 48px;
+    border: none;
+    border-radius: 50%;
+    background: #0A7A8C;
+    color: white;
+    font-size: 1.4rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
     opacity: 0;
-    transform: translateY(6px);
+    pointer-events: none;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    z-index: 2000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255,255,255,0.55);
+    backdrop-filter: blur(6px);
 }
 
-.booking-pop[aria-hidden="false"] {
+#scrollTopBtn.show {
     opacity: 1;
     pointer-events: auto;
+    transform: translateY(0);
 }
 
-.pop-inner {
-    width: 100%;
-    max-width: 520px;
-    background: #ffffff;
-    border-radius: 12px;
-    padding: 1.6rem;
-
-    position: relative;
-    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.15);
+#scrollTopBtn:hover {
+    background: #086b7a;
 }
 
-.pop-close {
-    position: absolute;
-    top: 12px;
-    right: 12px;
-    background: none;
-    border: none;
-    font-size: 20px;
-    cursor: pointer;
+#scrollTopBtn img {
+    width: 22px;
+    height: 22px;
+    display: block;
+    align-self: center;
+    filter: drop-shadow(0 1px 3px rgba(0,0,0,0.45));
 }
 
-.pop-content .detail {
-    margin-bottom: 0.5rem;
-    color: rgba(11, 36, 48, 0.75);
-}
-
-.booking-form .form-row {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    margin-bottom: 0.6rem;
-}
-
-.booking-form input {
-    padding: 0.6rem 0.7rem;
-    border-radius: 6px;
-    border: 1px solid rgba(11, 36, 48, 0.09);
-}
-
-.pop-actions {
-    display: flex;
-    justify-content: flex-end;
-    gap: 0.6rem;
-    margin-top: 0.6rem;
-}
-
-.booking-confirm {
-    text-align: center;
-    padding: 1rem 0;
-}

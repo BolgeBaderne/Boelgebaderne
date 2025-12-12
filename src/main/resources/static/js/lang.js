@@ -1,5 +1,5 @@
 // -------------------------------------------
-// 1. TRANSLATION DICTIONARY
+// TRANSLATION DICTIONARY
 // -------------------------------------------
 const translations = {
     da: {
@@ -60,7 +60,7 @@ const translations = {
 };
 
 // -------------------------------------------
-// 2. UPDATE TEXT BASED ON SELECTED LANGUAGE
+// UPDATE TEXT BASED ON SELECTED LANGUAGE
 // -------------------------------------------
 function updateLanguage(lang) {
     const elements = document.querySelectorAll("[data-i18n]");
@@ -74,12 +74,12 @@ function updateLanguage(lang) {
         }
     });
 
-    // gem valg
+    // Save choice
     localStorage.setItem("lang", lang);
 }
 
 // -------------------------------------------
-// 3. LANGUAGE SWITCH BUTTON HANDLER
+// LANGUAGE SWITCH BUTTON HANDLER
 // -------------------------------------------
 document.querySelectorAll(".lang-switch").forEach(button => {
     button.addEventListener("click", () => {
