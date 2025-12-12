@@ -3,6 +3,7 @@ package com.example.bolgebaderne.service;
 import com.example.bolgebaderne.exceptions.EventNotFoundException;
 import com.example.bolgebaderne.exceptions.WaitlistNotAllowedException;
 import com.example.bolgebaderne.model.*;
+import com.example.bolgebaderne.repository.BookingRepository;
 import com.example.bolgebaderne.repository.SaunaEventRepository;
 import com.example.bolgebaderne.repository.UserRepository;
 import com.example.bolgebaderne.repository.WaitlistEntryRepository;
@@ -16,14 +17,18 @@ public class WaitlistEntryService {
     private WaitlistEntryRepository waitlistRepo;
     private SaunaEventRepository eventRepo;
     private UserRepository userRepo;
-
+    private final BookingRepository bookingRepo;
+    private final NotificationService notificationService;
 
     public WaitlistEntryService(WaitlistEntryRepository waitlistRepo,
-                           SaunaEventRepository eventRepo,
-                           UserRepository userRepo) {
+                                SaunaEventRepository eventRepo, UserRepository userRepo,
+                                BookingRepository bookingRepo,
+                                NotificationService notificationService) {
         this.waitlistRepo = waitlistRepo;
         this.eventRepo = eventRepo;
         this.userRepo = userRepo;
+        this.bookingRepo = bookingRepo;
+        this.notificationService = notificationService;
     }
 
     public WaitlistEntry addToWaitlist(int userId, int eventId, WaitlistType type) {
@@ -52,15 +57,31 @@ public class WaitlistEntryService {
 
     //Metode til at holde styr på ventelisten, og give listen en prioriteret rækkefølge
     public void promoteFirstInQueue(SaunaEvent saunaEvent) {
-        List<WaitlistEntry> queue = waitlistRepo.findBySaunaEventOrderByPositionAsc(saunaEvent);
+        List<WaitlistEntry> queue =
+                waitlistRepo.findBySaunaEventOrderByPositionAsc(saunaEvent);
 
-        if (queue.isEmpty()) return;
+        if (queue.isEmpty()) {
+            return; // ingen på ventelisten
+        }
 
-        WaitlistEntry next = queue.get(0); //Her så kører den listen igennem, og sørger for at den første i ventelisten
-                                          //kommer først i listen
-        next.promoteToBooking();
-        waitlistRepo.delete(next); //her bliver 'brugeren' slettet efter de er blevet promoted væk fra ventelisten
+        WaitlistEntry next = queue.get(0);   // første i køen
+
+        // 1) Lav booking til brugeren
+        Booking booking = new Booking();
+        booking.setUser(next.getUser());
+        booking.setSaunaEvent(saunaEvent);
+        booking.setCreatedAt(LocalDateTime.now());
+        booking.setStatus(BookingStatus.ACTIVE);
+
+        bookingRepo.save(booking);
+
+        // 2) Fjern fra ventelisten
+        waitlistRepo.delete(next);
+
+        // 3) Send "notifikation"
+        notificationService.sendWaitlistPromotion(next.getUser(), saunaEvent);
     }
+
 
 
     public SaunaEvent getEventOrThrow(int eventId) {

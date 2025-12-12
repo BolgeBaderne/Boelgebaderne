@@ -41,3 +41,10 @@ VALUES
 -- =============================
 -- NO BOOKINGS OR WAITLIST ENTRIES YET
 -- =============================
+-- Booking til user 1
+INSERT INTO bookings (booking_id, created_at, status, user_id, event_id)
+VALUES (1, CURRENT_TIMESTAMP, 'ACTIVE', 1, 1);
+
+-- Waitlist-entry til user 2
+INSERT INTO waitlist_entries (entry_id, position, created_at, promoted, type, user_id, event_id)
+VALUES (1, 1, CURRENT_TIMESTAMP, FALSE, 'MEMBER', 2, 1);
