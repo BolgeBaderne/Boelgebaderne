@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="https://foreninglet-static-files.s3.eu-west-1.amazonaws.com/static/icon/favicon.ico">
+    <title>Bølgebaderne</title>
+    <link rel="stylesheet" href="/css/style.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<!-- NAVBAR -->
+<header class="site-header">
+    <div class="header-inner">
+
+        <!-- LOGO -->
+        <a href="/" class="logo" aria-label="Bølgebaderne - hjem">
+            <img src="/images/logo.png" alt="Bølgebaderne logo">
+        </a>
+
+        <!-- MOBILE LANGUAGE SWITCH -->
+        <div class="mobile-lang">
+            <button class="lang-switch" data-lang="da">DA</button>
+            <button class="lang-switch" data-lang="en">EN</button>
+        </div>
+
+        <!-- HAMBURGER MENU -->
+        <button class="nav-toggle"
+                aria-expanded="false"
+                aria-controls="main-nav"
+                aria-label="Åbn menu">
+            <span class="bars" aria-hidden="true">☰</span>
+        </button>
+
+        <!-- NAVIGATION WRAPPER -->
+        <nav id="main-nav" class="main-nav" aria-label="Hovednavigation">
+
+            <!-- CLOSE BUTTON (MOBILE) -->
+            <button class="close-menu" aria-label="Luk menu">×</button>
+
+            <!-- CENTERED NAVIGATION -->
+            <ul class="nav-list">
+                <li><a href="/about.html" data-i18n="nav.about">Om os</a></li>
+                <li><a href="/membership.html" data-i18n="nav.membership">Medlemskab</a></li>
+                <li><a href="/sauna-info.html" data-i18n="nav.sauna">Sauna info</a></li>
+                <li><a href="/faq.html" data-i18n="faq">FAQ</a></li>
+                <li><a href="#contact" data-i18n="nav.contact">Kontakt</a></li>
+            </ul>
+
+            <!-- LANGUAGE SWITCH (DESKTOP)-->
+            <div class="desktop-lang">
+                <button class="lang-switch" data-lang="da">DA</button>
+                <button class="lang-switch" data-lang="en">EN</button>
+            </div>
+
+            <!-- RIGHT SIDE (DESKTOP) -->
+            <div class="top-right-controls">
+                <a class="btn btn-primary" href="/login" data-i18n="actions.login">Log ind</a>
+            </div>
+
+        </nav>
+    </div>
+</header>
+
+<!-- OVERLAY -->
+<div class="menu-overlay"></div>
+
+
+<!-- HERO SECTION -->
+<section id="hero" class="hero">
+    <div class="hero-content">
+    <h1 data-i18n="hero.title">Bølgebaderne</h1>
+        <p data-i18n="hero.subtitle">Et fællesskab for helårsbadere ved Kalvebod Bølge i København</p>
+
+        <div class="hero-actions">
+            <a href="#membership" class="btn btn-primary" data-i18n="hero.ctaPrimary">
+                Bliv medlem
+            </a>
+            <a href="#about" class="btn btn-ghost" data-i18n="hero.ctaSecondary">
+                Læs mere
+            </a>
+
+        </div>
+    </div>
+</section>
+
+<!-- INTRO -->
+<section id="intro" class="intro">
+    <h2>Velkommen til Bølgebaderne</h2>
+    <p class="intro-text">
+        Bølgebaderne er en forening af passionerede københavnere, der vinterbader ved Bølgen.
+        Vi har stiftet en forening med det formål at være med til at skabe et positivt og inkluderende fællesskab ved Bølgen.
+        Vi vil gerne have, at alle har adgang til stedet og til at blive inspireret af vinterbadning og det skønne sammenhold på tværs alle befolkningsgrupper.
+    </p>
+
+    <div class="feature-cards">
+        <article class="feature-card">
+            <div class="icon-circle">
+                <img src="/icons/wave.svg" alt="bølge ikon">
+            </div>
+            <h3>Havbad året rundt</h3>
+            <p>Et levende fællesskab af helårsbadere ved Kalvebod Bølge.</p>
+        </article>
+
+        <article class="feature-card">
+            <div class="icon-circle sauna">
+                <img src="/icons/flame.svg" alt="flamme ikon">
+            </div>
+            <h3>Sauna</h3>
+            <p>Saunagus og afslapning efter vinterbadningen.</p>
+        </article>
+
+        <article class="feature-card">
+            <div class="icon-circle snow">
+                <img src="/icons/snowflake.svg" alt="snefnug ikon">
+            </div>
+            <h3>Frisk luft & kolde dyp</h3>
+            <p>Et boost til krop og sind i vinterhalvåret.</p>
+        </article>
+    </div>
+</section>
+
+<!-- SAUNA & MEMBERSHIP -->
+<section class="sauna-membership" id="sauna">
+    <h2 class="section-title">Sauna & Medlemskab</h2>
+    <p class="section-subtitle">Oplev varmen efter dit kolde dyp</p>
+
+    <div class="sauna-grid">
+
+        <!-- Sauna info card -->
+        <div class="sauna-card">
+            <h3>Saunagus</h3>
+            <p class="sauna-text">
+                Vores saunagus er tilgængelig for medlemmer og gæster er velkommen i åben sauna.
+            </p>
+
+            <ul class="sauna-list">
+                <li>
+                    <img src="/icons/flame.svg" alt="" />
+                    <div>
+                        <strong>Medlemsgus</strong>
+                        <p>Kun for medlemmer – rolig og privat atmosfære</p>
+                    </div>
+                </li>
+
+                <li>
+                    <img src="/icons/wave.svg" alt="" />
+                    <div>
+                        <strong>Åben sauna</strong>
+                        <p>Åben for alle – mød nye mennesker</p>
+                    </div>
+                </li>
+
+                <li>
+                    <img src="/icons/thermometer.svg" alt="" />
+                    <div>
+                        <strong>Faciliteter</strong>
+                        <p>Elektrisk sauna med plads til 12 personer</p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Membership card -->
+        <div class="membership-card">
+            <h3>Medlemskab</h3>
+
+            <p class="membership-price">
+                <span class="amount">650 kr</span><span class="period">/år</span>
+            </p>
+
+            <ul class="membership-benefits">
+                <li>Adgang til saunaen i alle åbningstider</li>
+                <li>Adgang til medlemsgus</li>
+                <li>Del af et stærkt fællesskab</li>
+                <li>Events og sociale aktiviteter</li>
+            </ul>
+
+            <a href="#" class="btn btn-primary membership-btn">Bliv medlem nu</a>
+        </div>
+
+    </div>
+</section>
+
+
+<!-- OPENING HOURS -->
+<section class="hours-section" id="hours">
+    <div class="hours-header">
+        <img src="/icons/clock.svg" alt="Ur-ikon" class="hours-icon">
+        <h2>Åbningstider i dag</h2>
+    </div>
+
+    <div class="hours-card">
+        <h3 id="today-name">Onsdag</h3>
+
+        <p class="hours-line">
+            <span class="label membersauna-label">Medlem:</span>
+            <span id="member-hours" class="hours-value">14–18</span>
+        </p>
+
+        <p class="hours-line">
+            <span class="label opensauna-label">Offentlig:</span>
+            <span id="open-hours" class="hours-value">9-11</span>
+        </p>
+
+        <p>I timer med offentlig adgang har gæster med billet fortrinsret. Medlemmer af foreningen kan dog benytte saunaen, hvis der er ledige pladser.</p>
+    </div>
+</section>
+
+
+<!-- GALLERY / SLIDER -->
+<section class="gallery-section" id="gallery">
+    <h2 class="gallery-title">Oplev Bølgebaderne</h2>
+    <p class="gallery-subtitle">
+        Et kig ind i vores fællesskab ved havet – fra gusoplevelser til helårsbadning
+    </p>
+
+    <div class="gallery-wrapper">
+
+        <button class="gallery-btn left" id="galleryPrev">‹</button>
+
+        <div class="gallery-track" id="galleryTrack">
+            <img src="/images/gallery-stand-in-1.jpg" alt="" class="gallery-item">
+            <img src="/images/gallery-stand-in-8.jpg" alt="" class="gallery-item">
+            <img src="/images/gallery-stand-in-2.jpg" alt="" class="gallery-item">
+            <img src="/images/gallery-stand-in-9.jpg" alt="" class="gallery-item">
+            <img src="/images/gallery-stand-in-3.jpg" alt="" class="gallery-item">
+            <img src="/images/gallery-stand-in-10.jpg" alt="" class="gallery-item">
+            <img src="/images/gallery-stand-in-4.jpg" alt="" class="gallery-item">
+            <img src="/images/gallery-stand-in-11.jpg" alt="" class="gallery-item">
+            <img src="/images/gallery-stand-in-5.jpg" alt="" class="gallery-item">
+            <img src="/images/gallery-stand-in-12.jpg" alt="" class="gallery-item">
+            <img src="/images/gallery-stand-in-6.jpg" alt="" class="gallery-item">
+            <img src="/images/gallery-stand-in-7.jpg" alt="" class="gallery-item">
+        </div>
+
+        <button class="gallery-btn right" id="galleryNext">›</button>
+
+    </div>
+</section>
+
+
+<!-- BOOKING / CALENDAR -->
+TODO: Needs implementation
+
+<!-- MEMBER UPDATES -->
+<section id="updates" class="updates-section">
+    <div class="updates-header">
+        <h2 data-i18n="updates.title">Medlemsopdateringer</h2>
+    </div>
+
+    <div class="updates-card">
+        <div class="updates-empty-icon">
+            <img src="/icons/speech-balloon.svg" alt="tankeboble" />
+        </div>
+        <p class="updates-empty-title" data-i18n="updates.emptyTitle">
+            Ingen opdateringer endnu
+        </p>
+        <p class="updates-empty-text" data-i18n="updates.emptyText">
+            Log ind for at oprette opdateringer som medlem
+        </p>
+    </div>
+</section>
+
+
+<!-- CONTACT -->
+<section id="contact" class="contact-section">
+    <h2 class="contact-title">Kontakt os</h2>
+    <p class="contact-sub">Har du spørgsmål eller vil du være en del af fællesskabet?</p>
+
+    <div class="contact-grid">
+        <!-- EMAIL -->
+        <div class="contact-card">
+            <div class="icon-circle">
+                <img src="icons/email.svg" alt="Email-ikon">
+            </div>
+            <h3>Email</h3>
+            <p>kontakt@bolgebaderne.dk</p>
+        </div>
+
+        <!-- ADDRESS -->
+        <div class="contact-card">
+            <div class="icon-circle">
+                <img src="icons/location.svg" alt="Lokation-ikon">
+            </div>
+            <h3>Adresse</h3>
+            <p>
+                Kalvebod Bølge<br>
+                København
+            </p>
+        </div>
+
+        <!-- VISIT US -->
+        <div class="contact-card">
+            <div class="icon-circle">
+                <img src="icons/clock.svg" alt="Ur-ikon">
+            </div>
+            <h3>Besøg os</h3>
+            <p>
+                Vi er ved vandet hver dag<br>
+                Se åbningstider ovenfor
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+    <div class="footer-inner">
+
+        <p class="footer-title">Følg os</p>
+
+        <div class="footer-socials">
+            <a href="https://www.facebook.com/groups/405258223878568" target="_blank" aria-label="Facebook">
+                <img src="/icons/facebook.svg" alt="facebook-ikon">
+            </a>
+            <a href="https://www.instagram.com/boelge.baderne/" target="_blank" aria-label="Instagram">
+                <img src="/icons/instagram.svg" alt="instagram-ikon">
+            </a>
+        </div>
+
+        <div class="footer-links">
+            <a href="#">Handelsbetingelser</a>
+            <span>•</span>
+            <a href="#">Privatlivspolitik</a>
+        </div>
+
+        <p class="footer-copy">© 2025 Bølgebaderne</p>
+
+    </div>
+</footer>
+
+<!-- SCROLL TO TOP BUTTON -->
+<button id="scrollTopBtn" aria-label="Til toppen">
+    <img src="/icons/up-arrow.svg" alt="pil op-ikon" />
+</button>
+
+
+<!-- SCRIPTS -->
+<script src="/js/lang.js" defer></script>
+<script src="/js/main.js" defer></script>
+
+
+</body>
+
+</html>
