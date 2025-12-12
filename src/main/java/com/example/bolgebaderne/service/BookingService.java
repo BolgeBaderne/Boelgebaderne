@@ -116,15 +116,15 @@ public class BookingService {
             // ---------- MEDLEMS-ÅBNINGSTIDER ----------
             if (day != DayOfWeek.WEDNESDAY) {
                 // Morgen 07:00–11:00
-                slots.add(makeOpenSlot(date.atTime(7,0), 240, capacity, "Medlem åbning", isMember));
+                slots.add(makeOpenSlot(date.atTime(7,0), 240, capacity, "Medlems åbent", isMember));
                 // Aften 16:00–21:00
-                slots.add(makeOpenSlot(date.atTime(16,0), 300, capacity, "Medlem åbning", isMember));
+                slots.add(makeOpenSlot(date.atTime(16,0), 300, capacity, "Medlems åbent", isMember));
             }
 
             // ---------- ONSDAG SÆRLIG ----------
             if (day == DayOfWeek.WEDNESDAY) {
                 // Medlemmer kun 07:00–09:00
-                slots.add(makeOpenSlot(date.atTime(7,0), 120, capacity, "Medlem åbning", isMember));
+                slots.add(makeOpenSlot(date.atTime(7,0), 120, capacity, "Medlems åbent", isMember));
 
                 // Offentlig 09:00–11:00
                 slots.add(makeGuestSlot(date.atTime(9,0), 120, capacity));
@@ -146,7 +146,7 @@ public class BookingService {
 
             // Torsdag 17:30–18:30
             if (day == DayOfWeek.THURSDAY) {
-                slots.add(makeGusSlot(date.atTime(17,30), 60, capacity, "Medlemsgus 17:30"));
+                slots.add(makeGusSlot(date.atTime(17,30), 60, capacity, "Medlemsgus"));
             }
 
             // Torsdag 20–21
@@ -156,7 +156,7 @@ public class BookingService {
 
             // Fredag 07–08 (gus)
             if (day == DayOfWeek.FRIDAY) {
-                slots.add(makeGusSlot(date.atTime(7,0), 60, capacity, "Morgengus"));
+                slots.add(makeGusSlot(date.atTime(7,0), 60, capacity, "Medlemsgus"));
             }
 
             // Onsdag gæste-gus
@@ -182,7 +182,7 @@ public class BookingService {
 
     private AvailableTimeSlotDTO makeGuestSlot(LocalDateTime start, int duration, int capacity) {
         return new AvailableTimeSlotDTO(999,
-                "Offentlig åbning • " + start.toLocalTime() + "-" + start.plusMinutes(duration).toLocalTime(),
+                "Offentlig åbent • " + start.toLocalTime() + "-" + start.plusMinutes(duration).toLocalTime(),
                 start.toString(),
                 capacity,
                 0,

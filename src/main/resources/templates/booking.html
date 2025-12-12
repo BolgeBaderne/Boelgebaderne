@@ -95,7 +95,7 @@
 
         .day-body {
             position: relative;
-            min-height: 660px; /* 11 timer á 60px fx 8–19 */
+            min-height: 840px;
         }
 
         .session-card {
@@ -125,6 +125,19 @@
             border: 1px solid #ffc5de;
         }
 
+        /* Baggrund for åbningstider */
+        .session-open-member {
+            background: #d5f5d8;      /* lys grøn */
+            border: none;
+            opacity: 0.7;
+        }
+
+        .session-open-guest {
+            background: #fff7c2;      /* pastel gul */
+            border: none;
+            opacity: 0.8;
+        }
+
         .session-full {
             opacity: 0.5;
         }
@@ -149,15 +162,16 @@
         }
 
         /* RØD TIDS-LINJE (current time) */
+        /* Selve linjen får position/placering via JavaScript */
         #current-time-line {
             position: absolute;
-            left: 80px;     /* svarer til bredden på tids-kolonnen */
-            right: 0;
             height: 2px;
             background-color: #ff2d55;
             z-index: 10;
             pointer-events: none;
+            display: none; /* skjult, hvis vi ikke er på nuværende dag/uge */
         }
+
 
         /* Grå/låste dage (tidligere i ugen) */
         .past-day {

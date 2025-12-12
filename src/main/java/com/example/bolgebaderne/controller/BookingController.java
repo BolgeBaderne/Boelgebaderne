@@ -19,6 +19,7 @@ public class BookingController {
         this.bookingService = bookingService;
     }
 
+    // Det gamle endpoint (bruger sauna_events-tabellen)
     @GetMapping("/available")
     public List<AvailableTimeSlotDTO> getAvailable(@RequestParam int userId) {
         return bookingService.getAvailableSlots(userId);
@@ -29,13 +30,13 @@ public class BookingController {
         return bookingService.createBooking(request);
     }
 
-    @GetMapping("/api/bookings/week")
+    // NYT: Generér ugeskema dynamisk ud fra reglerne
+    @GetMapping("/week")
     public List<AvailableTimeSlotDTO> getWeek(
             @RequestParam int userId,
-            @RequestParam String weekStart) {
-
-        LocalDate start = LocalDate.parse(weekStart);
+            @RequestParam String weekStart
+    ) {
+        LocalDate start = LocalDate.parse(weekStart);   // fx "2025-12-08"
         return bookingService.generateWeeklySchedule(userId, start);
     }
-
 }

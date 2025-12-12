@@ -43,11 +43,18 @@ function startOfWeek(date) {
 }
 
 // ------------------------------
-// Hent slots fra backend
+// Hent slots fra backend for den aktuelle uge
 // ------------------------------
+
 async function loadSlots() {
+    // currentWeekStart er allerede mandag i den uge vi viser
+    const weekStartStr = currentWeekStart.toISOString().split("T")[0]; // "yyyy-MM-dd"
+
     try {
-        const res = await fetch(`/api/bookings/available?userId=${userId}`);
+        const res = await fetch(
+            `/api/bookings/week?userId=${userId}&weekStart=${weekStartStr}`
+        );
+
         if (!res.ok) {
             console.error("Fejl fra backend:", res.status);
             allSlots = [];
@@ -62,6 +69,7 @@ async function loadSlots() {
     renderCalendar();
     updateCurrentTimeLine();
 }
+
 
 // ------------------------------
 // Tegn kalender-ugen
@@ -82,7 +90,7 @@ function renderCalendar() {
     document.getElementById("weekLabel").innerText =
         formatter.format(currentWeekStart) + " - " + formatter.format(weekEnd);
 
-    const startHour = 8;
+    const startHour = 7;
     const endHour = 21;
 
     // Hele uge-kalenderen
@@ -149,22 +157,45 @@ function renderCalendar() {
         daySlots.forEach(slot => {
             const d = parseSlotDate(slot.startTime);
 
+// Hvor højt oppe i kolonnen?
             const top = (d.getHours() - startHour) * 60 + d.getMinutes();
-            const height = 60; // 1 time = 60px
+
+// Forsøg at læse varighed ud fra teksten "HH:MM-HH:MM"
+            let height = 60; // fallback = 1 time
+            const match = slot.title.match(/(\d{2}:\d{2})-(\d{2}:\d{2})/);
+            if (match) {
+                const [_, startStr, endStr] = match;
+                const [sh, sm] = startStr.split(":").map(Number);
+                const [eh, em] = endStr.split(":").map(Number);
+                const startMinutes = sh * 60 + sm;
+                const endMinutes = eh * 60 + em;
+                const durationMinutes = endMinutes - startMinutes;
+                if (durationMinutes > 0) {
+                    height = durationMinutes; // 1 minut = 1px
+                }
+            }
 
             const card = document.createElement("div");
             card.className = "session-card";
 
             const titleUpper = slot.title.toUpperCase();
 
-            // Du vil ikke vise vagt-tider i skemaet
-            if (titleUpper.includes("VAGT")) {
-                return;
-            } else if (titleUpper.includes("GUS")) {
+            const isOpening = titleUpper.includes("ÅBENT");
+            const isMemberOpen = isOpening && titleUpper.includes("MEDLEM");
+            const isGuestOpen = isOpening && titleUpper.includes("OFFENTLIG");
+
+            if (titleUpper.includes("GUS")) {
+                // Gus (som nu, bare én blok)
                 card.classList.add("session-gus");
+            } else if (isMemberOpen) {
+                // Medlems-åbent = grøn baggrund
+                card.classList.add("session-open-member");
+            } else if (isGuestOpen) {
+                // Offentligt åbent = gul baggrund
+                card.classList.add("session-open-guest");
             } else if (titleUpper.includes("MEDLEM")) {
                 card.classList.add("session-member");
-            } else {
+            } else if (titleUpper.includes("OFFENTLIG")) {
                 card.classList.add("session-guest");
             }
 
@@ -190,34 +221,33 @@ function renderCalendar() {
             });
             metaDiv.appendChild(timeSpan);
 
-            const capacitySpan = document.createElement("span");
-            capacitySpan.className = "session-capacity";
-            capacitySpan.innerText = `${slot.booked}/${slot.capacity}`;
-            metaDiv.appendChild(capacitySpan);
-
-            const lockSpan = document.createElement("span");
-            lockSpan.className = "session-lock";
-            if (titleUpper.includes("MEDLEM")) {
-                lockSpan.innerText = "🔒";
-            } else {
-                lockSpan.innerText = "🔓";
+            if (!isMemberOpen) {
+                const capacitySpan = document.createElement("span");
+                capacitySpan.className = "session-capacity";
+                capacitySpan.innerText = `${slot.booked}/${slot.capacity}`;
+                metaDiv.appendChild(capacitySpan);
             }
-            metaDiv.appendChild(lockSpan);
+
 
             card.appendChild(metaDiv);
 
-            // Kun klikbar hvis:
-            // - ikke fuld
-            // - bruger må booke
-            // - dagen ikke er grå (fortid)
-            if (!slot.full && slot.userAllowed && !body.classList.contains("past-day")) {
-                card.addEventListener("click", () => openModal(slot));
-            } else if (slot.full) {
-                card.addEventListener("click", () => showMessage("Denne tid er fuldt booket.", true));
-            } else if (!body.classList.contains("past-day")) {
-                card.addEventListener("click", () => showMessage("Du har ikke adgang til denne tid.", true));
+            // Grøn medlems-åbent: INGEN klik
+            if (!isMemberOpen) {
+                // Kun klikbar hvis:
+                // - ikke fuld
+                // - bruger må booke
+                // - dagen ikke er grå (fortid)
+                if (!slot.full && slot.userAllowed && !body.classList.contains("past-day")) {
+                    card.addEventListener("click", () => openModal(slot));
+                } else if (slot.full) {
+                    card.addEventListener("click", () => showMessage("Denne tid er fuldt booket.", true));
+                } else if (!body.classList.contains("past-day")) {
+                    card.addEventListener("click", () => showMessage("Du har ikke adgang til denne tid.", true));
+                }
             }
 
+            card.style.top = top + "px";
+            card.style.height = height + "px";
             body.appendChild(card);
         });
 
@@ -265,17 +295,38 @@ function updateCurrentTimeLine() {
     if (!grid || !line) return;
 
     const now = new Date();
-    const hour = now.getHours();
-    const minutes = now.getMinutes();
+    const startHour = 7;
+    const endHour = 21;
 
-    const startHour = 8;
-    const minutesFromStart = (hour - startHour) * 60 + minutes;
+    // Vis kun linjen i den uge, hvor vi er nu
+    const thisWeekMonday = startOfWeek(now);
+    if (thisWeekMonday.getTime() !== currentWeekStart.getTime()) {
+        line.style.display = "none";
+        return;
+    }
 
-    // 1 minut = 1px (fordi 60px = 1 time)
-    const y = minutesFromStart;
+    // Find dagens kolonne (0 = mandag, 6 = søndag)
+    const weekdayIndex = (now.getDay() + 6) % 7;
+    const dayCols = grid.querySelectorAll(".calendar-day-col");
+    const todayCol = dayCols[weekdayIndex];
+    if (!todayCol) {
+        line.style.display = "none";
+        return;
+    }
 
-    line.style.top = y + "px";
+    const minutesFromStart = (now.getHours() - startHour) * 60 + now.getMinutes();
+    if (minutesFromStart < 0 || minutesFromStart > (endHour - startHour) * 60) {
+        line.style.display = "none";
+        return;
+    }
+
+    line.style.display = "block";
+    line.style.top = minutesFromStart + "px";
+    line.style.left = todayCol.offsetLeft + "px";
+    line.style.width = todayCol.offsetWidth + "px";
 }
+
+
 
 // ------------------------------
 // Modal + booking
@@ -322,7 +373,7 @@ async function confirmBooking() {
         return;
     }
 
-    msgEl.innerText = "Du har nu booket en tid ✅";
+    msgEl.innerText = "Du har nu booket en tid";
     msgEl.className = "alert alert-success";
 
     setTimeout(() => {
