@@ -28,20 +28,29 @@ function resetEditMode() {
     cancelEditBtn.style.display = "none";
     showMessage("Opret nyt event.", "success");
     form.reset();
-    // sæt default status hvis du vil:
     document.getElementById("status").value = "UPCOMING";
 }
 
-cancelEditBtn.addEventListener("click", () => resetEditMode());
-refreshBtn.addEventListener("click", () => loadEvents());
+cancelEditBtn.addEventListener("click", resetEditMode);
+refreshBtn.addEventListener("click", loadEvents);
+
+// datetime-local -> "YYYY-MM-DDTHH:mm:ss"
+function toIsoLocalDateTime(v) {
+    return v && v.length === 16 ? v + ":00" : v;
+}
+
+// "2025-12-06T08:00:00" -> datetime-local value "2025-12-06T08:00"
+function toDatetimeLocalValue(iso) {
+    if (!iso) return "";
+    return iso.length >= 16 ? iso.substring(0, 16) : iso;
+}
 
 function createRow(event) {
     const tr = document.createElement("tr");
-
     tr.innerHTML = `
     <td>${event.id ?? "-"}</td>
     <td>${event.title ?? "-"}</td>
-    <td>${event.saunagusMasterName ?? event.gusmesterName ?? "-"}</td>
+    <td>${event.saunagusMasterName ?? "-"}</td>
     <td>${event.capacity ?? "-"}</td>
     <td>${event.price ?? 0} kr.</td>
     <td>${event.status ?? "-"}</td>
@@ -52,7 +61,6 @@ function createRow(event) {
       </div>
     </td>
   `;
-
     return tr;
 }
 
@@ -62,13 +70,9 @@ async function loadEvents() {
 
     try {
         const res = await fetch(API_BASE, { credentials: "same-origin" });
-
-        if (!res.ok) {
-            throw new Error(`Kunne ikke hente events. Status: ${res.status}`);
-        }
+        if (!res.ok) throw new Error(`Kunne ikke hente events. Status: ${res.status}`);
 
         const events = await res.json();
-
         if (!Array.isArray(events) || events.length === 0) {
             tbody.innerHTML = `<tr><td colspan="7" class="muted">Ingen events endnu.</td></tr>`;
             return;
@@ -76,7 +80,6 @@ async function loadEvents() {
 
         tbody.innerHTML = "";
         events.forEach(e => tbody.appendChild(createRow(e)));
-
     } catch (err) {
         console.error(err);
         tbody.innerHTML = `<tr><td colspan="7" class="muted">Fejl ved hentning.</td></tr>`;
@@ -97,10 +100,7 @@ tbody.addEventListener("click", async (e) => {
                 method: "DELETE",
                 credentials: "same-origin"
             });
-
-            if (!res.ok) {
-                throw new Error(`Slet fejlede. Status: ${res.status}`);
-            }
+            if (!res.ok) throw new Error(`Slet fejlede. Status: ${res.status}`);
 
             showMessage(`Event #${id} slettet.`, "success");
             await loadEvents();
@@ -115,22 +115,18 @@ tbody.addEventListener("click", async (e) => {
         const id = target.dataset.id;
 
         try {
-            const res = await fetch(`${API_BASE}/${id}`, {
-                credentials: "same-origin"
-            });
-
-            if (!res.ok) {
-                throw new Error(`Kunne ikke hente event #${id}. Status: ${res.status}`);
-            }
+            const res = await fetch(`${API_BASE}/${id}`, { credentials: "same-origin" });
+            if (!res.ok) throw new Error(`Kunne ikke hente event #${id}. Status: ${res.status}`);
 
             const event = await res.json();
 
             document.getElementById("title").value = event.title ?? "";
-            document.getElementById("saunagusMasterName").value =
-                event.saunagusMasterName ?? event.gusmesterName ?? "";
-            document.getElementById("saunagusMasterImageUrl").value =
-                event.saunagusMasterImageUrl ?? event.gusmesterImageUrl ?? "";
+            document.getElementById("startTime").value = toDatetimeLocalValue(event.startTime);
+
+            document.getElementById("saunagusMasterName").value = event.saunagusMasterName ?? "";
+            document.getElementById("saunagusMasterImageUrl").value = event.saunagusMasterImageUrl ?? "";
             document.getElementById("description").value = event.description ?? "";
+
             document.getElementById("durationMinutes").value = event.durationMinutes ?? 45;
             document.getElementById("capacity").value = event.capacity ?? 12;
             document.getElementById("price").value = event.price ?? 99;
@@ -139,7 +135,6 @@ tbody.addEventListener("click", async (e) => {
             form.dataset.editId = id;
             cancelEditBtn.style.display = "inline-block";
             showMessage(`Redigerer event #${id}`, "success");
-
             window.scrollTo({ top: 0, behavior: "smooth" });
         } catch (err) {
             console.error(err);
@@ -156,6 +151,7 @@ form.addEventListener("submit", async (e) => {
         saunagusMasterName: document.getElementById("saunagusMasterName").value.trim(),
         saunagusMasterImageUrl: document.getElementById("saunagusMasterImageUrl").value.trim(),
         description: document.getElementById("description").value.trim(),
+        startTime: toIsoLocalDateTime(document.getElementById("startTime").value),
         durationMinutes: Number(document.getElementById("durationMinutes").value),
         capacity: Number(document.getElementById("capacity").value),
         price: Number(document.getElementById("price").value),
@@ -175,11 +171,10 @@ form.addEventListener("submit", async (e) => {
         });
 
         if (!res.ok) {
-            // prøv at læse JSON-fejl hvis din GlobalExceptionHandler returnerer det
             let msg = `Gem fejlede. Status: ${res.status}`;
             try {
                 const body = await res.json();
-                msg = body.message || body.error || body.details || msg;
+                msg = body.message || body.error || msg;
             } catch {}
             throw new Error(msg);
         }
@@ -195,68 +190,8 @@ form.addEventListener("submit", async (e) => {
     }
 });
 
-// init
 document.addEventListener("DOMContentLoaded", async () => {
     cancelEditBtn.style.display = "none";
     showMessage("Opret nyt event.", "success");
     await loadEvents();
 });
-const form = document.getElementById("createEventForm");
-const msg = document.getElementById("createMsg");
-
-// helper: datetime-local -> "YYYY-MM-DDTHH:mm:ss"
-function toIsoLocalDateTime(datetimeLocalValue) {
-    // browser giver fx: "2025-12-06T08:00"
-    // backend vil typisk gerne have sekunder: "2025-12-06T08:00:00"
-    return datetimeLocalValue.length === 16 ? datetimeLocalValue + ":00" : datetimeLocalValue;
-}
-
-form?.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    msg.textContent = "";
-
-    const fd = new FormData(form);
-
-    const payload = {
-        title: fd.get("title"),
-        saunagusMasterName: fd.get("saunagusMasterName"),
-        saunagusMasterImageUrl: fd.get("saunagusMasterImageUrl") || "",
-        description: fd.get("description"),
-        startTime: toIsoLocalDateTime(fd.get("startTime")),
-        durationMinutes: Number(fd.get("durationMinutes")),
-        capacity: Number(fd.get("capacity")),
-        price: Number(fd.get("price")),
-        status: fd.get("status"),
-    };
-
-    try {
-        const res = await fetch("/api/admin/events", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(payload),
-        });
-
-        if (!res.ok) {
-            // prøv at læse json error fra GlobalExceptionHandler
-            const body = await res.json().catch(() => null);
-            const errMsg = body?.error || body?.message || `Fejl: ${res.status}`;
-            throw new Error(errMsg);
-        }
-
-        const created = await res.json();
-
-        msg.textContent = "✅ Event oprettet!";
-        form.reset();
-
-        // BONUS: opdater listen uden reload (hvis du har en event-liste)
-        // appendEventToTable(created);  // implementér hvis du har table/list
-
-        // Nemt alternativ: bare reload listen (100% sikkert)
-        // location.reload();
-
-    } catch (err) {
-        console.error(err);
-        msg.textContent = "❌ " + err.message;
-    }
-});
-

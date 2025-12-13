@@ -4,14 +4,10 @@
     <meta charset="UTF-8">
     <title>Admin – Events</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <!-- Din nav-fragment hvis du har -->
-    <!-- <div th:replace="fragments/nav :: nav"></div> -->
-
     <link rel="stylesheet" th:href="@{/css/admin-events.css}">
     <script th:src="@{/js/admin-events.js}" defer></script>
-
 </head>
+
 <body>
 
 <header class="topbar">
@@ -22,8 +18,6 @@
             <div class="brand-sub">Event administration</div>
         </div>
     </div>
-
-    <!-- OPRET EVENT-->
 
     <div class="topbar-actions">
         <a class="link" href="/events">Offentlige events</a>
@@ -41,10 +35,17 @@
 
         <div id="formMessage" class="message muted"></div>
 
+        <!-- ✅ ÉN form til både POST og PUT -->
         <form id="eventForm" class="form-grid">
+
             <div class="field">
                 <label for="title">Titel</label>
                 <input id="title" name="title" type="text" placeholder="Fx Morgengus" required>
+            </div>
+
+            <div class="field">
+                <label for="startTime">Dato & tidspunkt</label>
+                <input id="startTime" name="startTime" type="datetime-local" required>
             </div>
 
             <div class="field">
@@ -90,69 +91,9 @@
                 <button class="btn btn-primary" type="submit" id="submitBtn">Gem</button>
                 <button class="btn btn-secondary" type="button" id="cancelEditBtn">Annuller redigering</button>
             </div>
+
         </form>
     </section>
-    <section class="card">
-
-        <!-- OPRET NYT EVENT-->
-        <h2>Opret nyt event</h2>
-
-        <form id="createEventForm" class="form-grid">
-            <label>
-                Titel
-                <input name="title" type="text" required />
-            </label>
-
-            <label>
-                Dato & tidspunkt
-                <!-- LocalDateTime i JSON: 2025-12-06T08:00:00 -->
-                <input name="startTime" type="datetime-local" required />
-            </label>
-
-            <label>
-                Gusmester navn
-                <input name="saunagusMasterName" type="text" required />
-            </label>
-
-            <label>
-                Gusmester billede-URL
-                <input name="saunagusMasterImageUrl" type="url" />
-            </label>
-
-            <label style="grid-column: 1 / -1;">
-                Beskrivelse
-                <textarea name="description" rows="4" required></textarea>
-            </label>
-
-            <label>
-                Varighed (min)
-                <input name="durationMinutes" type="number" min="1" required />
-            </label>
-
-            <label>
-                Kapacitet
-                <input name="capacity" type="number" min="1" required />
-            </label>
-
-            <label>
-                Pris (kr)
-                <input name="price" type="number" min="0" step="1" required />
-            </label>
-
-            <label>
-                Status
-                <select name="status" required>
-                    <option value="UPCOMING">UPCOMING</option>
-                    <option value="FULLY_BOOKED">FULLY_BOOKED</option>
-                    <option value="CANCELLED">CANCELLED</option>
-                </select>
-            </label>
-
-            <button type="submit" class="btn btn--primary">Opret event</button>
-            <p id="createMsg" class="hint"></p>
-        </form>
-    </section>
-
 
     <section class="card">
         <div class="table-head">
@@ -186,6 +127,5 @@
 
 </main>
 
-<script th:src="@{/js/admin-events.js}"></script>
 </body>
 </html>

@@ -37,10 +37,7 @@ public class SaunaEventService {
     public SaunaEvent createEvent(SaunaAdminEventDTO dto) {
         SaunaEvent event = new SaunaEvent();
         copyDtoToEntity(dto, event);
-
-        // Når man opretter et event → 0 bookinger fra start
         event.setCurrentBookings(0);
-
         return repository.save(event);
     }
 
@@ -62,25 +59,19 @@ public class SaunaEventService {
     }
 
     // ===== Helper: kopier data fra admin-DTO til entity =====
-
     private void copyDtoToEntity(SaunaAdminEventDTO dto, SaunaEvent event) {
         event.setTitle(dto.title());
         event.setGusmesterName(dto.saunagusMasterName());
         event.setGusmesterImageUrl(dto.saunagusMasterImageUrl());
         event.setDescription(dto.description());
+
+        event.setStartTime(dto.startTime()); // VIGTIGT
+
         event.setDurationMinutes(dto.durationMinutes());
         event.setCapacity(dto.capacity());
         event.setPrice(dto.price());
 
-        // Konvertér LocalTime (kun klokkeslæt) → LocalDateTime (i dag + klokkeslæt)
-        if (dto.start_time() != null) {
-            LocalDateTime start = LocalDateTime.of(LocalDate.now(), dto.start_time());
-            event.setStartTime(start);
-        }
+        event.setStatus(EventStatus.valueOf(dto.status())); // "UPCOMING" osv.
 
-        // Konvertér status-string → enum (UPPERCASE)
-        if (dto.status() != null) {
-            event.setStatus(EventStatus.valueOf(dto.status().toUpperCase()));
-        }
-    }
-}
+
+    }}
