@@ -1200,6 +1200,129 @@ body {
     border-left-color: #0A7A8C;
 }
 
+/* ========================= */
+/*        ABOUT PAGE         */
+/* ========================= */
+
+/* Side-baggrund */
+body.page-about {
+    background: #f7fbfc;
+}
+
+/* Intro */
+.about-intro {
+    max-width: 800px;
+    margin: 10rem auto 3rem;
+    padding: 0 1rem;
+    text-align: center;
+}
+
+.about-intro h1 {
+    font-family: "Playfair Display", serif;
+    font-size: 2.8rem;
+    margin-bottom: 0.6rem;
+    color: #0b2430;
+}
+
+.about-intro p {
+    font-size: 1.15rem;
+    color: rgba(11, 36, 48, 0.7);
+    line-height: 1.6;
+}
+
+/* Anker-navigation */
+.about-nav {
+    display: flex;
+    justify-content: center;
+    gap: 0.8rem;
+    flex-wrap: wrap;
+    margin-bottom: 4rem;
+    padding: 0 1rem;
+}
+
+.about-nav a {
+    text-decoration: none;
+    padding: 0.6rem 1.2rem;
+    border-radius: 999px;
+    border: 1px solid rgba(10, 122, 140, 0.25);
+    color: #0A7A8C;
+    font-weight: 500;
+    font-size: 0.95rem;
+    background: #ffffff;
+    transition: background 0.2s ease;
+}
+
+.about-nav a:hover {
+    background: #eef9fa;
+}
+
+/* Indholdssektioner */
+.about-section {
+    max-width: 900px;
+    margin: 0 auto 2.5rem;
+    padding: 2.5rem 2rem;
+    background: #ffffff;
+    border-radius: 18px;
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.06);
+}
+
+.about-section h2 {
+    font-family: "Playfair Display", serif;
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    color: #0b2430;
+}
+
+.about-section h3 {
+    margin-top: 1.6rem;
+    margin-bottom: 0.4rem;
+    font-size: 1.25rem;
+    color: #0A7A8C;
+}
+
+.about-section h4 {
+    margin-top: 1.2rem;
+    margin-bottom: 0.4rem;
+    font-size: 1.05rem;
+    color: #0b2430;
+}
+
+.about-section p {
+    line-height: 1.65;
+    color: rgba(11, 36, 48, 0.8);
+}
+
+/* PDF / fil-lister */
+.about-files {
+    list-style: none;
+    padding-left: 0;
+    margin-top: 1rem;
+}
+
+.about-files li {
+    margin-bottom: 0.6rem;
+}
+
+.about-files a {
+    color: #0A7A8C;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.about-files a:hover {
+    text-decoration: underline;
+}
+
+/* Mobil */
+@media (max-width: 767px) {
+    .about-intro {
+        margin-top: 8rem;
+    }
+
+    .about-section {
+        padding: 2rem 1.4rem;
+    }
+}
 
 
 
