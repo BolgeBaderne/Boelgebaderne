@@ -850,7 +850,7 @@ body {
 /* ========================= */
 
 .updates-section {
-    padding: 4rem 1rem 6rem;
+    padding: 4rem 1rem 4rem;
     max-width: 900px;
     margin: 0 auto;
     text-align: center;
@@ -914,7 +914,7 @@ body {
 /* ========================= */
 
 .contact-section {
-    padding: 4rem 1rem 5rem;
+    padding: 2rem 1rem 5rem;
     text-align: center;
 }
 
@@ -1097,4 +1097,112 @@ body {
     align-self: center;
     filter: drop-shadow(0 1px 3px rgba(0,0,0,0.45));
 }
+
+/* ========================= */
+/*          FAQ PAGE         */
+/* ========================= */
+
+.faq-section {
+    padding: 9rem 1rem 6rem;
+    max-width: 900px;
+    margin: 0 auto;
+    text-align: left;
+}
+
+.faq-header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+}
+
+.faq-header-icon {
+    width: 70px;
+    height: 70px;
+    background: #e8f4f8;
+    border-radius: 50%;
+    display: flex;
+    margin: 0 auto 1rem auto;
+    align-items: center;
+    justify-content: center;
+}
+
+.faq-header-icon img {
+    width: 32px;
+    height: 32px;
+}
+
+.faq-header h2 {
+    font-family: "Playfair Display", serif;
+    font-size: 2.6rem;
+    color: #0b2430;
+    margin-bottom: 1rem;
+}
+
+.faq-intro {
+    color: rgba(11,36,48,0.65);
+    max-width: 700px;
+    margin: 0 auto;
+    font-size: 1.1rem;
+}
+
+.faq-category {
+    font-family: "Playfair Display", serif;
+    font-size: 1.8rem;
+    margin-top: 3rem;
+    margin-bottom: 1rem;
+    color: #0b2430;
+}
+
+.faq-item {
+    margin-bottom: 1rem;
+}
+
+.faq-question {
+    background: #ffffff;
+    text-align: left;
+    border-radius: 14px;
+    padding: 1.1rem 1.6rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #0b2430;
+    transition: background 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.06);
+    border: 1px solid rgba(10, 122, 140, 0.15);
+}
+
+.faq-question:hover {
+    background: #f4fafb;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.05);
+}
+
+
+.faq-answer {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.35s ease;
+}
+
+.faq-answer-inner {
+    overflow: hidden;
+    text-align: left;
+    padding: 0 1.4rem;
+    color: rgba(11,36,48,0.75);
+    line-height: 1.6;
+    background: #ffffff;
+    border-left: 3px solid transparent;
+}
+
+.faq-answer.open {
+    grid-template-rows: 1fr;
+}
+
+.faq-answer.open .faq-answer-inner {
+    padding: 1rem 1.4rem 1.4rem;
+    border-left-color: #0A7A8C;
+}
+
+
+
+
+
+
 
