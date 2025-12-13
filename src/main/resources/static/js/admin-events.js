@@ -201,3 +201,62 @@ document.addEventListener("DOMContentLoaded", async () => {
     showMessage("Opret nyt event.", "success");
     await loadEvents();
 });
+const form = document.getElementById("createEventForm");
+const msg = document.getElementById("createMsg");
+
+// helper: datetime-local -> "YYYY-MM-DDTHH:mm:ss"
+function toIsoLocalDateTime(datetimeLocalValue) {
+    // browser giver fx: "2025-12-06T08:00"
+    // backend vil typisk gerne have sekunder: "2025-12-06T08:00:00"
+    return datetimeLocalValue.length === 16 ? datetimeLocalValue + ":00" : datetimeLocalValue;
+}
+
+form?.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    msg.textContent = "";
+
+    const fd = new FormData(form);
+
+    const payload = {
+        title: fd.get("title"),
+        saunagusMasterName: fd.get("saunagusMasterName"),
+        saunagusMasterImageUrl: fd.get("saunagusMasterImageUrl") || "",
+        description: fd.get("description"),
+        startTime: toIsoLocalDateTime(fd.get("startTime")),
+        durationMinutes: Number(fd.get("durationMinutes")),
+        capacity: Number(fd.get("capacity")),
+        price: Number(fd.get("price")),
+        status: fd.get("status"),
+    };
+
+    try {
+        const res = await fetch("/api/admin/events", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload),
+        });
+
+        if (!res.ok) {
+            // prøv at læse json error fra GlobalExceptionHandler
+            const body = await res.json().catch(() => null);
+            const errMsg = body?.error || body?.message || `Fejl: ${res.status}`;
+            throw new Error(errMsg);
+        }
+
+        const created = await res.json();
+
+        msg.textContent = "✅ Event oprettet!";
+        form.reset();
+
+        // BONUS: opdater listen uden reload (hvis du har en event-liste)
+        // appendEventToTable(created);  // implementér hvis du har table/list
+
+        // Nemt alternativ: bare reload listen (100% sikkert)
+        // location.reload();
+
+    } catch (err) {
+        console.error(err);
+        msg.textContent = "❌ " + err.message;
+    }
+});
+

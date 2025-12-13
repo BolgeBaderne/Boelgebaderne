@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.bolgebaderne.service.SaunaEventService;
 
 import java.util.List;
+
 @RestController
 @RequestMapping("/api/events")
 public class SaunaEventController {

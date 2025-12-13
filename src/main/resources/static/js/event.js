@@ -1,9 +1,7 @@
-// Hent event-id fra URL'en: event-details?id=1
+// event.html?id=1
 const params = new URLSearchParams(window.location.search);
 const eventId = params.get("id") || 1;
-
-
-const apiUrl = `/admin/events/${eventId}`;
+const apiUrl = `/api/events/${eventId}`;
 
 const els = {
     title: document.getElementById("event-title"),
@@ -23,6 +21,8 @@ const els = {
 
     errorBox: document.getElementById("error-box"),
     errorMessage: document.getElementById("error-message"),
+
+    bookBtn: document.getElementById("book-button")
 };
 
 function formatMinutes(min) {
@@ -30,39 +30,7 @@ function formatMinutes(min) {
 }
 
 function formatPrice(price) {
-    return `${price.toFixed(0)} kr.`;
-}
-
-function updatePage(data) {
-    els.title.textContent = data.title || "Saunagus event";
-
-    // Hvis du har status i DTO, brug data.status, ellers bare “Event”
-    els.status.textContent = data.status || "Event";
-
-    if (data.startTime) {
-        const [date, time] = data.startTime.split("T");
-        els.startTime.textContent = `${date} kl. ${time?.substring(0, 5)}`;
-    } else {
-        els.startTime.textContent = "";
-    }
-
-    els.durationHero.textContent = formatMinutes(data.durationMinutes ?? 0);
-    els.description.textContent = data.description ?? "";
-
-    els.gusName.textContent = data.gusmesterName ?? data.saunagusMasterName ?? "Ukendt gusmester";
-
-    if (data.gusmesterImageUrl || data.saunagusMasterImageUrl) {
-        els.gusImage.src = data.gusmesterImageUrl || data.saunagusMasterImageUrl;
-    } else {
-        els.gusImage.src =
-            "https://images.pexels.com/photos/111085/pexels-photo-111085.jpeg?auto=compress&cs=tinysrgb&w=800";
-    }
-
-    els.infoDuration.textContent = formatMinutes(data.durationMinutes ?? 0);
-    els.infoCapacity.textContent = `${data.capacity ?? "-"} pladser`;
-    els.infoBookings.textContent = `${data.currentBookings ?? 0} tilmeldte`;
-    els.infoAvailable.textContent = `${data.availableSpots ?? 0} ledige`;
-    els.infoPrice.textContent = formatPrice(data.price ?? 0);
+    return `${Number(price || 0).toFixed(0)} kr.`;
 }
 
 function showError(message) {
@@ -70,21 +38,72 @@ function showError(message) {
     els.errorMessage.textContent = message;
 }
 
-fetch(apiUrl)
-    .then(res => {
-        if (!res.ok) {
-            return res.json()
-                .catch(() => {
-                    throw new Error("Noget gik galt ved hentning af eventet.");
-                })
-                .then(body => {
-                    throw new Error(body.error || "Det valgte event findes ikke.");
-                });
-        }
-        return res.json();
-    })
-    .then(updatePage)
-    .catch(err => {
-        console.error(err);
-        showError(err.message);
+function updatePage(data) {
+    // title
+    els.title.textContent = data.title || "Saunagus event";
+
+    // status (hvis du har status i DTO)
+    els.status.textContent = data.status || "Event";
+
+    // startTime hvis API sender LocalDateTime string "2025-12-10T19:00:00"
+    if (data.startTime) {
+        const [date, time] = String(data.startTime).split("T");
+        els.startTime.textContent = `${date} kl. ${time?.substring(0, 5)}`;
+    } else {
+        els.startTime.textContent = "";
+    }
+
+    // duration
+    els.durationHero.textContent = formatMinutes(data.durationMinutes ?? 0);
+    els.description.textContent = data.description ?? "";
+
+    // gusmester (kan være forskellige feltnavne afhængig af DTO)
+    els.gusName.textContent =
+        data.saunagusMasterName ??
+        data.gusmesterName ??
+        "Ukendt gusmester";
+
+    const img =
+        data.saunagusMasterImageUrl ??
+        data.gusmesterImageUrl ??
+        "";
+
+    els.gusImage.src = img || "https://images.pexels.com/photos/111085/pexels-photo-111085.jpeg?auto=compress&cs=tinysrgb&w=800";
+
+    // side-info
+    els.infoDuration.textContent = formatMinutes(data.durationMinutes ?? 0);
+    els.infoCapacity.textContent = `${data.capacity ?? "-"} pladser`;
+    els.infoBookings.textContent = `${data.currentBookings ?? 0} tilmeldte`;
+    els.infoAvailable.textContent = `${data.availableSpots ?? 0} ledige`;
+    els.infoPrice.textContent = formatPrice(data.price ?? 0);
+
+    // demo booking-knap
+    els.bookBtn.addEventListener("click", () => {
+        alert("Demo: booking er ikke implementeret i #152 🙂");
     });
+}
+
+async function loadEvent() {
+    try {
+        const res = await fetch(apiUrl);
+
+        if (!res.ok) {
+            // prøv at læse JSON fejl (fra din GlobalExceptionHandler)
+            let msg = `Kunne ikke hente event. Status: ${res.status}`;
+            try {
+                const body = await res.json();
+                msg = body.error || body.message || msg;
+            } catch {}
+            throw new Error(msg);
+        }
+
+        const data = await res.json();
+        updatePage(data);
+
+    } catch (err) {
+        console.error(err);
+        showError(err.message || "Noget gik galt ved hentning af eventet.");
+    }
+}
+
+document.addEventListener("DOMContentLoaded", loadEvent);
