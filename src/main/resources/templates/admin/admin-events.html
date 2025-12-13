@@ -1,103 +1,125 @@
-<!DOCTYPE html>
-<html lang="da"
-      xmlns:th="http://www.thymeleaf.org">
-
+<!doctype html>
+<html lang="da" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Admin – Events</title>
-</head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
+    <!-- Din nav-fragment hvis du har -->
+    <!-- <div th:replace="fragments/nav :: nav"></div> -->
+
+    <link rel="stylesheet" th:href="@{/css/admin-events.css}">
+</head>
 <body>
 
-<!-- Navbar -->
-<div th:replace="fragments/nav :: nav"></div>
+<header class="topbar">
+    <div class="brand">
+        <div class="logo-box">BØLGE<br>BADERNE</div>
+        <div>
+            <div class="brand-title">Admin</div>
+            <div class="brand-sub">Event administration</div>
+        </div>
+    </div>
 
-<h1>Administration af events</h1>
+    <div class="topbar-actions">
+        <a class="link" href="/events">Offentlige events</a>
+        <form method="post" action="/logout">
+            <button class="btn btn-secondary" type="submit">Log ud</button>
+        </form>
+    </div>
+</header>
 
-<!-- Kun ADMIN må se siden -->
-<div th:if="${role == 'ADMIN'}">
-    <button onclick="window.location.href='/api/admin/events'">
-        ➕ Rediger
-    </button>
-    <button onclick="window.location.href='/api/admin/events'">
-        ➕ Slet
-    </button>
+<main class="container">
 
-    <button onclick="window.location.href='/api/admin/events'">
-        ➕ Opret nyt event
-    </button>
-    <section class="card" style="margin-top: 20px;">
-        <h2>Opret nyt event</h2>
+    <section class="card">
+        <h1>Events</h1>
+        <p class="muted">Opret, rediger og slet saunagus events.</p>
 
-        <form id="create-event-form" class="create-form">
-            <div class="form-row">
+        <div id="formMessage" class="message muted"></div>
+
+        <form id="eventForm" class="form-grid">
+            <div class="field">
                 <label for="title">Titel</label>
-                <input id="title" name="title" type="text" required placeholder="F.eks. Morgengus">
+                <input id="title" name="title" type="text" placeholder="Fx Morgengus" required>
             </div>
 
-            <div class="form-row">
-                <label for="gusmesterName">Gusmester</label>
-                <input id="gusmesterName" name="gusmesterName" type="text" required placeholder="Navn på gusmester">
+            <div class="field">
+                <label for="saunagusMasterName">Gusmester navn</label>
+                <input id="saunagusMasterName" name="saunagusMasterName" type="text" placeholder="Fx Ali" required>
             </div>
 
-            <div class="form-row">
-                <label for="gusmesterImageUrl">Billede-URL</label>
-                <input id="gusmesterImageUrl" name="gusmesterImageUrl" type="url" placeholder="https://...">
+            <div class="field">
+                <label for="saunagusMasterImageUrl">Gusmester billede URL</label>
+                <input id="saunagusMasterImageUrl" name="saunagusMasterImageUrl" type="text" placeholder="https://...">
             </div>
 
-            <div class="form-row">
+            <div class="field field--full">
                 <label for="description">Beskrivelse</label>
-                <textarea id="description" name="description" rows="3"
-                          placeholder="Kort beskrivelse af saunagusset"></textarea>
+                <textarea id="description" name="description" rows="4" placeholder="Kort beskrivelse..." required></textarea>
             </div>
 
-            <div class="form-row">
-                <label for="startTime">Starttid (HH:MM)</label>
-                <input id="startTime" name="startTime" type="time" required>
+            <div class="field">
+                <label for="durationMinutes">Varighed (min)</label>
+                <input id="durationMinutes" name="durationMinutes" type="number" min="1" value="45" required>
             </div>
 
-            <div class="form-row">
-                <label for="durationMinutes">Varighed (minutter)</label>
-                <input id="durationMinutes" name="durationMinutes" type="number" min="1" required>
-            </div>
-
-            <div class="form-row">
+            <div class="field">
                 <label for="capacity">Kapacitet</label>
-                <input id="capacity" name="capacity" type="number" min="1" required>
+                <input id="capacity" name="capacity" type="number" min="1" value="12" required>
             </div>
 
-            <div class="form-row">
+            <div class="field">
                 <label for="price">Pris (kr.)</label>
-                <input id="price" name="price" type="number" min="0" step="0.01" required>
+                <input id="price" name="price" type="number" min="0" step="1" value="99" required>
             </div>
 
-            <div class="form-row">
+            <div class="field">
                 <label for="status">Status</label>
-                <select id="status" name="status">
+                <select id="status" name="status" required>
                     <option value="UPCOMING">UPCOMING</option>
                     <option value="FULLY_BOOKED">FULLY_BOOKED</option>
                     <option value="CANCELLED">CANCELLED</option>
                 </select>
             </div>
 
-            <button type="submit" class="btn btn--primary" style="margin-top: 10px;">
-                Gem nyt event
-            </button>
+            <div class="form-actions field--full">
+                <button class="btn btn-primary" type="submit" id="submitBtn">Gem</button>
+                <button class="btn btn-secondary" type="button" id="cancelEditBtn">Annuller redigering</button>
+            </div>
         </form>
     </section>
 
-    <hr>
+    <section class="card">
+        <div class="table-head">
+            <h2>Alle events</h2>
+            <button class="btn btn-secondary" id="refreshBtn" type="button">Opdater</button>
+        </div>
 
-    <h2>Eventliste</h2>
-    <div id="event-list">
-        <!-- udfyldes via JS i #152 -->
-    </div>
+        <div class="table-wrap">
+            <table class="table" aria-label="Events table">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Titel</th>
+                    <th>Gusmester</th>
+                    <th>Kapacitet</th>
+                    <th>Pris</th>
+                    <th>Status</th>
+                    <th>Handling</th>
+                </tr>
+                </thead>
+                <tbody id="eventsBody">
+                <tr>
+                    <td colspan="7" class="muted">Indlæser...</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
 
-</div>
+        <div id="tableError" class="message error hidden"></div>
+    </section>
 
-<div th:if="${role != 'ADMIN'}">
-    <p>Adgang nægtet – kun administratorer må se denne side.</p>
-</div>
+</main>
 
 <script th:src="@{/js/admin-events.js}"></script>
 </body>

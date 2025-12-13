@@ -1,8 +1,9 @@
-// Hent event-id fra URL'en: event.html?id=1
+// Hent event-id fra URL'en: event-details?id=1
 const params = new URLSearchParams(window.location.search);
 const eventId = params.get("id") || 1;
 
-const apiUrl = `/api/events/${eventId}`;
+
+const apiUrl = `/admin/events/${eventId}`;
 
 const els = {
     title: document.getElementById("event-title"),
@@ -33,10 +34,10 @@ function formatPrice(price) {
 }
 
 function updatePage(data) {
-    // tilpas til dine faktiske DTO-felter
     els.title.textContent = data.title || "Saunagus event";
 
-    els.status.textContent = "Event"; // evt. data.status hvis I har det
+    // Hvis du har status i DTO, brug data.status, ellers bare “Event”
+    els.status.textContent = data.status || "Event";
 
     if (data.startTime) {
         const [date, time] = data.startTime.split("T");
@@ -48,10 +49,10 @@ function updatePage(data) {
     els.durationHero.textContent = formatMinutes(data.durationMinutes ?? 0);
     els.description.textContent = data.description ?? "";
 
-    els.gusName.textContent = data.saunagusMasterName ?? "Ukendt gusmester";
+    els.gusName.textContent = data.gusmesterName ?? data.saunagusMasterName ?? "Ukendt gusmester";
 
-    if (data.saunagusMasterImageUrl) {
-        els.gusImage.src = data.saunagusMasterImageUrl;
+    if (data.gusmesterImageUrl || data.saunagusMasterImageUrl) {
+        els.gusImage.src = data.gusmesterImageUrl || data.saunagusMasterImageUrl;
     } else {
         els.gusImage.src =
             "https://images.pexels.com/photos/111085/pexels-photo-111085.jpeg?auto=compress&cs=tinysrgb&w=800";
@@ -87,32 +88,3 @@ fetch(apiUrl)
         console.error(err);
         showError(err.message);
     });
-
-document.addEventListener("DOMContentLoaded", async () => {
-    const params = new URLSearchParams(window.location.search);
-    const id = params.get("id") || 1;
-
-    try {
-        const response = await fetch(`/api/events/${id}`);
-        if (!response.ok) {
-            throw new Error("Kunne ikke hente event " + id);
-        }
-
-        const e = await response.json();
-
-        // Tilpas IDs til dine rigtige HTML-elementer
-        document.querySelector("#event-title").textContent = e.title;
-        document.querySelector("#event-description").textContent = e.description;
-        document.querySelector("#gusmester-name").textContent = e.gusmesterName;
-        document.querySelector("#duration").textContent = e.durationMinutes + " min";
-        document.querySelector("#capacity").textContent = e.capacity;
-        document.querySelector("#current-bookings").textContent = e.currentBookings;
-        document.querySelector("#available-spots").textContent = e.availableSpots;
-        document.querySelector("#price").textContent = e.price + " kr.";
-
-    } catch (err) {
-        console.error(err);
-        document.querySelector("#event-description").textContent =
-            "Kunne ikke hente event-data.";
-    }
-});

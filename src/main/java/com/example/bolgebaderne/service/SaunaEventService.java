@@ -1,12 +1,15 @@
 package com.example.bolgebaderne.service;
 
 import com.example.bolgebaderne.dto.SaunaAdminEventDTO;
+import com.example.bolgebaderne.dto.SaunaAdminEventDTO;
 import com.example.bolgebaderne.exceptions.EventNotFoundException;
 import com.example.bolgebaderne.model.EventStatus;
 import com.example.bolgebaderne.model.SaunaEvent;
 import com.example.bolgebaderne.repository.SaunaEventRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -34,7 +37,10 @@ public class SaunaEventService {
     public SaunaEvent createEvent(SaunaAdminEventDTO dto) {
         SaunaEvent event = new SaunaEvent();
         copyDtoToEntity(dto, event);
-        event.setCurrentBookings(0); // nyt event har 0 bookinger
+
+        // Når man opretter et event → 0 bookinger fra start
+        event.setCurrentBookings(0);
+
         return repository.save(event);
     }
 
@@ -62,10 +68,19 @@ public class SaunaEventService {
         event.setGusmesterName(dto.saunagusMasterName());
         event.setGusmesterImageUrl(dto.saunagusMasterImageUrl());
         event.setDescription(dto.description());
-        event.setStartTime(dto.startTime());
         event.setDurationMinutes(dto.durationMinutes());
         event.setCapacity(dto.capacity());
         event.setPrice(dto.price());
-        event.setStatus(EventStatus.valueOf(dto.status()));
+
+        // Konvertér LocalTime (kun klokkeslæt) → LocalDateTime (i dag + klokkeslæt)
+        if (dto.start_time() != null) {
+            LocalDateTime start = LocalDateTime.of(LocalDate.now(), dto.start_time());
+            event.setStartTime(start);
+        }
+
+        // Konvertér status-string → enum (UPPERCASE)
+        if (dto.status() != null) {
+            event.setStatus(EventStatus.valueOf(dto.status().toUpperCase()));
+        }
     }
 }

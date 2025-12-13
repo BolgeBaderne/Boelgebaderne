@@ -1,34 +1,24 @@
 <!doctype html>
-<html lang="da">
+<html lang="da" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Bølgebaderne – Event detaljer</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="../../static/event.css">
+
+    <!-- RIGTIG sti til CSS (Spring Boot static) -->
+    <link rel="stylesheet" th:href="@{/event.css}"/>
     <link rel="stylesheet" href="/styles.css">
+
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+          rel="stylesheet">
 </head>
 <body>
+
+<!-- Din fælles navbar -->
 <div th:replace="fragments/nav :: nav"></div>
-
-<h1>Administration af events</h1>
-
-<!-- Kun ADMIN må se siden -->
-<div th:if="${role == 'ADMIN'}">   </div>
-
-<header class="navbar">
-    <div class="navbar__logo">
-        <div class="logo-box">BØLGE<br>BADERNE</div>
-    </div>
-    <nav class="navbar__links">
-        <a href="/static">Forside</a>
-        <a href="#">Sauna</a>
-        <a href="#">Gusmestre</a>
-        <a href="#" class="active">Event</a>
-    </nav>
-</header>
 
 <main>
     <!-- Hero med baggrund og titel -->
@@ -38,7 +28,7 @@
             <p class="hero__badge" id="event-status">Event</p>
             <h1 id="event-title">Eventtitel</h1>
             <p class="hero__meta">
-                <span id="event-starttime">Dato & tid</span>
+                <span id="event-starttime">Dato &amp; tid</span>
                 ·
                 <span id="event-duration">Varighed</span>
             </p>
@@ -121,6 +111,7 @@
     <p>© Bølgebaderne – Kalvebod Bølge, København</p>
 </footer>
 
-<script src="/js/event.js"></script>
+<!-- RIGTIG sti til JS -->
+<script th:src="@{/js/event.js}"></script>
 </body>
 </html>
