@@ -20,6 +20,11 @@ public class SaunaEventController {
         this.saunaEventService = saunaEventService;
     }
 
+    @GetMapping("/event")
+    public String event() {
+        return "event"; // src/main/resources/templates/event.html
+    }
+
     //Liste til alle events
     @GetMapping
     public List<EventDTO> getAllEvents() {
@@ -39,14 +44,17 @@ public class SaunaEventController {
     private EventDTO toDTO(SaunaEvent e) {
         return new EventDTO(
                 (long) e.getEventId(),
+                e.getTitle(),
+                e.getDescription(),
                 e.getGusmesterName(),
                 e.getGusmesterImageUrl(),
-                e.getDescription(),
+                e.getStartTime().toString(),
                 e.getDurationMinutes(),
                 e.getCapacity(),
                 e.getPrice(),
                 e.getCurrentBookings(),
-                e.getAvailableSpots()
+                e.getAvailableSpots(),
+                e.getEventStatus().name()
         );
     }
 }

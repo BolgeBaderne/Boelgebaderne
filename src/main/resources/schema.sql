@@ -1,4 +1,9 @@
+/*Dropper skemaerne i rigtige rækkefølge*/
+DROP TABLE IF EXISTS waitlist_entries;
+DROP TABLE IF EXISTS bookings;
 DROP TABLE IF EXISTS sauna_event;
+DROP TABLE IF EXISTS users;
+
 CREATE TABLE users (
                        user_id INT AUTO_INCREMENT PRIMARY KEY,
                        name VARCHAR(100) NOT NULL,

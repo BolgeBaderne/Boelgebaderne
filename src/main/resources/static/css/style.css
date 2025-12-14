@@ -332,7 +332,7 @@ body {
     padding-top: 4rem;
     text-align: center;
 
-    background-image: url("/images/heroImg.jpeg");
+    background-image: url("../images/heroImg.jpeg");
     background-size: cover;
     background-position: center;
 }
@@ -1098,3 +1098,39 @@ body {
     filter: drop-shadow(0 1px 3px rgba(0,0,0,0.45));
 }
 
+/* ============================ */
+/* Ayans kode til hendes Stylesheet
+body {
+    font-family: Arial, sans-serif;
+    margin: 40px auto;
+    max-width: 800px;
+    line-height: 1.5;
+}
+
+h1 {
+    margin-bottom: 20px;
+}
+
+.card {
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    margin-bottom: 15px;
+}
+
+.nav {
+    margin-bottom: 20px;
+}
+
+.nav a {
+    margin-right: 15px;
+    text-decoration: none;
+    color: #0066cc;
+    font-weight: bold;
+}
+
+.nav a:hover {
+    text-decoration: underline;
+}
+
+-----*/
