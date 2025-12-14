@@ -7,12 +7,22 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface WaitlistEntryRepository extends JpaRepository<WaitlistEntry, Integer> {
     List<WaitlistEntry> findBySaunaEventOrderByPositionAsc(SaunaEvent saunaEvent);
-    boolean existsByUserAndEvent(User user, SaunaEvent saunaEvent);
     int countBySaunaEvent(SaunaEvent saunaEvent);
-    int countByEvent(SaunaEvent event);
+    boolean existsByUserAndEvent(User user, SaunaEvent saunaEvent);
+    Optional<WaitlistEntry> findByUserAndSaunaEvent(User user, SaunaEvent saunaEvent);
+
 }
+
+
+
+
+
+
+
+
 

@@ -1099,38 +1099,50 @@ body {
 }
 
 /* ============================ */
-/* Ayans kode til hendes Stylesheet
-body {
-    font-family: Arial, sans-serif;
-    margin: 40px auto;
-    max-width: 800px;
-    line-height: 1.5;
+/* WAITLIST-STATUS STYLE */
+/* Side-layout */
+.waitlist-page {
+    padding: 24px 0;
 }
 
-h1 {
-    margin-bottom: 20px;
+.waitlist-header {
+    margin-bottom: 16px;
 }
 
-.card {
-    padding: 15px;
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    margin-bottom: 15px;
+.waitlist-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-top: 16px;
 }
 
-.nav {
-    margin-bottom: 20px;
+/* Mobil */
+@media (max-width: 768px) {
+    .waitlist-grid {
+        grid-template-columns: 1fr;
+    }
 }
 
-.nav a {
-    margin-right: 15px;
-    text-decoration: none;
-    color: #0066cc;
-    font-weight: bold;
+/* Tekst */
+.muted {
+    opacity: 0.75;
 }
 
-.nav a:hover {
-    text-decoration: underline;
+.waitlist-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 12px;
+    flex-wrap: wrap;
 }
 
------*/
+/* Fejl */
+.waitlist-error {
+    margin-top: 16px;
+    border: 1px solid rgba(255, 0, 0, 0.25);
+}
+
+.hidden {
+    display: none;
+}
+
+

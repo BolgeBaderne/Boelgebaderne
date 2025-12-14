@@ -127,7 +127,7 @@ public class WaitlistEntryService {
         }
 
         // 4) Beregn ny position (sidst i køen)
-        int position = waitlistRepo.countByEvent(event) + 1;
+        int position = waitlistRepo.countBySaunaEvent(event) + 1;
 
         // 5) Opret entry
         WaitlistEntry entry = new WaitlistEntry();

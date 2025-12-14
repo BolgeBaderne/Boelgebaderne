@@ -3,7 +3,6 @@ package com.example.bolgebaderne.controller;
 import com.example.bolgebaderne.dto.WaitlistEntryDTO;
 import com.example.bolgebaderne.dto.WaitlistJoinRequest;
 import com.example.bolgebaderne.dto.WaitlistStatusDTO;
-import com.example.bolgebaderne.model.SaunaEvent;
 import com.example.bolgebaderne.model.WaitlistEntry;
 import com.example.bolgebaderne.service.WaitlistEntryService;
 import org.springframework.http.HttpStatus;
@@ -13,35 +12,29 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/timeslots")
 public class WaitlistStatusController {
-    private WaitlistEntryService waitlistService;
+
+    private final WaitlistEntryService waitlistService;
 
     public WaitlistStatusController(WaitlistEntryService waitlistService) {
         this.waitlistService = waitlistService;
     }
 
-    @GetMapping("/{id}/waitlist")
-    public ResponseEntity<WaitlistStatusDTO> getWaitlistStatus(@PathVariable int id) {
-
-        SaunaEvent event = waitlistService.getEventOrThrow(id);
-
-        boolean fullyBooked = waitlistService.isEventFullyBooked(event);
-        int waitlistCount = waitlistService.getWaitlistCount(event);
-
-        WaitlistStatusDTO dto = new WaitlistStatusDTO(fullyBooked, waitlistCount);
-
-        return ResponseEntity.ok(dto);
+    // GET /api/timeslots/1/waitlist?userId=2
+    @GetMapping("/{timeslotId}/waitlist")
+    public WaitlistStatusDTO status(
+            @PathVariable int timeslotId,
+            @RequestParam(required = false) Integer userId)
+    {
+        return waitlistService.getWaitlistStatus(timeslotId, userId);
     }
 
-    @PostMapping("/{id}/waitlist")
-    public ResponseEntity<WaitlistEntryDTO> joinWaitList(
-            @PathVariable int id,
-            @RequestBody WaitlistJoinRequest request) {
-
-        WaitlistEntry entry = waitlistService.joinWaitlist(
-                id,
-                request.getUserId(),
-                request.getType()
-        );
+    // POST /api/timeslots/1/waitlist  body: {"userId":2,"type":"STANDARD"}
+    @PostMapping("/{timeslotId}/waitlist")
+    public ResponseEntity<WaitlistEntryDTO> join(
+            @PathVariable int timeslotId,
+            @RequestBody WaitlistJoinRequest request
+    ) {
+        WaitlistEntry entry = waitlistService.joinWaitlist(timeslotId, request.getUserId(), request.getType());
 
         WaitlistEntryDTO dto = new WaitlistEntryDTO(
                 entry.getEntryId(),
