@@ -1,19 +1,21 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const questions = document.querySelectorAll(".faq-question");
+    const triggers = document.querySelectorAll(".accordion-question");
 
-    questions.forEach(btn => {
-        btn.addEventListener("click", () => {
-            const answer = btn.nextElementSibling;
+    triggers.forEach(trigger => {
+        trigger.addEventListener("click", () => {
+            const answer = trigger.nextElementSibling;
             const isOpen = answer.classList.contains("open");
 
-            document.querySelectorAll(".faq-answer.open").forEach(openAnswer => {
-                openAnswer.classList.remove("open");
-                openAnswer.previousElementSibling.setAttribute("aria-expanded", "false");
+            // Close all
+            document.querySelectorAll(".accordion-answer.open").forEach(open => {
+                open.classList.remove("open");
+                open.previousElementSibling.setAttribute("aria-expanded", "false");
             });
 
+            // Open only if not open already
             if (!isOpen) {
                 answer.classList.add("open");
-                btn.setAttribute("aria-expanded", "true");
+                trigger.setAttribute("aria-expanded", "true");
             }
         });
     });

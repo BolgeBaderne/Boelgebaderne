@@ -1,10 +1,351 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="da">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="https://foreninglet-static-files.s3.eu-west-1.amazonaws.com/static/icon/favicon.ico">
+    <title>Bølgebaderne</title>
+    <link rel="stylesheet" href="/css/style.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
 </head>
-<body>
+
+<body class="page-about">
+<!-- NAVBAR -->
+<header class="site-header">
+    <div class="header-inner">
+
+        <!-- LOGO -->
+        <a href="/" class="logo" aria-label="Bølgebaderne - hjem">
+            <img src="/images/logo.png" alt="Bølgebaderne logo">
+        </a>
+
+        <!-- MOBILE LANGUAGE SWITCH -->
+        <div class="mobile-lang">
+            <button class="lang-switch" data-lang="da">DA</button>
+            <button class="lang-switch" data-lang="en">EN</button>
+        </div>
+
+        <!-- HAMBURGER MENU -->
+        <button class="nav-toggle"
+                aria-expanded="false"
+                aria-controls="main-nav"
+                aria-label="Åbn menu">
+            <span class="bars" aria-hidden="true">☰</span>
+        </button>
+
+        <!-- NAVIGATION WRAPPER -->
+        <nav id="main-nav" class="main-nav" aria-label="Hovednavigation">
+
+            <!-- CLOSE BUTTON (MOBILE) -->
+            <button class="close-menu" aria-label="Luk menu">×</button>
+
+            <!-- CENTERED NAVIGATION -->
+            <ul class="nav-list">
+                <li><a href="/about.html">Om os</a></li>
+                <li><a href="/membership.html">Medlemskab</a></li>
+                <li><a href="/sauna-info.html">Sauna info</a></li>
+                <li><a href="/faq.html">FAQ</a></li>
+                <li><a href="/index.html#contact">Kontakt</a></li>
+            </ul>
+
+            <!-- LANGUAGE SWITCH (DESKTOP)-->
+            <div class="desktop-lang">
+                <button class="lang-switch" data-lang="da">DA</button>
+                <button class="lang-switch" data-lang="en">EN</button>
+            </div>
+
+            <!-- RIGHT SIDE (DESKTOP) -->
+            <div class="top-right-controls">
+                <a class="btn btn-primary" href="/login">Log ind</a>
+            </div>
+
+        </nav>
+    </div>
+</header>
+
+<!-- OVERLAY -->
+<div class="menu-overlay"></div>
+
+<main class="sauna-page">
+
+    <!-- INTRO -->
+    <section class="sauna-intro">
+        <h1>Sauna ved Bølgen</h1>
+        <p>
+            Foreningen Bølgebaderne står for driften af saunaen ved Bølgen.
+            Saunaen ejes af Københavns Kommune og er en del af det offentlige
+            havneområde på Kalvebod Brygge.
+        </p>
+    </section>
+
+    <!-- PUBLIC ACCESS -->
+    <section class="sauna-section">
+        <h2>Offentlig adgang</h2>
+
+        <p>
+            Saunaen er åben for alle borgere i København på udvalgte tidspunkter
+            tre dage om ugen.
+        </p>
+
+        <ul class="sauna-times">
+            <li><strong>Onsdag:</strong> 09.00–11.00 og 15.00–21.00</li>
+            <li><strong>Lørdag & søndag:</strong> 11.00–15.00</li>
+        </ul>
+
+        <p>
+            Billetter købes via vores online bookingsystem.
+            Prisen er <strong>80 kr. for 1 time</strong>.
+        </p>
+
+        <p>
+            Fra 1. november tilbyder vi offentlig saunagus om onsdagen
+            kl. 20.00–21.00. Prisen er <strong>120 kr. for 1 time</strong>.
+        </p>
+
+        <div class="cta-center">
+            <a href="#" class="btn btn-primary">Book tid</a>
+        </div>
+
+        <p class="sauna-note">
+            Har du spørgsmål vedrørende booking, kan du kontakte os på
+            <a href="mailto:help.boelgebad@gmail.com">help.boelgebad@gmail.com</a>.
+        </p>
+
+        <p class="sauna-note">
+            Billetter kan ikke ændres eller refunderes. Ved aflysning fra
+            foreningens side refunderes billetter manuelt inden for 14 dage.
+            Billetter refunderes ikke ved “rødt flag” pga. badevandskvalitet.
+        </p>
+
+        <p class="sauna-note">
+            Bemærk, at der er meget begrænsede indendørs omklædningsfaciliteter,
+            og at omklædning ikke er kønsopdelt.
+        </p>
+    </section>
+
+    <!-- OPENING HOURS -->
+    <section class="sauna-section">
+        <h2>Åbningstider – overblik</h2>
+
+        <p>
+            Her finder du et samlet overblik over saunaens åbningstider
+            for både medlemmer, offentlig adgang og saunagus.
+        </p>
+
+        <!-- CALENDAR PLACED HERE LATER -->
+        <div class="calendar-placeholder">
+            Kalender vises her
+        </div>
+
+        <p class="sauna-note">
+            I perioder med offentlig adgang har betalende gæster fortrinsret.
+            Medlemmer kan benytte saunaen, hvis der er ledige pladser.
+            Der er plads til maksimalt 12 personer i saunaen.
+        </p>
+    </section>
+
+    <!-- COMMUNITY -->
+    <section class="sauna-section">
+        <h2>Fællesskabsbaseret sauna</h2>
+
+        <p>
+            Bølgebaderne er et fællesskab – ikke blot en ydelse, man køber.
+            Foreningen er drevet af frivillige, og alle medlemmer bidrager
+            til driften af saunaen.
+        </p>
+
+        <p>
+            Som medlem forventes man blandt andet at deltage i rengøring
+            og være vært, når saunaen er åben for offentligheden.
+            Hvert medlem bidrager typisk 1–2 gange årligt.
+        </p>
+
+        <p>
+            Vi ønsker at skabe faste traditioner omkring saunaen og styrke
+            fællesskabet ved Bølgen. Du kan følge med i foreningens liv
+            via vores Facebook-gruppe og her på hjemmesiden.
+        </p>
+    </section>
+
+    <!-- SAUNA GUS -->
+    <section class="sauna-section">
+        <h2>Saunagus</h2>
+
+        <h3>Offentlig saunagus</h3>
+        <p>
+            Offentlig saunagus tilbydes om onsdagen kl. 20.00–21.00
+            i vinterhalvåret. Pris: 120 kr.
+        </p>
+
+        <h3>Saunagus for medlemmer</h3>
+        <p>
+            Medlemmer af Bølgebaderne kan deltage i saunagus gratis.
+            Gus afholdes på følgende tidspunkter:
+        </p>
+
+        <ul class="sauna-times">
+            <li>Torsdag kl. 17.30–18.30</li>
+            <li>Fredag kl. 07.00–08.00</li>
+            <li>Tirsdag & torsdag kl. 20.00–21.00</li>
+        </ul>
+
+        <p>
+            Der er plads til 10 deltagere pr. gus, og tilmelding kræver
+            medlemslogin.
+        </p>
+
+        <div class="cta-center">
+            <a href="#" class="btn btn-primary">Log ind og book gus</a>
+        </div>
+
+        <p class="sauna-note">
+            Saunagus varer 60 minutter. Man forventes at deltage i hele forløbet.
+            Medbring to håndklæder samt rigeligt med drikkevand.
+        </p>
+    </section>
+
+    <!-- RULES -->
+    <section class="sauna-section">
+        <h2>Regler for brug af saunaen</h2>
+
+        <ul class="sauna-rules">
+            <li>Færdsel i og omkring saunaen sker på eget ansvar</li>
+            <li>Sko må ikke benyttes inde i saunaen</li>
+            <li>Der skal benyttes håndklæde til at sidde på</li>
+            <li>Badetøj er påkrævet</li>
+            <li>Hunde, alkohol og rygning er ikke tilladt</li>
+            <li>Gus må kun udføres af godkendte gusmestre</li>
+            <li>Saunaen må kun benyttes i de angivne tidsrum</li>
+        </ul>
+
+        <p class="sauna-note">
+            Ordensreglerne er fastsat af Københavns Kommune.
+            Manglende overholdelse kan medføre eksklusion af foreningen.
+        </p>
+    </section>
+
+    <!-- CLEANING -->
+    <section class="sauna-section">
+        <h2>Rengøring og ansvar</h2>
+
+        <p>
+            For at passe godt på saunaen er korrekt rengøring vigtig.
+            Her kan du finde en guide til, hvordan saunaen rengøres korrekt.
+        </p>
+
+        <div class="video-wrapper">
+            <iframe
+                    src="https://www.youtube-nocookie.com/embed/PgfPxMjLBaM"
+                    title="Guide til rengøring af saunaen"
+                    frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen
+                    loading="lazy">
+            </iframe>
+        </div>
+
+    </section>
+
+
+    <!-- GUS MASTERS -->
+    <section class="sauna-section">
+        <h2>Vores gusmestre</h2>
+
+        <div class="gus-slider-wrapper">
+
+            <button class="gus-btn left" id="gusPrev" aria-label="Forrige gusmester">
+                ‹
+            </button>
+
+            <div class="gus-track" id="gusTrack">
+                <div class="gus-card">
+                    <img src="/icons/anna.svg" alt="Gusmester" />
+                    <h3>Anna</h3>
+                    <p>Energi & Fokus</p>
+                </div>
+
+                <div class="gus-card">
+                    <img src="/icons/niels.svg" alt="Gusmester" />
+                    <h3>Niels</h3>
+                    <p>Afslapning & Ro</p>
+                </div>
+
+                <div class="gus-card">
+                    <img src="/icons/mette.svg" alt="Gusmester" />
+                    <h3>Mette</h3>
+                    <p>Detox & Udrensning</p>
+                </div>
+
+                <div class="gus-card">
+                    <img src="/icons/osvald.svg" alt="Gusmester" />
+                    <h3>Osvald</h3>
+                    <p>Velvære & Nærvær</p>
+                </div>
+
+                <div class="gus-card">
+                    <img src="/icons/aida.svg" alt="Gusmester" />
+                    <h3>Aida</h3>
+                    <p>Klassisk Gus</p>
+                </div>
+
+                <div class="gus-card">
+                    <img src="/icons/birk.svg" alt="Gusmester" />
+                    <h3>Birk</h3>
+                    <p>Blid Introduktion</p>
+                </div>
+
+                <div class="gus-card">
+                    <img src="/icons/maria.svg" alt="Gusmester" />
+                    <h3>Maria</h3>
+                    <p>Senior Gus</p>
+                </div>
+
+                <div class="gus-card">
+                    <img src="/icons/levi.svg" alt="Gusmester" />
+                    <h3>Levi</h3>
+                    <p>Intens Gus</p>
+                </div>
+            </div>
+
+            <button class="gus-btn right" id="gusNext" aria-label="Næste gusmester">
+                ›
+            </button>
+
+        </div>
+    </section>
+
+</main>
 
 </body>
+<footer class="footer">
+    <div class="footer-inner">
+
+        <p class="footer-title">Følg os</p>
+
+        <div class="footer-socials">
+            <a href="https://www.facebook.com/groups/405258223878568" target="_blank">
+                <img src="/icons/facebook.svg" alt="facebook-ikon">
+            </a>
+            <a href="https://www.instagram.com/boelge.baderne/" target="_blank">
+                <img src="/icons/instagram.svg" alt="instagram-ikon">
+            </a>
+        </div>
+
+        <div class="footer-links">
+            <a href="#">Handelsbetingelser</a>
+            <span>•</span>
+            <a href="#">Privatlivspolitik</a>
+        </div>
+
+        <p class="footer-copy">© 2025 Bølgebaderne</p>
+
+    </div>
+</footer>
+
+<!-- SCROLL TO TOP BUTTON -->
+<button id="scrollTopBtn" aria-label="Til toppen">
+    <img src="/icons/up-arrow.svg" alt="pil op-ikon" />
+</button>
+
+<script src="/js/main.js" defer></script>
 </html>

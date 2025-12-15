@@ -87,19 +87,50 @@ const btnNext = document.getElementById("galleryNext");
 let position = 0;
 const itemWidth = 360 + 24; // image width + gap
 
-btnNext.addEventListener("click", () => {
-    if (position > -(track.children.length - 3) * itemWidth) {
-        position -= itemWidth;
-        track.style.transform = `translateX(${position}px)`;
-    }
-});
+if (track && btnPrev && btnNext) {
+    btnNext.addEventListener("click", () => {
+        if (position > -(track.children.length - 3) * itemWidth) {
+            position -= itemWidth;
+            track.style.transform = `translateX(${position}px)`;
+        }
+    });
 
-btnPrev.addEventListener("click", () => {
-    if (position < 0) {
-        position += itemWidth;
-        track.style.transform = `translateX(${position}px)`;
-    }
-});
+    btnPrev.addEventListener("click", () => {
+        if (position < 0) {
+            position += itemWidth;
+            track.style.transform = `translateX(${position}px)`;
+        }
+    });
+}
+
+// -------------------------------------------
+// GUS MASTER SLIDER
+// -------------------------------------------
+
+const gusTrack = document.getElementById("gusTrack");
+const gusPrev = document.getElementById("gusPrev");
+const gusNext = document.getElementById("gusNext");
+
+let gusPosition = 0;
+const gusCardWidth = 180 + 16; // card width + gap
+
+if (gusTrack && gusPrev && gusNext) {
+
+    gusNext.addEventListener("click", () => {
+        if (gusPosition > -(gusTrack.children.length - 3) * gusCardWidth) {
+            gusPosition -= gusCardWidth;
+            gusTrack.style.transform = `translateX(${gusPosition}px)`;
+        }
+    });
+
+    gusPrev.addEventListener("click", () => {
+        if (gusPosition < 0) {
+            gusPosition += gusCardWidth;
+            gusTrack.style.transform = `translateX(${gusPosition}px)`;
+        }
+    });
+
+}
 
 // -------------------------------------------
 // SCROLL TO TOP BUTTON
