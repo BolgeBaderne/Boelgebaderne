@@ -124,17 +124,29 @@ public class BookingService {
 
         boolean member = user.isMember();
 
-        if (event.getTitle().contains("MEDLEM") && !member) {
-            throw new NotMemberEligibleException("Denne tid er kun for medlemmer.");
+        String upperTitle = event.getTitle() == null
+                ? ""
+                : event.getTitle().toUpperCase();
+
+// Medlemskrav: MEDLEM, MEDLEMSGUS og VAGT
+        if ((upperTitle.contains("MEDLEM")
+                || upperTitle.contains("MEDLEMSGUS")
+                || upperTitle.contains("VAGT"))
+                && !member) {
+
+            throw new NotMemberEligibleException(
+                    "Din medlemsstatus giver ikke adgang til denne tid.");
         }
 
-        if (event.getTitle().contains("VAGT") && !member) {
-            throw new NotMemberEligibleException("Kun medlemmer kan tage en vagt.");
+        // Stop hvis brugeren allerede har booket denne tid
+        if (bookingRepo.existsByUser_UserIdAndEvent_EventId(
+                user.getUserId(), event.getEventId())) {
+            throw new IllegalArgumentException("Du har allerede booket denne tid.");
         }
 
         long booked = bookingRepo.countByEvent_EventId(event.getEventId());
         if (booked >= event.getCapacity()) {
-            throw new TimeSlotFullException("Tiden er allerede fuldt booket.");
+            throw new TimeSlotFullException("Denne tid er allerede fuldt booket.");
         }
 
         Booking booking = new Booking();
@@ -202,27 +214,27 @@ public class BookingService {
             // ---------- GUS-TIDER ----------
             // Tirsdag 20–21 (medlemsgus)
             if (day == DayOfWeek.TUESDAY) {
-                slots.add(makeGusSlot(date.atTime(20, 0), 60, capacity, "Medlemsgus"));
+                slots.add(makeGusSlot(date.atTime(20, 0), 60, capacity, "Medlemsgus", isMember));
             }
 
             // Torsdag 17:30–18:30 (medlemsgus)
             if (day == DayOfWeek.THURSDAY) {
-                slots.add(makeGusSlot(date.atTime(17, 30), 60, capacity, "Medlemsgus"));
+                slots.add(makeGusSlot(date.atTime(17, 30), 60, capacity, "Medlemsgus", isMember));
             }
 
             // Torsdag 20–21 (medlemsgus)
             if (day == DayOfWeek.THURSDAY) {
-                slots.add(makeGusSlot(date.atTime(20, 0), 60, capacity, "Medlemsgus"));
+                slots.add(makeGusSlot(date.atTime(20, 0), 60, capacity, "Medlemsgus", isMember));
             }
 
             // Fredag 07–08 (medlemsgus)
             if (day == DayOfWeek.FRIDAY) {
-                slots.add(makeGusSlot(date.atTime(7, 0), 60, capacity, "Medlemsgus"));
+                slots.add(makeGusSlot(date.atTime(7, 0), 60, capacity, "Medlemsgus", isMember));
             }
 
             // Onsdag gæste-gus 20–21
             if (day == DayOfWeek.WEDNESDAY) {
-                slots.add(makeGusSlot(date.atTime(20, 0), 60, capacity, "Gæste-gus"));
+                slots.add(makeGusSlot(date.atTime(20, 0), 60, capacity, "Gæste-gus", isMember));
             }
         }
 
@@ -264,19 +276,27 @@ public class BookingService {
 
         int available = Math.max(effectiveCapacity - booked, 0);
 
+        boolean userAllowed = true;
         return new AvailableTimeSlotDTO(
-                eventId,             // 0 hvis intet event endnu, ellers rigtig ID
+                eventId,
                 title,
                 start.toString(),
                 effectiveCapacity,
                 booked,
                 available,
                 full,
-                true                  // alle må booke offentlig åbent
+                true
         );
+
     }
 
-    private AvailableTimeSlotDTO makeGusSlot(LocalDateTime start, int duration, int capacity, String titlePrefix) {
+    private AvailableTimeSlotDTO makeGusSlot(
+            LocalDateTime start,
+            int duration,
+            int capacity,
+            String titlePrefix,
+            boolean isMember
+    ) {
         String title = titlePrefix + " • "
                 + start.toLocalTime()
                 + "-" + start.plusMinutes(duration).toLocalTime();
@@ -298,6 +318,11 @@ public class BookingService {
 
         int available = Math.max(effectiveCapacity - booked, 0);
 
+        boolean userAllowed = true;
+        if (titlePrefix != null && titlePrefix.toUpperCase().contains("MEDLEM")) {
+            userAllowed = isMember;
+        }
+
         return new AvailableTimeSlotDTO(
                 eventId,
                 title,
@@ -306,8 +331,9 @@ public class BookingService {
                 booked,
                 available,
                 full,
-                true   // både medlemmer og gæster (selve reglerne håndteres via userAllowed/JS)
+                userAllowed
         );
+
     }
 
 }

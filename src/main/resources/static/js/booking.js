@@ -241,10 +241,12 @@ function renderCalendar() {
                 // - dagen ikke er grå (fortid)
                 if (!slot.full && slot.userAllowed && !body.classList.contains("past-day")) {
                     card.addEventListener("click", () => openModal(slot));
-                } else if (slot.full) {
-                    card.addEventListener("click", () => showMessage("Denne tid er fuldt booket.", true));
+                } else if (slot.full && !body.classList.contains("past-day")) {
+                    // Fuld tid: åbn modal så venteliste-knap kan vises
+                    card.addEventListener("click", () => openModal(slot));
                 } else if (!body.classList.contains("past-day")) {
-                    card.addEventListener("click", () => showMessage("Du har ikke adgang til denne tid.", true));
+                    // Ikke adgang: præcis besked som kravet
+                    card.addEventListener("click", () => showMessage("Din medlemsstatus giver ikke adgang til denne tid.", true));
                 }
             }
 
@@ -431,6 +433,34 @@ function openModal(slot) {
     document.getElementById("modalMessage").innerText = "";
     document.getElementById("modalMessage").className = "alert";
     document.getElementById("bookingModal").style.display = "flex";
+
+    // Toggle knapper afhængigt af om tiden er fuld
+    const confirmBtn = document.getElementById("confirmBtn");
+    const waitlistBtn = document.getElementById("waitlistBtn");
+
+    if (slot.full) {
+        // Kun venteliste-knap når fuld
+        confirmBtn.style.display = "none";
+        waitlistBtn.style.display = "inline-block";
+
+        waitlistBtn.onclick = () => {
+            const msgEl = document.getElementById("modalMessage");
+
+            if (typeof window.signupWaitlist === "function") {
+                window.signupWaitlist(selectedSlot);
+                return;
+            }
+
+            msgEl.innerText = "Venteliste-funktion er ikke tilkoblet endnu.";
+            msgEl.className = "alert alert-error";
+        };
+
+    } else {
+        // Normal booking når ikke fuld
+        confirmBtn.style.display = "inline-block";
+        waitlistBtn.style.display = "none";
+    }
+
 
     document.getElementById("confirmBtn").onclick = confirmBooking;
 }

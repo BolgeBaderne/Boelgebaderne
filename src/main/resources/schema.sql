@@ -7,9 +7,6 @@ CREATE TABLE users (
                        membership_status VARCHAR(20) NOT NULL DEFAULT 'NONE'
 );
 
--- Nulstil sauna_events-tabellen og opret den rigtigt
-DROP TABLE IF EXISTS sauna_events;
-
 CREATE TABLE sauna_events (
                               event_id INT AUTO_INCREMENT PRIMARY KEY,
                               title VARCHAR(255) NOT NULL,
@@ -21,9 +18,6 @@ CREATE TABLE sauna_events (
                               price DECIMAL(10,2),
                               status VARCHAR(50)
 );
-
--- Nulstil bookings-tabellen og opret den rigtigt
-DROP TABLE IF EXISTS bookings;
 
 CREATE TABLE bookings (
                           booking_id INT AUTO_INCREMENT PRIMARY KEY,

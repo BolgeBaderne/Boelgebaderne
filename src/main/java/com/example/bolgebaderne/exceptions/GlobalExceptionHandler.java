@@ -33,4 +33,11 @@ public class GlobalExceptionHandler {
             "error", e.getMessage() != null ? e.getMessage() : "Der skete en fejl. Prøv igen."
     );
   }
+  @ExceptionHandler(AlreadyBookedException.class)
+  @ResponseStatus(HttpStatus.BAD_REQUEST)
+  @ResponseBody
+  public Map<String, String> handleAlreadyBooked(AlreadyBookedException e) {
+    return Map.of("error", e.getMessage());
+  }
+
 }
