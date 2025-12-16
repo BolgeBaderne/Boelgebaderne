@@ -17,6 +17,11 @@ body {
     color: #0b2430;
 }
 
+html,
+body {
+    overflow-x: hidden;
+}
+
 /* ========================================================= */
 /*               WCAG — FOCUS-VISIBLE (keyboard only)        */
 /* ========================================================= */
@@ -245,17 +250,24 @@ body {
         background: white;
         padding: 4.5rem 2rem 2rem;
 
+        transform: translateX(100%);
+        transition: transform 0.25s ease;
+
+        visibility: hidden;
+        pointer-events: none;
+
+        z-index: 1000;
+
         display: flex;
         flex-direction: column;
         gap: 2rem;
 
-        transform: translateX(100%);
-        transition: transform 0.25s ease;
-        z-index: 1000;
     }
 
     .site-header.is-open .main-nav {
         transform: translateX(0);
+        visibility: visible;
+        pointer-events: auto;
     }
 
     .main-nav .nav-list {
@@ -652,9 +664,9 @@ body {
     font-size: 1.1rem;
 }
 
-/* -------------------------------------- */
+/* ====================================== */
 /*          OPENING HOURS SECTION         */
-/* -------------------------------------- */
+/* ====================================== */
 
 .hours-section {
     padding: 4rem 1rem;
@@ -850,7 +862,7 @@ body {
 /* ========================= */
 
 .updates-section {
-    padding: 4rem 1rem 6rem;
+    padding: 4rem 1rem 4rem;
     max-width: 900px;
     margin: 0 auto;
     text-align: center;
@@ -914,7 +926,7 @@ body {
 /* ========================= */
 
 .contact-section {
-    padding: 4rem 1rem 5rem;
+    padding: 2rem 1rem 5rem;
     text-align: center;
 }
 
@@ -1097,4 +1109,545 @@ body {
     align-self: center;
     filter: drop-shadow(0 1px 3px rgba(0,0,0,0.45));
 }
+
+/* ========================= */
+/*          FAQ PAGE         */
+/* ========================= */
+
+.faq-section {
+    padding: 9rem 1rem 6rem;
+    max-width: 900px;
+    margin: 0 auto;
+    text-align: left;
+}
+
+.faq-header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+}
+
+.faq-header-icon {
+    width: 70px;
+    height: 70px;
+    background: #e8f4f8;
+    border-radius: 50%;
+    display: flex;
+    margin: 0 auto 1rem auto;
+    align-items: center;
+    justify-content: center;
+}
+
+.faq-header-icon img {
+    width: 32px;
+    height: 32px;
+}
+
+.faq-header h2 {
+    font-family: "Playfair Display", serif;
+    font-size: 2.6rem;
+    color: #0b2430;
+    margin-bottom: 1rem;
+}
+
+.faq-intro {
+    color: rgba(11,36,48,0.65);
+    max-width: 700px;
+    margin: 0 auto;
+    font-size: 1.1rem;
+}
+
+.faq-category {
+    font-family: "Playfair Display", serif;
+    font-size: 1.8rem;
+    margin-top: 3rem;
+    margin-bottom: 1rem;
+    color: #0b2430;
+}
+
+/* ========================= */
+/*        ABOUT PAGE         */
+/* ========================= */
+
+/* Side-baggrund */
+body.page-about {
+    background: #f7fbfc;
+}
+
+.about-intro {
+    max-width: 800px;
+    margin: 10rem auto 3rem;
+    padding: 0 1rem;
+    text-align: center;
+}
+
+.about-intro h1 {
+    font-family: "Playfair Display", serif;
+    font-size: 2.8rem;
+    margin-bottom: 0.6rem;
+    color: #0b2430;
+}
+
+.about-intro p {
+    font-size: 1.15rem;
+    color: rgba(11, 36, 48, 0.7);
+    line-height: 1.6;
+}
+
+.about-nav {
+    display: flex;
+    justify-content: center;
+    gap: 0.8rem;
+    flex-wrap: wrap;
+    margin-bottom: 4rem;
+    padding: 0 1rem;
+}
+
+.about-nav a {
+    text-decoration: none;
+    padding: 0.6rem 1.2rem;
+    border-radius: 999px;
+    border: 1px solid rgba(10, 122, 140, 0.25);
+    color: #0A7A8C;
+    font-weight: 500;
+    font-size: 0.95rem;
+    background: #ffffff;
+    transition: background 0.2s ease;
+}
+
+.about-nav a:hover {
+    background: #eef9fa;
+}
+
+.about-section {
+    max-width: 900px;
+    margin: 0 auto 2.5rem;
+    padding: 2.5rem 2rem;
+    background: #ffffff;
+    border-radius: 18px;
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.06);
+}
+
+.about-section h2 {
+    font-family: "Playfair Display", serif;
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    color: #0b2430;
+}
+
+.about-section h3 {
+    margin-top: 1.6rem;
+    margin-bottom: 0.4rem;
+    font-size: 1.25rem;
+    color: #0A7A8C;
+}
+
+.about-section h4 {
+    margin-top: 1.2rem;
+    margin-bottom: 0.4rem;
+    font-size: 1.05rem;
+    color: #0b2430;
+}
+
+.about-section p {
+    line-height: 1.65;
+    color: rgba(11, 36, 48, 0.8);
+}
+
+.about-files {
+    list-style: none;
+    padding-left: 0;
+    margin-top: 1rem;
+}
+
+.about-files li {
+    margin-bottom: 0.6rem;
+}
+
+.about-files a {
+    color: #0A7A8C;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.about-files a:hover {
+    text-decoration: underline;
+}
+
+/* Mobil */
+@media (max-width: 767px) {
+    .about-intro {
+        margin-top: 8rem;
+    }
+
+    .about-section {
+        padding: 2rem 1.4rem;
+    }
+}
+
+/* ========================================================= */
+/*                     SAUNA INFO PAGE                       */
+/* ========================================================= */
+
+body.page-sauna {
+    background: #f7fbfc;
+}
+
+.sauna-intro {
+    max-width: 800px;
+    margin: 10rem auto 3rem;
+    padding: 0 1rem;
+    text-align: center;
+}
+
+.sauna-intro h1 {
+    font-family: "Playfair Display", serif;
+    font-size: 2.8rem;
+    margin-bottom: 0.6rem;
+}
+
+.sauna-intro p {
+    font-size: 1.15rem;
+    color: rgba(11,36,48,0.7);
+}
+
+.sauna-section {
+    max-width: 900px;
+    margin: 0 auto 3.5rem;
+    padding: 2.5rem 2rem;
+    background: #ffffff;
+    border-radius: 18px;
+    box-shadow: 0 8px 28px rgba(0,0,0,0.06);
+}
+
+.sauna-section h2 {
+    font-family: "Playfair Display", serif;
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+
+.sauna-section h3 {
+    margin-top: 1.4rem;
+    margin-bottom: 0.4rem;
+    font-size: 1.2rem;
+    color: #0A7A8C;
+}
+
+.sauna-section p {
+    line-height: 1.75;
+    margin-bottom: 1.3rem;
+}
+
+.sauna-times {
+    list-style: none;
+    padding-left: 0;
+    margin: 1rem 0;
+}
+
+.sauna-times li {
+    margin-bottom: 0.4rem;
+}
+
+.sauna-note {
+    font-size: 0.95rem;
+    color: rgba(11,36,48,0.65);
+    margin-top: 0.8rem;
+}
+
+.calendar-placeholder {
+    margin: 1.5rem 0;
+    padding: 2rem;
+    border: 2px dashed rgba(10,122,140,0.3);
+    border-radius: 12px;
+    text-align: center;
+    color: rgba(11,36,48,0.6);
+}
+
+.sauna-rules {
+    padding-left: 1.2rem;
+    margin-top: 1rem;
+}
+
+.sauna-rules li {
+    margin-bottom: 0.5rem;
+}
+
+/* ------------------------- */
+/*          BUTTONS          */
+/* ------------------------- */
+
+.sauna-page .btn {
+    margin: 1.4rem 0 1.6rem;
+}
+
+/* ========================================================= */
+/*                     GUS MASTER SLIDER                     */
+/* ========================================================= */
+
+.gus-slider-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+}
+
+.gus-track {
+    display: flex;
+    gap: 1rem;
+    transition: transform 0.4s ease;
+    width: max-content;
+}
+
+.gus-card {
+    flex: 0 0 180px;
+    flex-shrink: 0;
+    background: #f4fafb;
+    border-radius: 14px;
+    padding: 0.8rem;
+    text-align: center;
+}
+
+.gus-card img {
+    width: 100%;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-bottom: 0.5rem;
+}
+
+.gus-card h3 {
+    font-size: 0.95rem;
+    margin-bottom: 0.2rem;
+}
+
+.gus-card p {
+    font-size: 0.8rem;
+    color: rgba(11,36,48,0.65);
+}
+
+.gus-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: white;
+    border: none;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    font-size: 1.2rem;
+    cursor: pointer;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.18);
+    z-index: 5;
+}
+
+.gus-btn.left {
+    left: -8px;
+}
+
+.gus-btn.right {
+    right: -8px;
+}
+
+.sauna-page .cta-center {
+    text-align: center;
+}
+
+/* ------------------------- */
+/*           VIDEO           */
+/* ------------------------- */
+
+.video-wrapper {
+    position: relative;
+    margin-top: 1.5rem;
+    padding-top: 56.25%; /* 16:9 */
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 8px 28px rgba(0,0,0,0.12);
+}
+
+.video-wrapper iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+}
+
+/* ========================================================= */
+/*                    MOBILE ADJUSTMENTS                     */
+/* ========================================================= */
+
+@media (max-width: 767px) {
+
+    .sauna-intro {
+        margin-top: 8rem;
+    }
+
+    .sauna-section {
+        padding: 2rem 1.4rem;
+    }
+
+    .gus-slider-wrapper {
+        overflow: visible;
+    }
+
+    .gus-btn {
+        display: none;
+    }
+
+    .gus-track {
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .gus-card {
+        scroll-snap-align: center;
+    }
+}
+
+/* ========================================================= */
+/*                  MEMBERSHIP PAGE                          */
+/* ========================================================= */
+
+body.page-membership {
+    background: #f7fbfc;
+}
+
+.membership-intro {
+    max-width: 800px;
+    margin: 10rem auto 3rem;
+    padding: 0 1rem;
+    text-align: center;
+}
+
+.membership-intro h1 {
+    font-family: "Playfair Display", serif;
+    font-size: 2.8rem;
+    margin-bottom: 0.6rem;
+}
+
+.membership-intro p {
+    font-size: 1.15rem;
+    color: rgba(11,36,48,0.7);
+}
+
+.membership-section {
+    max-width: 900px;
+    margin: 0 auto 3.5rem;
+    padding: 2.5rem 2rem;
+    background: #ffffff;
+    border-radius: 18px;
+    box-shadow: 0 8px 28px rgba(0,0,0,0.06);
+}
+
+.membership-section h2 {
+    font-family: "Playfair Display", serif;
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+
+.membership-section p {
+    line-height: 1.75;
+    margin-bottom: 1.2rem;
+}
+
+.membership-benefits {
+    padding-left: 1.2rem;
+}
+
+.membership-benefits li {
+    margin-bottom: 0.6rem;
+}
+
+.membership-note {
+    font-size: 0.95rem;
+    color: rgba(11,36,48,0.65);
+}
+
+.volunteer-list {
+    padding-left: 1.2rem;
+    margin-bottom: 1rem;
+}
+
+.volunteer-list li {
+    margin-bottom: 0.5rem;
+}
+
+.membership-waitlist {
+    border: 2px solid rgba(10,122,140,0.25);
+}
+
+.waitlist-status {
+    font-size: 1.1rem;
+    color: #0A7A8C;
+    font-weight: 600;
+}
+
+/* Mobile */
+
+@media (max-width: 767px) {
+
+    .membership-intro {
+        margin-top: 8rem;
+    }
+
+    .membership-section {
+        padding: 2rem 1.4rem;
+    }
+}
+
+/* ================================================ */
+/*                  ACCORDION                       */
+/* ================================================ */
+
+
+.accordion-item {
+    margin-bottom: 1rem;
+}
+
+.accordion-question {
+    width: 100%;
+    background: #ffffff;
+    text-align: left;
+    border-radius: 14px;
+    padding: 1.1rem 1.6rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #0b2430;
+    cursor: pointer;
+    transition: background 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.06);
+    border: 1px solid rgba(10, 122, 140, 0.15);
+}
+
+.accordion-question:hover {
+    background: #f4fafb;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.05);
+}
+
+
+.accordion-answer {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.35s ease;
+}
+
+.accordion-answer-inner {
+    overflow: hidden;
+    text-align: left;
+    padding: 0 1.4rem;
+    color: rgba(11,36,48,0.75);
+    line-height: 1.6;
+    background: #ffffff;
+    border-left: 3px solid transparent;
+}
+
+.accordion-answer.open {
+    grid-template-rows: 1fr;
+}
+
+.accordion-answer.open .accordion-answer-inner {
+    padding: 1rem 1.4rem 1.4rem;
+    border-left-color: #0A7A8C;
+}
+
 
