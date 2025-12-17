@@ -1650,4 +1650,159 @@ body.page-membership {
     border-left-color: #0A7A8C;
 }
 
+/* ================================================= */
+/*                   DASHBOARD                      */
+/* ================================================= */
+
+body.page-dashboard {
+    background: #f7fbfc;
+}
+
+/* Layout */
+.dashboard {
+    max-width: 1200px;
+    margin: 9rem auto 4rem;
+    padding: 0 1rem;
+}
+
+/* Header */
+.dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 3rem;
+    gap: 1rem;
+}
+
+.dashboard-header h1 {
+    font-family: "Playfair Display", serif;
+    font-size: 2.4rem;
+}
+
+.dashboard-header p {
+    color: rgba(11,36,48,0.65);
+}
+
+/* Role switch */
+.dashboard-role-switch {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.role-btn {
+    padding: 0.4rem 0.9rem;
+    border-radius: 999px;
+    border: 1px solid rgba(10,122,140,0.3);
+    background: white;
+    color: #0A7A8C;
+    cursor: pointer;
+    font-size: 0.85rem;
+}
+
+.role-btn.active {
+    background: #0A7A8C;
+    color: white;
+}
+
+/* Grid */
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+}
+
+/* Cards */
+.dashboard-card {
+    background: white;
+    border-radius: 18px;
+    padding: 2rem;
+    box-shadow: 0 8px 28px rgba(0,0,0,0.06);
+    border: 1px solid rgba(10,122,140,0.15);
+}
+
+.dashboard-card h2 {
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
+}
+
+/* Lists */
+.booking-list,
+.news-list,
+.admin-list {
+    list-style: none;
+    padding: 0;
+}
+
+.booking-list li,
+.admin-list li {
+    margin-bottom: 0.8rem;
+    font-size: 0.95rem;
+}
+
+.booking-date {
+    font-weight: 600;
+}
+
+.news-list li {
+    margin-bottom: 1.2rem;
+}
+
+.news-list p {
+    font-size: 0.9rem;
+    color: rgba(11,36,48,0.75);
+}
+
+/* Links */
+.card-link {
+    display: inline-block;
+    margin-top: 1rem;
+    font-size: 0.9rem;
+    color: #0A7A8C;
+    text-decoration: none;
+}
+
+.card-link:hover {
+    text-decoration: underline;
+}
+
+/* Actions */
+.dashboard-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+
+.dashboard-action {
+    padding: 0.7rem 1rem;
+    border-radius: 12px;
+    background: #eef9fa;
+    text-decoration: none;
+    color: #0b2430;
+    font-weight: 500;
+}
+
+.dashboard-action:hover {
+    background: #e2f3f5;
+}
+
+/* Admin visibility */
+.admin-only {
+    display: none;
+}
+
+body.is-admin .admin-only {
+    display: block;
+}
+
+/* Mobile */
+@media (max-width: 900px) {
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .dashboard-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
 
