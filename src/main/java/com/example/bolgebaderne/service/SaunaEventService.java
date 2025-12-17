@@ -1,7 +1,6 @@
 package com.example.bolgebaderne.service;
 
 import com.example.bolgebaderne.dto.SaunaAdminEventDTO;
-import com.example.bolgebaderne.dto.SaunaAdminEventDTO;
 import com.example.bolgebaderne.exceptions.EventNotFoundException;
 import com.example.bolgebaderne.model.EventStatus;
 import com.example.bolgebaderne.model.SaunaEvent;
