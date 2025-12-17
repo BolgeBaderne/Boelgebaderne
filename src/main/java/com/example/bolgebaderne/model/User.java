@@ -30,8 +30,9 @@ public class User implements UserDetails {
 
     // ===== Dine helper-metoder =====
 
-    public boolean isMember() { return role == Role.MEMBER; }
-    public boolean isAdmin() { return role == Role.ADMIN; }
+    // Alle roller er har medlemstilgang undtagen GUEST
+    public boolean isMember() { return role == Role.MEMBER || role == Role.ADMIN || role == Role.NON_MEMBER; }
+
 
     // ===== Konstruktør(er) =====
 
