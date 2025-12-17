@@ -1,5 +1,21 @@
 const API_BASE = "/api/admin/events";
 
+// Hent event ID fra URL hvis det findes (fx /admin/events/2)
+function getEventIdFromUrl() {
+    const pathParts = window.location.pathname.split('/');
+    const lastPart = pathParts[pathParts.length - 1];
+    const idFromPath = parseInt(lastPart);
+
+    // Hvis sidste del af path er et nummer, return det
+    if (!isNaN(idFromPath)) {
+        return idFromPath;
+    }
+
+    return null; // Ingen specifikt event ID i URL
+}
+
+const urlEventId = getEventIdFromUrl();
+
 const form = document.getElementById("eventForm");
 const formMessage = document.getElementById("formMessage");
 const cancelEditBtn = document.getElementById("cancelEditBtn");
@@ -194,4 +210,33 @@ document.addEventListener("DOMContentLoaded", async () => {
     cancelEditBtn.style.display = "none";
     showMessage("Opret nyt event.", "success");
     await loadEvents();
+
+    // Hvis der er et event ID i URL'en, load det automatisk til redigering
+    if (urlEventId) {
+        console.log(`Auto-loading event #${urlEventId} for redigering`);
+        try {
+            const res = await fetch(`${API_BASE}/${urlEventId}`, { credentials: "same-origin" });
+            if (!res.ok) throw new Error(`Kunne ikke hente event #${urlEventId}. Status: ${res.status}`);
+
+            const event = await res.json();
+
+            document.getElementById("title").value = event.title ?? "";
+            document.getElementById("startTime").value = toDatetimeLocalValue(event.startTime);
+            document.getElementById("saunagusMasterName").value = event.saunagusMasterName ?? "";
+            document.getElementById("saunagusMasterImageUrl").value = event.saunagusMasterImageUrl ?? "";
+            document.getElementById("description").value = event.description ?? "";
+            document.getElementById("durationMinutes").value = event.durationMinutes ?? 45;
+            document.getElementById("capacity").value = event.capacity ?? 12;
+            document.getElementById("price").value = event.price ?? 99;
+            document.getElementById("status").value = event.status ?? "UPCOMING";
+
+            form.dataset.editId = urlEventId;
+            cancelEditBtn.style.display = "inline-block";
+            showMessage(`Redigerer event #${urlEventId}`, "success");
+            window.scrollTo({ top: 0, behavior: "smooth" });
+        } catch (err) {
+            console.error(err);
+            showMessage(err.message, "error");
+        }
+    }
 });

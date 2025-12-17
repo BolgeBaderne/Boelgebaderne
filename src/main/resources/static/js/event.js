@@ -1,7 +1,32 @@
-// event.html?id=1
-const params = new URLSearchParams(window.location.search);
-const eventId = params.get("id") || 1;
+// Hent event ID fra URL path eller brug default
+function getEventIdFromUrl() {
+    const pathParts = window.location.pathname.split('/');
+    const lastPart = pathParts[pathParts.length - 1];
+    const idFromPath = parseInt(lastPart);
+
+    // Hvis sidste del af path er et nummer, brug det
+    if (!isNaN(idFromPath)) {
+        console.log(`Event ID fra path: ${idFromPath}`);
+        return idFromPath;
+    }
+
+    // Ellers prøv query parameter: event.html?id=1
+    const params = new URLSearchParams(window.location.search);
+    const idFromQuery = params.get("id");
+
+    if (idFromQuery) {
+        console.log(`Event ID fra query: ${idFromQuery}`);
+        return parseInt(idFromQuery);
+    }
+
+    console.log('Bruger default event ID: 1');
+    return 1;
+}
+
+const eventId = getEventIdFromUrl();
 const apiUrl = `/api/events/${eventId}`;
+
+console.log(`Henter event med ID: ${eventId} fra ${apiUrl}`);
 
 const els = {
     title: document.getElementById("event-title"),

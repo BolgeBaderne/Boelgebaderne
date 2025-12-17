@@ -75,6 +75,10 @@
             <artifactId>thymeleaf-extras-springsecurity6</artifactId>
             <groupId>org.thymeleaf.extras</groupId>
         </dependency>
+        <dependency>
+            <groupId>org.thymeleaf.extras</groupId>
+            <artifactId>thymeleaf-extras-springsecurity6</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

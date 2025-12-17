@@ -33,8 +33,13 @@ public class SecurityConfig {
                                 "/login",
                                 "/api/public/**",
                                 "/api/auth/**",
-                                "/h2-console/**"
+                                "/h2-console/**",
+                                "/api/events/**",
+                                "/css/**",
+                                "/js/**"
                         ).permitAll()
+
+
 
                         // FRONTEND-medlemssider:
                         .requestMatchers("/member/**").hasAnyRole("MEMBER", "ADMIN")
@@ -65,8 +70,9 @@ public class SecurityConfig {
                 .logout(logout -> logout
                         .logoutUrl("/logout")
                         .logoutSuccessUrl("/login?logout") // 👈 vigtig for “du er logget ud”
-                )
 
+
+                        )
                         .exceptionHandling(ex -> ex
                                 // Ikke logget ind → redirect til login med auth=required
                                 .authenticationEntryPoint((request, response, authException) -> {
@@ -76,6 +82,7 @@ public class SecurityConfig {
                                 .accessDeniedHandler((request, response, accessDeniedException) -> {
                                     // Brugeren er logget ind, men har ikke den rigtige rolle
                                     response.sendRedirect("/membership-required");
+                                    response.sendRedirect("/access-denied");
 //
 //                                    // Ikke nok rettigheder → 403 + simpel tekst
 //                                    response.sendError(403, "Kun administratorer må udføre denne handling.");
