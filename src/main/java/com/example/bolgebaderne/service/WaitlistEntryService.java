@@ -1,5 +1,6 @@
 package com.example.bolgebaderne.service;
 
+import com.example.bolgebaderne.dto.WaitlistStatusDTO;
 import com.example.bolgebaderne.exceptions.EventNotFoundException;
 import com.example.bolgebaderne.exceptions.WaitlistNotAllowedException;
 import com.example.bolgebaderne.model.*;
@@ -103,6 +104,33 @@ public class WaitlistEntryService {
         int capacity = saunaEvent.getCapacity();
         return current >= capacity;
     }
+    public WaitlistStatusDTO getWaitlistStatus(int eventId, Integer userId) {
+        SaunaEvent event = getEventOrThrow(eventId);
+
+        List<WaitlistEntry> entries = waitlistRepo.findBySaunaEventOrderByPositionAsc(event);
+
+        Integer userPosition = null;
+        if (userId != null) {
+            for (WaitlistEntry entry : entries) {
+                if (entry.getUser().getUserId() == userId) {
+                    userPosition = entry.getPosition();
+                    break;
+                }
+            }
+        }
+
+        boolean fullyBooked = isEventFullyBooked(event);
+        String message = fullyBooked ? "Tidspunkt er fuldt booket" : "Ledige pladser tilgængelige";
+
+        return new WaitlistStatusDTO(
+                eventId,
+                fullyBooked,
+                entries.size(),
+                userPosition,
+                message
+        );
+    }
+
 
 
     //Metode til at tilmelde bruger til en venteliste

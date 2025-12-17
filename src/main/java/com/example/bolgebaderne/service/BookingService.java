@@ -112,12 +112,16 @@ public class BookingService {
                     req.title(),
                     "",
                     "",
+                    "",
                     start,
                     60,
                     req.capacity(),
                     price,
-                    EventStatus.UPCOMING
+                    EventStatus.UPCOMING,
+                    0,
+                    req.capacity()
             );
+
 
             event = eventRepo.save(newEvent);
         }
