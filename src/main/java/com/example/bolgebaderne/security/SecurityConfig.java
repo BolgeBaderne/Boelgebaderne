@@ -9,17 +9,14 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
-import java.io.PrintWriter;
-
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
-    public class SecurityConfig {
+public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
@@ -64,6 +61,7 @@ import java.io.PrintWriter;
                 .anyRequest().authenticated()
         );
 
+        // FORM LOGIN til browseren (single, correct configuration)
         http.formLogin(form -> form
                 .loginPage("/login")
                 .usernameParameter("email")
@@ -72,16 +70,6 @@ import java.io.PrintWriter;
                 .failureUrl("/login?error")
                 .permitAll()
         );
-                // FORM LOGIN til browseren
-                .formLogin(form -> form
-                        .loginPage("/login")
-                        .usernameParameter("email")      // <- vigtig!
-                        .passwordParameter("password")   // valgfri, men fint
-//                        .defaultSuccessUrl("/api/member/profile", false)
-                        .failureUrl("/login?error")         //vigtig for fejlbesked
-                        .permitAll()
-                );
-
 
         http.logout(logout -> logout
                 .logoutUrl("/logout")
@@ -104,4 +92,3 @@ import java.io.PrintWriter;
                .orElseThrow(() -> new UsernameNotFoundException("User not found: " + email));
     }
 }
-

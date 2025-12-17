@@ -1,26 +1,104 @@
 <!DOCTYPE html>
-<html lang="da">
+<html lang="da" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <title>Min profil</title>
-  <link rel="stylesheet" href="/css/style.css">
+    <meta charset="UTF-8">
+    <title>Min profil</title>
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
 
-<div class="nav">
-  <a href="/member/profile">Profil</a>
-  <a href="/member/quick-booking">Hurtig booking</a>
-  <a href="/member/shifts">Vagtplan</a>
-  <a href="/logout">Log ud</a>
+<!-- NAVBAR (genbrug fra login) -->
+<header class="site-header">
+    <div class="header-inner">
+
+        <a href="/" class="logo" aria-label="Bølgebaderne - hjem">
+            <img src="/images/logo.png" alt="Bølgebaderne logo">
+        </a>
+
+        <div class="mobile-lang">
+            <button class="lang-switch" data-lang="da">DA</button>
+            <button class="lang-switch" data-lang="en">EN</button>
+        </div>
+
+        <button class="nav-toggle"
+                aria-expanded="false"
+                aria-controls="main-nav"
+                aria-label="Åbn menu">
+            <span class="bars" aria-hidden="true">☰</span>
+        </button>
+
+        <nav id="main-nav" class="main-nav" aria-label="Hovednavigation">
+            <button class="close-menu" aria-label="Luk menu">×</button>
+
+            <ul class="nav-list">
+                <li><a href="/member/profile" class="active">Profil</a></li>
+                <li><a href="/member/quick-booking">Hurtig booking</a></li>
+                <li><a href="/member/shifts">Vagtplan</a></li>
+                <li><a href="/logout">Log ud</a></li>
+            </ul>
+
+            <div class="desktop-lang">
+                <button class="lang-switch" data-lang="da">DA</button>
+                <button class="lang-switch" data-lang="en">EN</button>
+            </div>
+
+            <div class="top-right-controls">
+                <a class="btn btn-primary" href="/logout">Log ud</a>
+            </div>
+        </nav>
+
+    </div>
+</header>
+
+<div class="menu-overlay"></div>
+
+<!-- CONTENT (genbrug login-container/login-box look) -->
+<div class="login-container">
+    <div class="login-box">
+
+        <h1>Min profil</h1>
+
+        <div class="card">
+            <p><strong>Navn:</strong> <span th:text="${profile.name}"></span></p>
+            <p><strong>Email:</strong> <span th:text="${profile.email}"></span></p>
+            <p><strong>Medlemsstatus:</strong> <span th:text="${profile.membershipStatus}"></span></p>
+        </div>
+
+    </div>
 </div>
 
-<h1>Min profil</h1>
+<!-- FOOTER (genbrug fra login) -->
+<footer class="footer">
+    <div class="footer-inner">
 
-<div class="card">
-  <p><strong>Navn:</strong> <span th:text="${profile.name}"></span></p>
-  <p><strong>Email:</strong> <span th:text="${profile.email}"></span></p>
-  <p><strong>Medlemsstatus:</strong> <span th:text="${profile.membershipStatus}"></span></p>
-</div>
+        <p class="footer-title">Følg os</p>
+
+        <div class="footer-socials">
+            <a href="https://www.facebook.com/groups/405258223878568" target="_blank" aria-label="Facebook">
+                <img src="/icons/facebook.svg" alt="facebook-ikon">
+            </a>
+            <a href="https://www.instagram.com/boelge.baderne/" target="_blank" aria-label="Instagram">
+                <img src="/icons/instagram.svg" alt="instagram-ikon">
+            </a>
+        </div>
+
+        <div class="footer-links">
+            <a href="#">Handelsbetingelser</a>
+            <span>•</span>
+            <a href="#">Privatlivspolitik</a>
+        </div>
+
+        <p class="footer-copy">© 2025 Bølgebaderne</p>
+
+    </div>
+</footer>
+
+<button id="scrollTopBtn" aria-label="Til toppen">
+    <img src="/icons/up-arrow.svg" alt="pil op-ikon" />
+</button>
+
+<script src="/js/lang.js" defer></script>
+<script src="/js/main.js" defer></script>
 
 </body>
 </html>

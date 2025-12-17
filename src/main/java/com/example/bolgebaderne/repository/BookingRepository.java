@@ -9,7 +9,9 @@ import org.springframework.stereotype.Repository;
 public interface BookingRepository extends JpaRepository<Booking, Integer> {
     int countBySaunaEvent(SaunaEvent saunaEvent);
 
-    long countByEvent_EventId(int eventId);
+    // Fixed: use property name 'saunaEvent' (matches Booking.saunaEvent) for nested property lookup
+    long countBySaunaEvent_EventId(int eventId);
 
-    boolean existsByUser_UserIdAndEvent_EventId(int userId, int eventId);
+    // Corrected method name to reference SaunaEvent property (was referencing non-existent 'event')
+    boolean existsByUser_UserIdAndSaunaEvent_EventId(int userId, int eventId);
 }

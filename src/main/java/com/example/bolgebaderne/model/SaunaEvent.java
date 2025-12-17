@@ -107,7 +107,7 @@ public class SaunaEvent {
         return gusmesterImageUrl;
     }
 
-    public void setgusmesterImageUrl(String gusmesterImageUrl) {
+    public void setGusmesterImageUrl(String gusmesterImageUrl) {
         this.gusmesterImageUrl = gusmesterImageUrl;
     }
 
@@ -155,7 +155,7 @@ public class SaunaEvent {
         return currentBookings;
     }
 
-    public void setCurrentBooking(int currentBookings) {
+    public void setCurrentBookings(int currentBookings) {
         this.currentBookings = currentBookings;
     }
 

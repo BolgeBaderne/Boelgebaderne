@@ -123,7 +123,7 @@ class BookingControllerIntegrationTest {
         assertEquals(testEvent.getEventId(), booking.getEvent().getEventId());
 
         // Verificer at booking er i databasen
-        long count = bookingRepository.countByEvent_EventId(testEvent.getEventId());
+        long count = bookingRepository.countBySaunaEvent_EventId(testEvent.getEventId());
         assertEquals(1, count);
     }
 

@@ -12,6 +12,16 @@ html {
     scroll-behavior: smooth;
 }
 
+/* Add reusable page content spacing so main content sits below header */
+.page-content {
+    padding-top: var(--header-height);
+}
+
+/* small-screen header is taller because of stacked controls */
+@media (max-width: 767px) {
+    :root { --header-height: 112px; }
+}
+
 body {
     font-family: "Inter", system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
     color: #0b2430;
@@ -1700,6 +1710,330 @@ body.page-membership {
 
 .hidden {
     display: none;
+}
+
+
+/* ===== LOGIN PAGE ===== */
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #f4f6f8;
+}
+
+/* Container der centrerer login */
+.login-container {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Selve login-boksen */
+.login-box {
+    background-color: #ffffff;
+    padding: 32px;
+    width: 100%;
+    max-width: 380px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+/* Titel */
+.login-box h1 {
+    margin-bottom: 24px;
+    text-align: center;
+    font-size: 24px;
+    color: #333;
+}
+
+/* Labels */
+.login-box label {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 14px;
+    color: #555;
+}
+
+/* Input felter */
+.login-box input[type="email"],
+.login-box input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+/* Fokus på input */
+.login-box input:focus {
+    outline: none;
+    border-color: #3b82f6;
+}
+
+/* Login-knap */
+.login-box button {
+    width: 100%;
+    padding: 10px;
+    background-color: #3b82f6;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+/* Hover-effekt */
+.login-box button:hover {
+    background-color: #2563eb;
+}
+
+
+/* BOOKING CSS */
+
+body {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    margin: 0;
+    background-color: #f5f7fb;
+}
+
+.booking-wrapper {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 32px 16px 48px;
+}
+
+.booking-header {
+    text-align: center;
+    margin-bottom: 24px;
+}
+
+.booking-header h1 {
+    margin: 0 0 8px;
+    font-size: 32px;
+}
+
+.booking-header p {
+    margin: 0;
+    color: #555;
+}
+
+.week-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.week-nav button {
+    border: 1px solid #ccc;
+    background: white;
+    padding: 6px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.week-nav button:hover {
+    background: #f0f0f0;
+}
+
+/* Selve uge-kalenderen */
+.calendar-grid {
+    display: grid;
+    grid-template-columns: 80px repeat(7, 1fr);
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+    overflow: hidden;
+    position: relative; /* vigtig for den røde tids-linje */
+}
+
+.calendar-time-col {
+    border-right: 1px solid #eee;
+    padding: 8px;
+    font-size: 12px;
+    color: #888;
+}
+
+.time-slot-label {
+    height: 60px;
+    border-bottom: 1px solid #f3f3f3;
+}
+
+.calendar-day-col {
+    border-left: 1px solid #f7f7f7;
+    padding: 4px;
+}
+
+.day-header {
+    text-align: center;
+    padding: 8px 4px;
+    border-bottom: 1px solid #eee;
+    font-size: 12px;
+    color: #555;
+}
+
+.day-header strong {
+    display: block;
+    font-size: 13px;
+    margin-bottom: 2px;
+}
+
+.day-body {
+    position: relative;
+    min-height: 840px;
+}
+
+.session-card {
+    position: absolute;
+    left: 6px;
+    right: 6px;
+    border-radius: 8px;
+    padding: 6px 8px;
+    font-size: 11px;
+    box-sizing: border-box;
+    cursor: pointer;
+    overflow: hidden;
+}
+
+.session-member {
+    background: #e1f0ff;
+    border: 1px solid #b7d4ff;
+}
+
+.session-guest {
+    background: #f0e4ff;
+    border: 1px solid #d5c0ff;
+}
+
+.session-gus {
+    background: #ffe7f0;
+    border: 1px solid #ffc5de;
+}
+
+/* Baggrund for åbningstider */
+.session-open-member {
+    background: #d5f5d8;      /* lys grøn */
+    border: none;
+    opacity: 0.7;
+}
+
+.session-open-guest {
+    background: #fff7c2;      /* pastel gul */
+    border: none;
+    opacity: 0.8;
+}
+
+.session-full {
+    opacity: 0.5;
+}
+
+.session-card-title {
+    font-weight: 600;
+    margin-bottom: 2px;
+}
+
+.session-card-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.session-capacity {
+    font-size: 10px;
+}
+
+.session-lock {
+    font-size: 11px;
+}
+
+/* RØD TIDS-LINJE (current time) */
+/* Selve linjen får position/placering via JavaScript */
+#current-time-line {
+    position: absolute;
+    height: 2px;
+    background-color: #ff2d55;
+    z-index: 10;
+    pointer-events: none;
+    display: none; /* skjult, hvis vi ikke er på nuværende dag/uge */
+}
+
+
+/* Grå/låste dage (tidligere i ugen) */
+.past-day {
+    opacity: 0.35;
+    background-color: #f0f0f0;
+    pointer-events: none; /* kan ikke klikkes */
+}
+
+.past-day .session-card {
+    cursor: default;
+}
+
+/* Simpel modal */
+.modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.35);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.modal {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    max-width: 360px;
+    width: 100%;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.18);
+}
+
+.modal h2 {
+    margin-top: 0;
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-top: 16px;
+}
+
+.btn {
+    border-radius: 8px;
+    border: 1px solid #0070f3;
+    background: #0070f3;
+    color: white;
+    padding: 6px 12px;
+    cursor: pointer;
+    font-size: 13px;
+}
+
+.btn-secondary {
+    background: white;
+    color: #0070f3;
+}
+
+.alert {
+    margin-top: 12px;
+    font-size: 13px;
+}
+
+.alert-error {
+    color: #b00020;
+}
+
+.alert-success {
+    color: #0b7a31;
+}
+
+.booking-page {
+    padding-top: 0;
+    /* ...existing booking-page styles if any remain... */
 }
 
 

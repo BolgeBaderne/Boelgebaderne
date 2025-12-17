@@ -112,8 +112,8 @@ class BookingServiceTest {
         // Arrange
         when(userRepository.findById(1)).thenReturn(Optional.of(memberUser));
         when(saunaEventRepository.findAll()).thenReturn(List.of(memberEvent, guestEvent));
-        when(bookingRepository.countByEvent_EventId(1)).thenReturn(5L);
-        when(bookingRepository.countByEvent_EventId(2)).thenReturn(3L);
+        when(bookingRepository.countBySaunaEvent_EventId(1)).thenReturn(5L);
+        when(bookingRepository.countBySaunaEvent_EventId(2)).thenReturn(3L);
 
         // Act
         List<AvailableTimeSlotDTO> slots = bookingService.getAvailableSlots(1);
@@ -140,8 +140,8 @@ class BookingServiceTest {
         // Arrange
         when(userRepository.findById(2)).thenReturn(Optional.of(nonMemberUser));
         when(saunaEventRepository.findAll()).thenReturn(List.of(memberEvent, guestEvent));
-        when(bookingRepository.countByEvent_EventId(1)).thenReturn(5L);
-        when(bookingRepository.countByEvent_EventId(2)).thenReturn(3L);
+        when(bookingRepository.countBySaunaEvent_EventId(1)).thenReturn(5L);
+        when(bookingRepository.countBySaunaEvent_EventId(2)).thenReturn(3L);
 
         // Act
         List<AvailableTimeSlotDTO> slots = bookingService.getAvailableSlots(2);
@@ -164,7 +164,7 @@ class BookingServiceTest {
         // Arrange
         when(userRepository.findById(1)).thenReturn(Optional.of(memberUser));
         when(saunaEventRepository.findAll()).thenReturn(List.of(memberEvent));
-        when(bookingRepository.countByEvent_EventId(1)).thenReturn(12L); // Full capacity
+        when(bookingRepository.countBySaunaEvent_EventId(1)).thenReturn(12L); // Full capacity
 
         // Act
         List<AvailableTimeSlotDTO> slots = bookingService.getAvailableSlots(1);
@@ -193,7 +193,7 @@ class BookingServiceTest {
         when(userRepository.findById(1)).thenReturn(Optional.of(memberUser));
         when(saunaEventRepository.findById(2)).thenReturn(Optional.of(guestEvent));
         when(bookingRepository.existsByUser_UserIdAndEvent_EventId(1, 2)).thenReturn(false);
-        when(bookingRepository.countByEvent_EventId(2)).thenReturn(5L);
+        when(bookingRepository.countBySaunaEvent_EventId(2)).thenReturn(5L);
         when(bookingRepository.save(any(Booking.class))).thenAnswer(i -> i.getArguments()[0]);
 
         // Act
@@ -236,7 +236,7 @@ class BookingServiceTest {
                 .thenReturn(Optional.empty());
         when(saunaEventRepository.save(any(SaunaEvent.class))).thenReturn(newEvent);
         when(bookingRepository.existsByUser_UserIdAndEvent_EventId(anyInt(), anyInt())).thenReturn(false);
-        when(bookingRepository.countByEvent_EventId(anyInt())).thenReturn(0L);
+        when(bookingRepository.countBySaunaEvent_EventId(anyInt())).thenReturn(0L);
         when(bookingRepository.save(any(Booking.class))).thenAnswer(i -> i.getArguments()[0]);
 
         // Act
@@ -304,7 +304,7 @@ class BookingServiceTest {
         when(userRepository.findById(1)).thenReturn(Optional.of(memberUser));
         when(saunaEventRepository.findById(2)).thenReturn(Optional.of(guestEvent));
         when(bookingRepository.existsByUser_UserIdAndEvent_EventId(1, 2)).thenReturn(false);
-        when(bookingRepository.countByEvent_EventId(2)).thenReturn(12L); // Full capacity
+        when(bookingRepository.countBySaunaEvent_EventId(2)).thenReturn(12L); // Full capacity
 
         // Act & Assert
         assertThrows(TimeSlotFullException.class, () ->
@@ -469,7 +469,7 @@ class BookingServiceTest {
                     }
                     return Optional.empty();
                 });
-        when(bookingRepository.countByEvent_EventId(10)).thenReturn(8L);
+        when(bookingRepository.countBySaunaEvent_EventId(10)).thenReturn(8L);
 
         // Act
         List<AvailableTimeSlotDTO> slots = bookingService.generateWeeklySchedule(1, monday);

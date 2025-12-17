@@ -3,35 +3,138 @@
 <head>
     <meta charset="UTF-8">
     <title>Log ind</title>
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
 
-<form method="post" action="/login">
-    <h1>Log ind</h1>
+<!-- NAVBAR -->
+<header class="site-header">
+    <div class="header-inner">
 
-    <!-- 🔸 Fejlbesked ved forkert login -->
-    <div style="color:red;" th:if="${param.error}">
-        Forkert email eller password. Prøv igen.
+        <!-- LOGO -->
+        <a href="/" class="logo" aria-label="Bølgebaderne - hjem">
+            <img src="/images/logo.png" alt="Bølgebaderne logo">
+        </a>
+
+        <!-- MOBILE LANGUAGE SWITCH -->
+        <div class="mobile-lang">
+            <button class="lang-switch" data-lang="da">DA</button>
+            <button class="lang-switch" data-lang="en">EN</button>
+        </div>
+
+        <!-- HAMBURGER MENU -->
+        <button class="nav-toggle"
+                aria-expanded="false"
+                aria-controls="main-nav"
+                aria-label="Åbn menu">
+            <span class="bars" aria-hidden="true">☰</span>
+        </button>
+
+        <!-- NAVIGATION WRAPPER -->
+        <nav id="main-nav" class="main-nav" aria-label="Hovednavigation">
+
+            <!-- CLOSE BUTTON (MOBILE) -->
+            <button class="close-menu" aria-label="Luk menu">×</button>
+
+            <!-- CENTERED NAVIGATION -->
+            <ul class="nav-list">
+                <li><a href="/about.html" data-i18n="nav.about">Om os</a></li>
+                <li><a href="/membership.html" data-i18n="nav.membership">Medlemskab</a></li>
+                <li><a href="/sauna-info.html" data-i18n="nav.sauna">Sauna info</a></li>
+                <li><a href="/faq.html" data-i18n="faq">FAQ</a></li>
+                <li><a href="#contact" data-i18n="nav.contact">Kontakt</a></li>
+            </ul>
+
+            <!-- LANGUAGE SWITCH (DESKTOP)-->
+            <div class="desktop-lang">
+                <button class="lang-switch" data-lang="da">DA</button>
+                <button class="lang-switch" data-lang="en">EN</button>
+            </div>
+
+            <!-- RIGHT SIDE (DESKTOP) -->
+            <div class="top-right-controls">
+                <a class="btn btn-primary" href="/login" data-i18n="actions.login">Log ind</a>
+            </div>
+
+        </nav>
     </div>
+</header>
 
-    <!-- 🔹 Besked efter logout -->
-    <div style="color:green;" th:if="${param.logout}">
-        Du er nu logget ud.
+<!-- OVERLAY -->
+<div class="menu-overlay"></div>
+
+<div class="login-container">
+    <div class="login-box">
+
+        <h1>Log ind</h1>
+
+        <!-- Fejlbesked ved forkert login -->
+        <div th:if="${param.error}" class="login-message error">
+            Forkert email eller password. Prøv igen.
+        </div>
+
+        <!-- Besked efter logout -->
+        <div th:if="${param.logout}" class="login-message success">
+            Du er nu logget ud.
+        </div>
+
+        <!-- Besked hvis man blev sendt hertil pga. adgangskrav -->
+        <div th:if="${param.auth}" class="login-message info">
+            Du skal være logget ind for at se den side.
+        </div>
+
+        <form method="post" action="/login">
+
+            <label for="username">Email</label>
+            <input id="username" type="email" name="email" required>
+
+            <label for="password">Password</label>
+            <input id="password" type="password" name="password" required>
+
+            <button type="submit">Log ind</button>
+
+        </form>
+
     </div>
+</div>
 
-    <!-- 🔹 Besked hvis man blev sendt hertil pga. adgangskrav -->
-    <div style="color:orange;" th:if="${param.auth}">
-        Du skal være logget ind for at se den side.
+<!-- FOOTER -->
+<footer class="footer">
+    <div class="footer-inner">
+
+        <p class="footer-title">Følg os</p>
+
+        <div class="footer-socials">
+            <a href="https://www.facebook.com/groups/405258223878568" target="_blank" aria-label="Facebook">
+                <img src="/icons/facebook.svg" alt="facebook-ikon">
+            </a>
+            <a href="https://www.instagram.com/boelge.baderne/" target="_blank" aria-label="Instagram">
+                <img src="/icons/instagram.svg" alt="instagram-ikon">
+            </a>
+        </div>
+
+        <div class="footer-links">
+            <a href="#">Handelsbetingelser</a>
+            <span>•</span>
+            <a href="#">Privatlivspolitik</a>
+        </div>
+
+        <p class="footer-copy">© 2025 Bølgebaderne</p>
+
     </div>
+</footer>
 
-    <label for="username">Email:</label>
-    <input id="username" type="text" name="email">
+<!-- SCROLL TO TOP BUTTON -->
+<button id="scrollTopBtn" aria-label="Til toppen">
+    <img src="/icons/up-arrow.svg" alt="pil op-ikon" />
+</button>
 
-    <label for="password">Password:</label>
-    <input id="password" type="password" name="password">
 
-    <button type="submit">Log ind</button>
-</form>
+<!-- SCRIPTS -->
+<script src="/js/lang.js" defer></script>
+<script src="/js/main.js" defer></script>
+
 
 </body>
+
 </html>

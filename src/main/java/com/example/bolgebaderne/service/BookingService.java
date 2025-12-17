@@ -46,7 +46,7 @@ public class BookingService {
         DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
         return eventRepo.findAll().stream().map(event -> {
-            long booked = bookingRepo.countByEvent_EventId(event.getEventId());
+            long booked = bookingRepo.countBySaunaEvent_EventId(event.getEventId());
             int available = event.getCapacity() - (int) booked;
 
             boolean userAllowed =
@@ -144,12 +144,12 @@ public class BookingService {
         }
 
         // Stop hvis brugeren allerede har booket denne tid
-        if (bookingRepo.existsByUser_UserIdAndEvent_EventId(
+        if (bookingRepo.existsByUser_UserIdAndSaunaEvent_EventId(
                 user.getUserId(), event.getEventId())) {
             throw new IllegalArgumentException("Du har allerede booket denne tid.");
         }
 
-        long booked = bookingRepo.countByEvent_EventId(event.getEventId());
+        long booked = bookingRepo.countBySaunaEvent_EventId(event.getEventId());
         if (booked >= event.getCapacity()) {
             throw new TimeSlotFullException("Denne tid er allerede fuldt booket.");
         }
@@ -275,7 +275,7 @@ public class BookingService {
         if (event != null) {
             eventId = event.getEventId();
             effectiveCapacity = event.getCapacity();
-            booked = (int) bookingRepo.countByEvent_EventId(event.getEventId());
+            booked = (int) bookingRepo.countBySaunaEvent_EventId(event.getEventId());
             full = booked >= effectiveCapacity;
         }
 
@@ -317,7 +317,7 @@ public class BookingService {
         if (event != null) {
             eventId = event.getEventId();
             effectiveCapacity = event.getCapacity();
-            booked = (int) bookingRepo.countByEvent_EventId(event.getEventId());
+            booked = (int) bookingRepo.countBySaunaEvent_EventId(event.getEventId());
             full = booked >= effectiveCapacity;
         }
 

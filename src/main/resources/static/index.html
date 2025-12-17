@@ -242,7 +242,56 @@
 
 
 <!-- BOOKING / CALENDAR -->
-TODO: Needs implementation
+<main class="booking-page">
+    <div class="booking-wrapper">
+
+        <div class="booking-header">
+            <h1>Book saunaen</h1>
+            <p class="booking-user"
+               th:if="${userName != null}"
+               th:text="'Du er logget ind som: ' + ${userName}">
+            </p>
+
+        </div>
+
+        <div class="week-header">
+            <div class="week-nav">
+                <button class="btn btn-secondary" id="prevWeekBtn">&lt; Forrige uge</button>
+            </div>
+
+            <div id="weekLabel" class="week-label"></div>
+
+            <div class="week-nav">
+                <button class="btn btn-secondary" id="nextWeekBtn">Næste uge &gt;</button>
+            </div>
+        </div>
+
+        <div id="calendarContainer">
+            <!-- .calendar-grid + rød linje bliver sat ind af booking.js -->
+        </div>
+
+        <div id="messageContainer"></div>
+    </div>
+</main>
+
+<!-- MODAL -->
+<div class="modal-backdrop" id="bookingModal" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+        <h2 id="modalTitle">Bekræft booking</h2>
+        <p id="modalText"></p>
+
+        <div class="modal-actions">
+            <button class="btn btn-secondary" id="cancelBtn">Annullér</button>
+
+            <!-- Ingen inline style: skjul/vis med CSS + JS -->
+            <button class="btn btn-waitlist is-hidden" id="waitlistBtn">Skriv dig op til venteliste</button>
+
+            <button class="btn btn-primary" id="confirmBtn">Book tid</button>
+        </div>
+
+        <div id="modalMessage" class="alert"></div>
+    </div>
+</div>
 
 <!-- MEMBER UPDATES -->
 <section id="updates" class="updates-section">
@@ -338,9 +387,11 @@ TODO: Needs implementation
 
 
 <!-- SCRIPTS -->
+<script th:inline="javascript">
+    const userId = /*[[${userId}]]*/ null;
+</script>
 <script src="/js/lang.js" defer></script>
 <script src="/js/main.js" defer></script>
-
 
 </body>
 
