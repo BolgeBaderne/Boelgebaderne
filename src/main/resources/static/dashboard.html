@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html lang="da">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Dashboard – Bølgebaderne</title>
 
-    <link rel="stylesheet" href="/css/style.css" />
-    <link rel="stylesheet" href="/css/dashboard.css" />
+    <link rel="stylesheet" href="/css/style.css"/>
 
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:wght@600;700&display=swap"
+          rel="stylesheet">
 </head>
 
 <body class="page-dashboard">
@@ -18,34 +18,25 @@
     <div class="header-inner">
 
         <!-- LOGO -->
-        <a href="/" class="logo">
+        <a href="/" class="logo" aria-label="Bølgebaderne - hjem">
             <img src="/images/logo.png" alt="Bølgebaderne logo">
         </a>
 
-        <!-- NAV -->
-        <nav class="main-nav">
-            <ul class="nav-list">
-                <li><a href="/">Forside</a></li>
-                <li><a href="/sauna-info.html">Sauna</a></li>
-            </ul>
+        <!-- ACCOUNT -->
+        <div class="top-right-controls account-menu">
+            <button class="account-trigger">
+                Anna Jensen
+                <span class="admin-badge">Admin</span>
+            </button>
 
-            <!-- ACCOUNT -->
-            <div class="top-right-controls account-menu">
-                <button class="account-trigger">
-                    Anna Jensen
-                    <span class="admin-badge">Admin</span>
-                </button>
-
-                <!-- DROPDOWN (HTML only) -->
-                <div class="account-dropdown">
-                    <a href="#">Min profil</a>
-                    <a href="#">Kontingent & betalinger</a>
-                    <hr>
-                    <a href="#">Log ud</a>
-                </div>
+            <!-- DROPDOWN (HTML only) -->
+            <div class="account-dropdown">
+                <a href="#">Min profil</a>
+                <a href="#">Kontingent & betalinger</a>
+                <hr>
+                <a href="#">Log ud</a>
             </div>
-        </nav>
-
+        </div>
     </div>
 </header>
 
@@ -55,7 +46,7 @@
     <!-- INTRO -->
     <section class="dashboard-intro">
         <h1>Velkommen, Anna</h1>
-        <p>Godt at se dig ved vandet i dag</p>
+        <p>Vi håber at se dig ved vandet i dag!</p>
     </section>
 
     <!-- OVERBLIK -->
@@ -71,7 +62,7 @@
                 <li>Saunagus · 22. marts kl. 10</li>
             </ul>
 
-            <button class="btn btn-ghost">Administrer bookinger</button>
+            <button class="btn btn-pill">Administrer bookinger</button>
         </article>
 
 
@@ -84,7 +75,7 @@
                 <li>Rengøring · 22. marts kl. 10</li>
             </ul>
 
-            <button class="btn btn-ghost">Administrer vagter</button>
+            <button class="btn btn-pill">Administrer vagter</button>
         </article>
     </section>
 
@@ -95,11 +86,11 @@
         <article class="updates-card">
             <h3>Skriv en opdatering</h3>
             <textarea rows="3" placeholder="Del noget med fællesskabet..."></textarea>
-            <button class="btn btn-primary">Post</button>
+            <button class="btn btn-pill">Post</button>
         </article>
-
-        <article class="updates-card">
+        <article class="updates-card-update">
             <p><strong>Mette:</strong> Husk der er gus i morgen 🌿</p>
+            <p><i>Dato: 17-12-2025</i></p>
         </article>
     </section>
 
@@ -111,19 +102,19 @@
             <article class="updates-card">
                 <h3>Book saunatid</h3>
                 <p>Find ledige tider i kalenderen</p>
-                <button class="btn btn-primary">Book</button>
+                <button class="btn btn-pill">Book</button>
             </article>
 
             <article class="updates-card">
                 <h3>Tilmeld saunagus</h3>
                 <p>Se kommende events</p>
-                <button class="btn btn-primary">Se events</button>
+                <button class="btn btn-pill">Se events</button>
             </article>
 
             <article class="updates-card">
                 <h3>Bliv frivillig</h3>
                 <p>Hjælp fællesskabet og mød andre</p>
-                <button class="btn btn-primary">Se vagter</button>
+                <button class="btn btn-pill">Se vagter</button>
             </article>
         </div>
     </section>
@@ -137,22 +128,22 @@
             <h3>Saunagus events</h3>
             <p>4 kommende events</p>
 
-            <button class="btn btn-primary">+ Opret event</button>
+            <button class="btn btn-pill">+ Opret event</button>
 
             <ul class="admin-list">
                 <li>
                     Torsdag kl. 18:00
                     <div class="admin-actions">
-                        <button class="btn btn-ghost">Rediger</button>
-                        <button class="btn btn-ghost danger">Slet</button>
+                        <button class="btn btn-pill btn-sm">Rediger</button>
+                        <button class="btn btn-pill btn-danger">Slet</button>
                     </div>
                 </li>
 
                 <li>
                     Lørdag kl. 10:00
                     <div class="admin-actions">
-                        <button class="btn btn-ghost">Rediger</button>
-                        <button class="btn btn-ghost danger">Slet</button>
+                        <button class="btn btn-pill btn-sm">Rediger</button>
+                        <button class="btn btn-pill btn-danger">Slet</button>
                     </div>
                 </li>
             </ul>

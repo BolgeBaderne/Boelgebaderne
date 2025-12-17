@@ -1657,6 +1657,8 @@ body.page-membership {
 
 .page-dashboard {
     background: #f7fbfc;
+    align-items: center;
+    padding: 0.9rem 0;
 }
 
 .dashboard {
@@ -1682,11 +1684,12 @@ body.page-membership {
 
 
 .dashboard-section {
-    margin-bottom: 6.5rem;
+    margin-bottom: 5rem;
 }
 
 .dashboard-section .section-title {
     margin-bottom: 2.2rem;
+    font-size: 2rem;
 }
 
 .dashboard-section:first-of-type {
@@ -1714,6 +1717,7 @@ body.page-membership {
     padding-left: 0;
 }
 
+
 .dashboard-list li {
     display: flex;
     justify-content: space-between;
@@ -1727,36 +1731,95 @@ body.page-membership {
     border-bottom: none;
 }
 
-.status {
-    font-size: 0.7rem;
-    padding: 0.25rem 0.55rem;
-    border-radius: 999px;
-    font-weight: 600;
-    white-space: nowrap;
+.page-dashboard .updates-card .btn-pill {
+    margin-top: 1.2rem;
 }
 
-.status.upcoming {
-    background: rgba(10,122,140,0.15);
-    color: #0A7A8C;
+.page-dashboard .admin-actions {
+    gap: 0.6rem;
 }
 
-.status.past {
-    background: rgba(0,0,0,0.08);
+.page-dashboard .updates-card {
+    display: flex;
+    flex-direction: column;
+}
+
+.updates-card-update {
+    background: #fbfefe;
+    border-radius: 16px;
+
+    padding: 1.8rem 2rem;
+    margin-top: 1.5rem;
+
+    border: 1px solid rgba(10,122,140,0.12);
+    border-left: 4px solid rgba(10,122,140,0.45);
+
+    box-shadow: 0 4px 14px rgba(0,0,0,0.04);
+}
+
+.updates-card-update p {
+    margin-bottom: 0.4rem;
+}
+
+.updates-card-update i {
+    font-size: 0.85rem;
     color: rgba(11,36,48,0.6);
 }
 
-.page-dashboard .btn {
+.updates-card-update.is-admin {
+    border-left-color: #0A7A8C;
+}
+
+.updates-card-update.is-member {
+    border-left-color: rgba(10,122,140,0.3);
+}
+
+
+.page-dashboard .btn-pill {
+    background: rgba(10, 122, 140, 0.15);
+    color: #0A7A8C;
+    align-self: flex-start;
+
     font-size: 0.85rem;
-    padding: 0.45rem 0.85rem;
+    font-weight: 600;
+
+    border: none;
+    padding: 0.35rem 0.8rem;
+    border-radius: 999px;
+
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+
+    cursor: pointer;
+    transition: background 0.15s ease;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
 }
 
-.dashboard-card .btn {
-    margin-top: 1.6rem;
+.page-dashboard .btn-pill:hover {
+    background: rgba(10, 122, 140, 0.25);
 }
 
-.page-dashboard .btn-ghost {
-    border-color: rgba(10,122,140,0.5);
+.page-dashboard .btn-sm {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.65rem;
+
 }
+
+.page-dashboard .btn-danger {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.65rem;
+
+    background: rgba(217, 115, 4, 0.15); /* orange tint */
+    color: #9a4a00; /* mørk, læsbar orange */
+
+}
+
+.page-dashboard .btn-danger:hover {
+    background: rgba(217, 115, 4, 0.25);
+}
+
 
 .dashboard-section textarea {
     width: 100%;
@@ -1766,12 +1829,6 @@ body.page-membership {
     font-family: "Inter", system-ui, sans-serif;
     margin: 1rem 0 1.4rem;
     resize: vertical;
-}
-
-.dashboard-highlight {
-    background: #eef9fa;
-    padding: 3.5rem 2.5rem;
-    border-radius: 26px;
 }
 
 .dashboard-actions {
@@ -1810,15 +1867,6 @@ body.page-membership {
     font-size: 0.7rem;
     margin-left: 0.3rem;
     opacity: 0.6;
-}
-
-.admin-badge {
-    background: rgba(10, 122, 140, 0.15);
-    color: #0A7A8C;
-    font-size: 0.7rem;
-    font-weight: 600;
-    padding: 0.25rem 0.6rem;
-    border-radius: 999px;
 }
 
 .account-dropdown {
@@ -1873,16 +1921,6 @@ body.page-membership {
     }
 }
 
-.admin-section {
-    padding-top: 4rem;
-    border-top: 2px solid rgba(10, 122, 140, 0.2);
-
-    background: linear-gradient(
-            180deg,
-            rgba(247,251,252,0) 0%,
-            rgba(247,251,252,1) 25%
-    );
-}
 
 .admin-note {
     margin-top: -1rem;
@@ -1892,7 +1930,12 @@ body.page-membership {
 }
 
 .admin-card {
-    border-left: 4px solid #0A7A8C;
+    border: 2px solid #0A7A8C;
+    background: linear-gradient(
+            180deg,
+            rgba(10,122,140,0.08) 0%,
+            rgba(247,251,252,0) 70%
+    );
 }
 
 .admin-list {
@@ -1916,6 +1959,16 @@ body.page-membership {
 .admin-actions {
     display: flex;
     gap: 0.5rem;
+    margin-left: 1rem;
+}
+
+.admin-badge {
+    background: rgba(10, 122, 140, 0.15);
+    color: #0A7A8C;
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 0.25rem 0.6rem;
+    border-radius: 999px;
 }
 
 @media (max-width: 767px) {
