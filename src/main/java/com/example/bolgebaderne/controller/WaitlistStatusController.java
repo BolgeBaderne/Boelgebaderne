@@ -1,4 +1,4 @@
-/*package com.example.bolgebaderne.controller;
+package com.example.bolgebaderne.controller;
 
 import com.example.bolgebaderne.dto.WaitlistEntryDTO;
 import com.example.bolgebaderne.dto.WaitlistJoinRequest;
@@ -47,4 +47,3 @@ public class WaitlistStatusController {
         return ResponseEntity.status(HttpStatus.CREATED).body(dto);
     }
 }
-*/
