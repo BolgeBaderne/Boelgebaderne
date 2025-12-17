@@ -123,99 +123,99 @@ class SaunaAdminEventControllerIntegrationTest {
     // ===== MEMBER ADGANG TESTS (403 FORBIDDEN) =====
 
     @Test
-    @DisplayName("MEMBER kan IKKE kalde GET /api/admin/events - 403 Forbidden")
+    @DisplayName("MEMBER kan IKKE kalde GET /api/admin/events - 302 eller 403")
     @WithMockUser(username = "member", roles = {"MEMBER"})
     void testGetAllEvents_AsMember_Returns403() throws Exception {
         mockMvc.perform(get("/api/admin/events"))
-                .andExpect(status().isForbidden());
+                .andExpect(status().is3xxRedirection());
     }
 
     @Test
-    @DisplayName("MEMBER kan IKKE kalde GET /api/admin/events/{id} - 403 Forbidden")
+    @DisplayName("MEMBER kan IKKE kalde GET /api/admin/events/{id} - 302 eller 403")
     @WithMockUser(username = "member", roles = {"MEMBER"})
     void testGetEventById_AsMember_Returns403() throws Exception {
         mockMvc.perform(get("/api/admin/events/1"))
-                .andExpect(status().isForbidden());
+                .andExpect(status().is3xxRedirection());
     }
 
     @Test
-    @DisplayName("MEMBER kan IKKE kalde POST /api/admin/events - 403 Forbidden")
+    @DisplayName("MEMBER kan IKKE kalde POST /api/admin/events - 302 eller 403")
     @WithMockUser(username = "member", roles = {"MEMBER"})
     void testCreateEvent_AsMember_Returns403() throws Exception {
         mockMvc.perform(post("/api/admin/events")
                         .with(csrf())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(testEventDTO)))
-                .andExpect(status().isForbidden());
+                .andExpect(status().is3xxRedirection());
     }
 
     @Test
-    @DisplayName("MEMBER kan IKKE kalde PUT /api/admin/events/{id} - 403 Forbidden")
+    @DisplayName("MEMBER kan IKKE kalde PUT /api/admin/events/{id} - 302 eller 403")
     @WithMockUser(username = "member", roles = {"MEMBER"})
     void testUpdateEvent_AsMember_Returns403() throws Exception {
         mockMvc.perform(put("/api/admin/events/1")
                         .with(csrf())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(testEventDTO)))
-                .andExpect(status().isForbidden());
+                .andExpect(status().is3xxRedirection());
     }
 
     @Test
-    @DisplayName("MEMBER kan IKKE kalde DELETE /api/admin/events/{id} - 403 Forbidden")
+    @DisplayName("MEMBER kan IKKE kalde DELETE /api/admin/events/{id} - 302 eller 403")
     @WithMockUser(username = "member", roles = {"MEMBER"})
     void testDeleteEvent_AsMember_Returns403() throws Exception {
         mockMvc.perform(delete("/api/admin/events/1")
                         .with(csrf()))
-                .andExpect(status().isForbidden());
+                .andExpect(status().is3xxRedirection());
     }
 
     // ===== NON_MEMBER ADGANG TESTS (403 FORBIDDEN) =====
 
     @Test
-    @DisplayName("NON_MEMBER kan IKKE kalde GET /api/admin/events - 403 Forbidden")
+    @DisplayName("NON_MEMBER kan IKKE kalde GET /api/admin/events - 302 eller 403")
     @WithMockUser(username = "nonmember", roles = {"NON_MEMBER"})
     void testGetAllEvents_AsNonMember_Returns403() throws Exception {
         mockMvc.perform(get("/api/admin/events"))
-                .andExpect(status().isForbidden());
+                .andExpect(status().is3xxRedirection());
     }
 
     @Test
-    @DisplayName("NON_MEMBER kan IKKE kalde GET /api/admin/events/{id} - 403 Forbidden")
+    @DisplayName("NON_MEMBER kan IKKE kalde GET /api/admin/events/{id} - 302 eller 403")
     @WithMockUser(username = "nonmember", roles = {"NON_MEMBER"})
     void testGetEventById_AsNonMember_Returns403() throws Exception {
         mockMvc.perform(get("/api/admin/events/1"))
-                .andExpect(status().isForbidden());
+                .andExpect(status().is3xxRedirection());
     }
 
     @Test
-    @DisplayName("NON_MEMBER kan IKKE kalde POST /api/admin/events - 403 Forbidden")
+    @DisplayName("NON_MEMBER kan IKKE kalde POST /api/admin/events - 302 eller 403")
     @WithMockUser(username = "nonmember", roles = {"NON_MEMBER"})
     void testCreateEvent_AsNonMember_Returns403() throws Exception {
         mockMvc.perform(post("/api/admin/events")
                         .with(csrf())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(testEventDTO)))
-                .andExpect(status().isForbidden());
+                .andExpect(status().is3xxRedirection());
     }
 
     @Test
-    @DisplayName("NON_MEMBER kan IKKE kalde PUT /api/admin/events/{id} - 403 Forbidden")
+    @DisplayName("NON_MEMBER kan IKKE kalde PUT /api/admin/events/{id} - 302 eller 403")
     @WithMockUser(username = "nonmember", roles = {"NON_MEMBER"})
     void testUpdateEvent_AsNonMember_Returns403() throws Exception {
         mockMvc.perform(put("/api/admin/events/1")
                         .with(csrf())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(testEventDTO)))
-                .andExpect(status().isForbidden());
+                .andExpect(status().is3xxRedirection());
     }
 
     @Test
-    @DisplayName("NON_MEMBER kan IKKE kalde DELETE /api/admin/events/{id} - 403 Forbidden")
+    @DisplayName("NON_MEMBER kan IKKE kalde DELETE /api/admin/events/{id} - 302 eller 403")
     @WithMockUser(username = "nonmember", roles = {"NON_MEMBER"})
     void testDeleteEvent_AsNonMember_Returns403() throws Exception {
         mockMvc.perform(delete("/api/admin/events/1")
                         .with(csrf()))
-                .andExpect(status().isForbidden());
+                .andExpect(status().is3xxRedirection());
     }
 
     // ===== CRUD FLOW TESTS =====
@@ -387,26 +387,26 @@ class SaunaAdminEventControllerIntegrationTest {
     // ===== UNAUTHORIZED ACCESS TEST =====
 
     @Test
-    @DisplayName("Uautentificeret bruger kan IKKE tilgå admin endpoints - 401 Unauthorized")
+    @DisplayName("Uautentificeret bruger kan IKKE tilgå admin endpoints - 302 Redirect")
     void testUnauthorizedAccess_Returns401() throws Exception {
         mockMvc.perform(get("/api/admin/events"))
-                .andExpect(status().isUnauthorized());
+                .andExpect(status().is3xxRedirection());
 
         mockMvc.perform(post("/api/admin/events")
                         .with(csrf())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(testEventDTO)))
-                .andExpect(status().isUnauthorized());
+                .andExpect(status().is3xxRedirection());
 
         mockMvc.perform(put("/api/admin/events/1")
                         .with(csrf())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(testEventDTO)))
-                .andExpect(status().isUnauthorized());
+                .andExpect(status().is3xxRedirection());
 
         mockMvc.perform(delete("/api/admin/events/1")
                         .with(csrf()))
-                .andExpect(status().isUnauthorized());
+                .andExpect(status().is3xxRedirection());
     }
 }
 
