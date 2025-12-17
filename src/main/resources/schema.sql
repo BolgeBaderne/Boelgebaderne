@@ -54,3 +54,30 @@ CREATE TABLE waitlist_entries (
                                   CONSTRAINT fk_waitlist_user  FOREIGN KEY (user_id)  REFERENCES users(user_id),
                                   CONSTRAINT fk_waitlist_event FOREIGN KEY (event_id) REFERENCES sauna_event(event_id)
 );
+
+CREATE TABLE sauna_events (
+                              event_id INT AUTO_INCREMENT PRIMARY KEY,
+                              title VARCHAR(255) NOT NULL,
+                              description TEXT,
+                              gusmester_name VARCHAR(255),
+                              start_time TIMESTAMP NOT NULL,
+                              duration_minutes INT NOT NULL,
+                              capacity INT NOT NULL,
+                              price DECIMAL(10,2),
+                              status VARCHAR(50)
+);
+
+CREATE TABLE bookings (
+                          booking_id INT AUTO_INCREMENT PRIMARY KEY,
+                          user_id INT NOT NULL,
+                          event_id INT NOT NULL,
+                          created_at TIMESTAMP NOT NULL,
+                          status VARCHAR(50) NOT NULL,
+                          CONSTRAINT fk_bookings_user
+                              FOREIGN KEY (user_id) REFERENCES users(user_id),
+                          CONSTRAINT fk_bookings_event
+                              FOREIGN KEY (event_id) REFERENCES sauna_events(event_id)
+);
+
+
+

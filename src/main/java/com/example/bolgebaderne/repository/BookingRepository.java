@@ -9,4 +9,7 @@ import org.springframework.stereotype.Repository;
 public interface BookingRepository extends JpaRepository<Booking, Integer> {
     int countBySaunaEvent(SaunaEvent saunaEvent);
 
+    long countByEvent_EventId(int eventId);
+
+    boolean existsByUser_UserIdAndEvent_EventId(int userId, int eventId);
 }

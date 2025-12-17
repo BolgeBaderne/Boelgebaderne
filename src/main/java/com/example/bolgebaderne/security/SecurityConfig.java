@@ -9,10 +9,12 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
+import java.io.PrintWriter;
 
 @Configuration
 @EnableWebSecurity
@@ -28,15 +30,15 @@ import org.springframework.security.web.SecurityFilterChain;
 
         http.authorizeHttpRequests(auth -> auth
 
-                // ✅ ALT statisk (css/js/images/webjars/favicon osv.)
+                //ALT statisk (css/js/images/webjars/favicon osv.)
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
 
-                // ✅ ekstra static paths I bruger (icons er ikke "common location")
+                // ekstra static paths I bruger (icons er ikke "common location")
                 .requestMatchers("/icons/**").permitAll()
                 .requestMatchers("/api/events/**").permitAll()
 
 
-                // ✅ Public pages
+                //Public pages
                 .requestMatchers(
                         "/", "/index.html",
                         "/login", "/error", "/membership-required",
@@ -45,7 +47,7 @@ import org.springframework.security.web.SecurityFilterChain;
 
                 ).permitAll()
 
-                // ✅ Public API / system endpoints
+                //Public API / system endpoints
                 .requestMatchers(
                         "/api/public/**",
                         "/api/auth/**",
@@ -54,11 +56,11 @@ import org.springframework.security.web.SecurityFilterChain;
                         "/api/timeslots/*/waitlist/**"
                 ).permitAll()
 
-                // 🔒 Medlemssider / medlem API
+                //Medlemssider / medlem API
                 .requestMatchers("/member/**").hasAnyRole("MEMBER", "ADMIN")
                 .requestMatchers("/api/member/**").hasAnyRole("MEMBER", "ADMIN")
 
-                // 🔒 Alt andet kræver login
+                //Alt andet kræver login
                 .anyRequest().authenticated()
         );
 
@@ -70,6 +72,16 @@ import org.springframework.security.web.SecurityFilterChain;
                 .failureUrl("/login?error")
                 .permitAll()
         );
+                // FORM LOGIN til browseren
+                .formLogin(form -> form
+                        .loginPage("/login")
+                        .usernameParameter("email")      // <- vigtig!
+                        .passwordParameter("password")   // valgfri, men fint
+//                        .defaultSuccessUrl("/api/member/profile", false)
+                        .failureUrl("/login?error")         //vigtig for fejlbesked
+                        .permitAll()
+                );
+
 
         http.logout(logout -> logout
                 .logoutUrl("/logout")
