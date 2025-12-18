@@ -28,7 +28,7 @@ VALUES
      12,
      0.00,
      0,
-     ' FULLY_BOOKED'),
+     'FULLY_BOOKED'),
 
     (
      'ÅBEN GUS • Fredag Gus • 19:00-20:00',
