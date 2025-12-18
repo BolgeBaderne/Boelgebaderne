@@ -6,8 +6,10 @@ import com.example.bolgebaderne.model.EventStatus;
 import com.example.bolgebaderne.model.SaunaEvent;
 import com.example.bolgebaderne.repository.BookingRepository;
 import com.example.bolgebaderne.repository.SaunaEventRepository;
+import com.example.bolgebaderne.repository.UserRepository;
 import com.example.bolgebaderne.repository.WaitlistEntryRepository;
 import jakarta.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -16,9 +18,14 @@ import java.util.List;
 @Service
 public class SaunaEventService {
 
+    @Autowired
+    private BookingRepository bookingRepository;
+    @Autowired
     private SaunaEventRepository saunaEventRepository;
-    private final BookingRepository bookingRepository;
-    private final WaitlistEntryRepository waitlistEntryRepository;
+    @Autowired
+    private WaitlistEntryRepository waitlistEntryRepository;
+    @Autowired
+    private UserRepository userRepository;
 
     public SaunaEventService(SaunaEventRepository repository,
                              BookingRepository bookingRepository,
