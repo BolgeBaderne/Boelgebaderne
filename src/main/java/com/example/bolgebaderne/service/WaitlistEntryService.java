@@ -37,7 +37,7 @@ public class WaitlistEntryService {
         SaunaEvent event = eventRepo.findById(eventId).orElseThrow();
 
         // metode til at undgå dubletter
-        if (waitlistRepo.existsByUserAndEvent(user, event)) {
+        if (waitlistRepo.existsByUserAndSaunaEvent(user, event)) {
             throw new IllegalStateException("User is already on waitlist for this event");
         }
 
@@ -132,7 +132,6 @@ public class WaitlistEntryService {
     }
 
 
-
     //Metode til at tilmelde bruger til en venteliste
     public WaitlistEntry joinWaitlist(int eventId, int userId, WaitlistType type) {
 
@@ -149,7 +148,7 @@ public class WaitlistEntryService {
         // (Hvis I har en custom UserNotFoundException, brug den i stedet)
 
         // 3) Tjek om brugeren allerede står på listen
-        boolean alreadyOnList = waitlistRepo.existsByUserAndEvent(user, event);
+        boolean alreadyOnList = waitlistRepo.existsByUserAndSaunaEvent(user, event);
         if (alreadyOnList) {
             throw new WaitlistNotAllowedException("Brugeren står allerede på ventelisten.");
         }
