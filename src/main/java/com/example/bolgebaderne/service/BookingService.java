@@ -189,7 +189,7 @@ public class BookingService {
 
         List<AvailableTimeSlotDTO> slots = new ArrayList<>();
 
-        int capacity = 12; // max antal personer i saunaen
+        int capacity = 10; // max antal personer i saunaen
 
         // 7 dage: mandag (weekStart) til søndag
         for (int i = 0; i < 7; i++) {

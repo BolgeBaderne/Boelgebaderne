@@ -31,11 +31,25 @@
             <button class="close-menu" aria-label="Luk menu">×</button>
 
             <ul class="nav-list">
-                <li><a href="/member/profile">Profil</a></li>
-                <li><a href="/member/quick-booking">Hurtig booking</a></li>
-                <li><a href="/member/shifts">Vagtplan</a></li>
-                <li><a href="/member/booking" class="active">Book sauna</a></li>
-                <li><a href="/logout">Log ud</a></li>
+
+                <!-- GÆST (ikke logget ind): public menu -->
+                <th:block th:unless="${isLoggedIn}">
+                    <li><a href="/about.html">Om os</a></li>
+                    <li><a href="/membership.html">Medlemskab</a></li>
+                    <li><a href="/sauna-info.html">Sauna info</a></li>
+                    <li><a href="/faq.html">FAQ</a></li>
+                    <li><a href="/index.html#contact">Kontakt</a></li>
+                    <li><a href="/booking" class="active">Book sauna</a></li>
+                </th:block>
+
+                <!-- LOGGET IND: member menu -->
+                <th:block th:if="${isLoggedIn}">
+                    <li><a href="/member/profile">Profil</a></li>
+                    <li><a href="/member/quick-booking">Hurtig booking</a></li>
+                    <li><a href="/member/shifts">Vagtplan</a></li>
+                    <li><a href="/booking" class="active">Book sauna</a></li>
+                </th:block>
+
             </ul>
 
             <div class="desktop-lang">
@@ -43,10 +57,16 @@
                 <button class="lang-switch" data-lang="en">EN</button>
             </div>
 
+            <!-- RIGHT SIDE (DESKTOP) -->
             <div class="top-right-controls">
-                <a class="btn btn-primary" href="/logout">Log ud</a>
+
+                <!-- GÆST -->
+                <a th:unless="${isLoggedIn}" class="btn btn-primary" href="/login">Log ind</a>
+
+                <!-- LOGGET IND -->
+                <a th:if="${isLoggedIn}" class="btn btn-primary" href="/logout">Log ud</a>
+
             </div>
-        </nav>
 
     </div>
 </header>
