@@ -40,6 +40,11 @@ class SaunaAdminEventControllerIntegrationTest {
 
     private SaunaAdminEventDTO testEventDTO;
     private LocalDateTime testStartTime;
+
+    // Store actual IDs
+    private Integer event1Id;
+    private Integer event2Id;
+
     @Autowired
     private BookingRepository bookingRepository;
     @Autowired
@@ -49,10 +54,8 @@ class SaunaAdminEventControllerIntegrationTest {
     @Autowired
     private UserRepository userRepository;
 
-
     @BeforeEach
     void setUp() {
-        // Delete in correct order:  bookings first, then events, then users
         bookingRepository.deleteAll();
         waitlistEntryRepository.deleteAll();
         repository.deleteAll();
@@ -60,7 +63,7 @@ class SaunaAdminEventControllerIntegrationTest {
 
         testStartTime = LocalDateTime.of(2025, 12, 25, 14, 0);
 
-        // CREATE TEST EVENTS so they exist for the tests
+        // CREATE TEST EVENTS and capture their IDs
         SaunaEvent event1 = new SaunaEvent();
         event1.setTitle("Test Event 1");
         event1.setGusmesterName("Test Gusmester 1");
@@ -72,7 +75,8 @@ class SaunaAdminEventControllerIntegrationTest {
         event1.setPrice(150.0);
         event1.setEventStatus(EventStatus.UPCOMING);
         event1.setCurrentBookings(0);
-        repository.save(event1);
+        SaunaEvent savedEvent1 = repository.save(event1);
+        event1Id = savedEvent1.getEventId(); // Capture the actual ID
 
         SaunaEvent event2 = new SaunaEvent();
         event2.setTitle("Test Event 2");
@@ -85,7 +89,8 @@ class SaunaAdminEventControllerIntegrationTest {
         event2.setPrice(200.0);
         event2.setEventStatus(EventStatus. UPCOMING);
         event2.setCurrentBookings(0);
-        repository.save(event2);
+        SaunaEvent savedEvent2 = repository.save(event2);
+        event2Id = savedEvent2.getEventId(); // Capture the actual ID
 
         testEventDTO = new SaunaAdminEventDTO(
                 "Integration Test Event",
