@@ -20,7 +20,6 @@ public class SaunaEvent {
     private int durationMinutes;
     private int capacity;
     private double price;
-
     private int currentBookings;
 
     @Enumerated(EnumType.STRING)
