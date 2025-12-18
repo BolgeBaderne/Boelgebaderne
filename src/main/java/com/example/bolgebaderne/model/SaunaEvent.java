@@ -48,9 +48,6 @@ public class SaunaEvent {
 
 
 
-    // public SaunaEvent(int i, String title, String s, String s1, LocalDateTime start, int i1, int capacity, double price, EventStatus eventStatus) {
-   // }
-
     public int getAvailableSpots() {
         return capacity - currentBookings;
     }
