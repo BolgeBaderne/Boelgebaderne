@@ -20,17 +20,16 @@ public class SaunaEventController {
         this.saunaEventService = saunaEventService;
     }
 
-    @GetMapping("/event")
-    public String event() {
-        return "event"; // src/main/resources/templates/event.html
+    @GetMapping
+    public List<SaunaEventDTO> getAllEvents() {
+        return saunaEventService.getAllEvents()
+                .stream()
+                .map(this::toDTO)
+                .toList();
     }
-
-    //Liste til alle events
-   
 
     @GetMapping("/{id}")
     public SaunaEventDTO getEventById(@PathVariable int id){
-    public EventDTO getEventById(@PathVariable int id){
         SaunaEvent event = saunaEventService.getById(id);
         return toDTO(event);
     }
@@ -43,7 +42,12 @@ public class SaunaEventController {
                 e.getGusmesterImageUrl(),
                 e.getDescription(),
                 e.getStartTime(),
-
-
+                e.getDurationMinutes(),
+                e.getCapacity(),
+                e.getPrice(),
+                e.getCurrentBookings(),
+                e.getAvailableSpots(),
+                e.getEventStatus().name()
+        );
     }
 }

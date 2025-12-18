@@ -51,8 +51,9 @@ class SaunaEventServiceTest {
                 45,
                 12,
                 120.0,
+                EventStatus.UPCOMING,
                 0,
-                EventStatus.UPCOMING
+                12
         );
 
         validDTO = new SaunaAdminEventDTO(
@@ -86,7 +87,7 @@ class SaunaEventServiceTest {
         assertEquals(12, result.getCapacity());
         assertEquals(120.0, result.getPrice());
         assertEquals(0, result.getCurrentBookings());
-        assertEquals(EventStatus.UPCOMING, result.getStatus());
+        assertEquals(EventStatus.UPCOMING, result.getEventStatus());
 
         verify(repository, times(1)).save(any(SaunaEvent.class));
     }
@@ -183,8 +184,9 @@ class SaunaEventServiceTest {
                 60,
                 14,
                 150.0,
+                EventStatus.UPCOMING,
                 5,
-                EventStatus.UPCOMING
+                9
         );
 
         List<SaunaEvent> eventList = Arrays.asList(testEvent, event2);

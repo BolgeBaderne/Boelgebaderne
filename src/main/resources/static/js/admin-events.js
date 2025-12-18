@@ -66,7 +66,7 @@ function createRow(event) {
     tr.innerHTML = `
     <td>${event.id ?? "-"}</td>
     <td>${event.title ?? "-"}</td>
-    <td>${event.saunagusMasterName ?? "-"}</td>
+    <td>${event.gusmesterName ?? "-"}</td>
     <td>${event.capacity ?? "-"}</td>
     <td>${event.price ?? 0} kr.</td>
     <td>${event.status ?? "-"}</td>
@@ -139,8 +139,8 @@ tbody.addEventListener("click", async (e) => {
             document.getElementById("title").value = event.title ?? "";
             document.getElementById("startTime").value = toDatetimeLocalValue(event.startTime);
 
-            document.getElementById("saunagusMasterName").value = event.saunagusMasterName ?? "";
-            document.getElementById("saunagusMasterImageUrl").value = event.saunagusMasterImageUrl ?? "";
+            document.getElementById("saunagusMasterName").value = event.gusmesterName ?? "";
+            document.getElementById("saunagusMasterImageUrl").value = event.gusmesterImageUrl ?? "";
             document.getElementById("description").value = event.description ?? "";
 
             document.getElementById("durationMinutes").value = event.durationMinutes ?? 45;
@@ -164,8 +164,8 @@ form.addEventListener("submit", async (e) => {
 
     const dto = {
         title: document.getElementById("title").value.trim(),
-        saunagusMasterName: document.getElementById("saunagusMasterName").value.trim(),
-        saunagusMasterImageUrl: document.getElementById("saunagusMasterImageUrl").value.trim(),
+        gusmesterName: document.getElementById("saunagusMasterName").value.trim(),
+        gusmesterImageUrl: document.getElementById("saunagusMasterImageUrl").value.trim(),
         description: document.getElementById("description").value.trim(),
         startTime: toIsoLocalDateTime(document.getElementById("startTime").value),
         durationMinutes: Number(document.getElementById("durationMinutes").value),
@@ -222,8 +222,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 
             document.getElementById("title").value = event.title ?? "";
             document.getElementById("startTime").value = toDatetimeLocalValue(event.startTime);
-            document.getElementById("saunagusMasterName").value = event.saunagusMasterName ?? "";
-            document.getElementById("saunagusMasterImageUrl").value = event.saunagusMasterImageUrl ?? "";
+            document.getElementById("saunagusMasterName").value = event.gusmesterName ?? "";
+            document.getElementById("saunagusMasterImageUrl").value = event.gusmesterImageUrl ?? "";
             document.getElementById("description").value = event.description ?? "";
             document.getElementById("durationMinutes").value = event.durationMinutes ?? 45;
             document.getElementById("capacity").value = event.capacity ?? 12;

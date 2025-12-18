@@ -32,7 +32,7 @@ public class Booking
     public Booking() {
     }
 
-    public Booking(int bookingId, LocalDateTime createdAt, BookingStatus status,
+    public Booking(int bookingId, LocalDateTime createdAt, BookingStatus bookingStatus,
                    User user, SaunaEvent saunaEvent) {
         this.bookingId = bookingId;
         this.createdAt = createdAt;

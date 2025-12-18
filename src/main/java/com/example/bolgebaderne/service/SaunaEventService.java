@@ -57,8 +57,8 @@ public class SaunaEventService {
     // ===== Helper: kopier data fra admin-DTO til entity =====
     private void copyDtoToEntity(SaunaAdminEventDTO dto, SaunaEvent event) {
         event.setTitle(dto.title());
-        event.setGusmesterName(dto.saunagusMasterName());
-        event.setGusmesterImageUrl(dto.saunagusMasterImageUrl());
+        event.setGusmesterName(dto.gusmesterName());
+        event.setGusmesterImageUrl(dto.gusmesterImageUrl());
         event.setDescription(dto.description());
 
         event.setStartTime(dto.startTime()); // VIGTIGT
@@ -67,7 +67,7 @@ public class SaunaEventService {
         event.setCapacity(dto.capacity());
         event.setPrice(dto.price());
 
-        event.setStatus(EventStatus.valueOf(dto.status())); // "UPCOMING" osv.
+        event.setEventStatus(EventStatus.valueOf(dto.status())); // "UPCOMING" osv.
 
     }
 }

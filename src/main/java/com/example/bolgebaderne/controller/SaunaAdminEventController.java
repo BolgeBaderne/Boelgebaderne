@@ -63,7 +63,7 @@ public class SaunaAdminEventController {
                 e.getPrice(),
                 e.getCurrentBookings(),
                 e.getAvailableSpots(),
-                e.getStatus().name()
+                e.getEventStatus().name()
         );
     }
 }

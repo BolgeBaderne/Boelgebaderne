@@ -27,8 +27,6 @@ public class SaunaEvent {
     private int capacity;
     private double price;
     private int currentBookings;
-
-    private int currentBookings;
     private int availableSpots;
 
     @Enumerated(EnumType.STRING)
@@ -57,18 +55,21 @@ public class SaunaEvent {
         this.availableSpots = availableSpots;
     }
 
-
-    //Getters and Setters
     public int getEventId() {
         return eventId;
     }
 
-
-    public int getAvailableSpots() {
-        return capacity - currentBookings;
+    public void setEventId(int eventId) {
+        this.eventId = eventId;
     }
 
-    // Getters + setters …
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
     public String getDescription() {
         return description;
@@ -126,14 +127,6 @@ public class SaunaEvent {
         this.price = price;
     }
 
-    public EventStatus getEventStatus() {
-        return eventStatus;
-    }
-
-    public void setEventStatus(EventStatus status) {
-        this.eventStatus = status;
-    }
-
     public int getCurrentBookings() {
         return currentBookings;
     }
@@ -150,5 +143,11 @@ public class SaunaEvent {
         this.availableSpots = availableSpots;
     }
 
+    public EventStatus getEventStatus() {
+        return eventStatus;
+    }
 
-}
+    public void setEventStatus(EventStatus eventStatus) {
+        this.eventStatus = eventStatus;
+    }    }
+

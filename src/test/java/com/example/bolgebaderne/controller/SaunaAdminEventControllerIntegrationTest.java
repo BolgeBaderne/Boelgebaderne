@@ -83,7 +83,7 @@ class SaunaAdminEventControllerIntegrationTest {
                         .content(objectMapper.writeValueAsString(testEventDTO)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.title").value("Integration Test Event"))
-                .andExpect(jsonPath("$.saunagusMasterName").value("Test Gusmester"));
+                .andExpect(jsonPath("$.gusmesterName").value("Test Gusmester"));
     }
 
     @Test
@@ -108,7 +108,7 @@ class SaunaAdminEventControllerIntegrationTest {
                         .content(objectMapper.writeValueAsString(updateDTO)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.title").value("Opdateret Event"))
-                .andExpect(jsonPath("$.saunagusMasterName").value("Opdateret Gusmester"));
+                .andExpect(jsonPath("$.gusmesterName").value("Opdateret Gusmester"));
     }
 
     @Test
@@ -238,7 +238,7 @@ class SaunaAdminEventControllerIntegrationTest {
         // Verificér oprettelse
         assertNotNull(createdEvent);
         assertEquals("Integration Test Event", createdEvent.title());
-        assertEquals("Test Gusmester", createdEvent.saunagusMasterName());
+        assertEquals("Test Gusmester", createdEvent.gusmesterName());
         assertEquals(15, createdEvent.capacity());
         assertEquals(150.0, createdEvent.price());
 
@@ -253,7 +253,7 @@ class SaunaAdminEventControllerIntegrationTest {
         // 3. Verificér at hentet data matcher oprettet data
         assertEquals(createdEvent.id(), fetchedEvent.id());
         assertEquals(createdEvent.title(), fetchedEvent.title());
-        assertEquals(createdEvent.saunagusMasterName(), fetchedEvent.saunagusMasterName());
+        assertEquals(createdEvent.gusmesterName(), fetchedEvent.gusmesterName());
         assertEquals(createdEvent.capacity(), fetchedEvent.capacity());
         assertEquals(createdEvent.price(), fetchedEvent.price());
     }
@@ -296,9 +296,9 @@ class SaunaAdminEventControllerIntegrationTest {
         // 3. Verificér at ændringerne er gemt
         assertEquals(originalEvent.id(), updatedEvent.id()); // ID skal være det samme
         assertNotEquals(originalEvent.title(), updatedEvent.title());
-        assertNotEquals(originalEvent.saunagusMasterName(), updatedEvent.saunagusMasterName());
+        assertNotEquals(originalEvent.gusmesterName(), updatedEvent.gusmesterName());
         assertEquals("Opdateret Titel", updatedEvent.title());
-        assertEquals("Ny Gusmester", updatedEvent.saunagusMasterName());
+        assertEquals("Ny Gusmester", updatedEvent.gusmesterName());
         assertEquals(25, updatedEvent.capacity());
         assertEquals(250.0, updatedEvent.price());
 
@@ -311,7 +311,7 @@ class SaunaAdminEventControllerIntegrationTest {
         SaunaEventDTO verifiedEvent = objectMapper.readValue(verifyResponse, SaunaEventDTO.class);
 
         assertEquals(updatedEvent.title(), verifiedEvent.title());
-        assertEquals(updatedEvent.saunagusMasterName(), verifiedEvent.saunagusMasterName());
+        assertEquals(updatedEvent.gusmesterName(), verifiedEvent.gusmesterName());
     }
 
     @Test

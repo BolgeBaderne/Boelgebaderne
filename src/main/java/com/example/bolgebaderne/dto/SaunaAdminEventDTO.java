@@ -5,8 +5,8 @@ import java.time.LocalDateTime;
 
 public record SaunaAdminEventDTO(
         String title,
-        String saunagusMasterName,
-        String saunagusMasterImageUrl,
+        String gusmesterName,
+        String gusmesterImageUrl,
         String description,
         LocalDateTime startTime,      // VIGTIGT
         int durationMinutes,
