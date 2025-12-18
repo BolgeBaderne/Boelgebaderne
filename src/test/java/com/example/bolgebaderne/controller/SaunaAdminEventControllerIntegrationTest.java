@@ -120,10 +120,10 @@ class SaunaAdminEventControllerIntegrationTest {
     @DisplayName("ADMIN kan kalde GET /api/admin/events/{id} - 200 OK")
     @WithMockUser(username = "admin", roles = {"ADMIN"})
     void testGetEventById_AsAdmin_Returns200() throws Exception {
-        mockMvc.perform(get("/api/admin/events/1"))
-                .andExpect(status().isOk())
+        mockMvc.perform(get("/api/admin/events/" + event1Id))  // Use event1Id
+                . andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.id").value(1));
+                .andExpect(jsonPath("$.id").value(event1Id));  // Use event1Id
     }
 
     @Test
@@ -187,7 +187,7 @@ class SaunaAdminEventControllerIntegrationTest {
     @DisplayName("MEMBER kan IKKE kalde GET /api/admin/events/{id} - 302 eller 403")
     @WithMockUser(username = "member", roles = {"MEMBER"})
     void testGetEventById_AsMember_Returns403() throws Exception {
-        mockMvc.perform(get("/api/admin/events/1"))
+        mockMvc.perform(get("/api/admin/events/" + event1Id))  // Use event1Id
                 .andExpect(status().is3xxRedirection());
     }
 
