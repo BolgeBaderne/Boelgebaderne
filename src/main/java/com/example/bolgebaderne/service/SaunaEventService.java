@@ -7,7 +7,6 @@ import com.example.bolgebaderne.model.SaunaEvent;
 import com.example.bolgebaderne.repository.SaunaEventRepository;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
