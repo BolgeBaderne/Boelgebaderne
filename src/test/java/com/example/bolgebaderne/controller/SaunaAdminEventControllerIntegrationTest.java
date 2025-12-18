@@ -155,7 +155,7 @@ class SaunaAdminEventControllerIntegrationTest {
                 "UPCOMING"
         );
 
-        mockMvc.perform(put("/api/admin/events/1")
+        mockMvc.perform(put("/api/admin/events/" + event1Id)
                         .with(csrf())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(updateDTO)))
@@ -168,7 +168,7 @@ class SaunaAdminEventControllerIntegrationTest {
     @DisplayName("ADMIN kan kalde DELETE /api/admin/events/{id} - 200 OK")
     @WithMockUser(username = "admin", roles = {"ADMIN"})
     void testDeleteEvent_AsAdmin_Returns200() throws Exception {
-        mockMvc.perform(delete("/api/admin/events/1")
+        mockMvc.perform( delete("/api/admin/events/" + event1Id)
                         .with(csrf()))
                 .andExpect(status().isOk());
     }
@@ -206,7 +206,7 @@ class SaunaAdminEventControllerIntegrationTest {
     @DisplayName("MEMBER kan IKKE kalde PUT /api/admin/events/{id} - 302 eller 403")
     @WithMockUser(username = "member", roles = {"MEMBER"})
     void testUpdateEvent_AsMember_Returns403() throws Exception {
-        mockMvc.perform(put("/api/admin/events/1")
+        mockMvc.perform(put("/api/admin/events/" + event1Id)
                         .with(csrf())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(testEventDTO)))
@@ -217,7 +217,7 @@ class SaunaAdminEventControllerIntegrationTest {
     @DisplayName("MEMBER kan IKKE kalde DELETE /api/admin/events/{id} - 302 eller 403")
     @WithMockUser(username = "member", roles = {"MEMBER"})
     void testDeleteEvent_AsMember_Returns403() throws Exception {
-        mockMvc.perform(delete("/api/admin/events/1")
+        mockMvc.perform(delete("/api/admin/events/" + event1Id)
                         .with(csrf()))
                 .andExpect(status().is3xxRedirection());
     }
@@ -236,7 +236,7 @@ class SaunaAdminEventControllerIntegrationTest {
     @DisplayName("NON_MEMBER kan IKKE kalde GET /api/admin/events/{id} - 302 eller 403")
     @WithMockUser(username = "nonmember", roles = {"NON_MEMBER"})
     void testGetEventById_AsNonMember_Returns403() throws Exception {
-        mockMvc.perform(get("/api/admin/events/1"))
+        mockMvc.perform(get("/api/admin/events/" + event1Id))
                 .andExpect(status().is3xxRedirection());
     }
 
@@ -255,7 +255,7 @@ class SaunaAdminEventControllerIntegrationTest {
     @DisplayName("NON_MEMBER kan IKKE kalde PUT /api/admin/events/{id} - 302 eller 403")
     @WithMockUser(username = "nonmember", roles = {"NON_MEMBER"})
     void testUpdateEvent_AsNonMember_Returns403() throws Exception {
-        mockMvc.perform(put("/api/admin/events/1")
+        mockMvc.perform(put("/api/admin/events/" + event1Id)
                         .with(csrf())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(testEventDTO)))
@@ -266,7 +266,7 @@ class SaunaAdminEventControllerIntegrationTest {
     @DisplayName("NON_MEMBER kan IKKE kalde DELETE /api/admin/events/{id} - 302 eller 403")
     @WithMockUser(username = "nonmember", roles = {"NON_MEMBER"})
     void testDeleteEvent_AsNonMember_Returns403() throws Exception {
-        mockMvc.perform(delete("/api/admin/events/1")
+        mockMvc.perform(delete("/api/admin/events/" + event1Id)
                         .with(csrf()))
                 .andExpect(status().is3xxRedirection());
     }
@@ -316,7 +316,7 @@ class SaunaAdminEventControllerIntegrationTest {
     @WithMockUser(username = "admin", roles = {"ADMIN"})
     void testCrudFlow_UpdateEvent_VerifyChanges() throws Exception {
         // 1. Hent original event
-        MvcResult originalResult = mockMvc.perform(get("/api/admin/events/1"))
+        MvcResult originalResult = mockMvc.perform(get("/api/admin/events/" + event1Id))  // ✅ ÆNDRET
                 .andExpect(status().isOk())
                 .andReturn();
 
@@ -336,10 +336,10 @@ class SaunaAdminEventControllerIntegrationTest {
                 "UPCOMING"
         );
 
-        MvcResult updateResult = mockMvc.perform(put("/api/admin/events/1")
+        MvcResult updateResult = mockMvc.perform(put("/api/admin/events/" + event1Id)  // ✅ ÆNDRET
                         .with(csrf())
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(updateDTO)))
+                        .contentType(MediaType. APPLICATION_JSON)
+                        . content(objectMapper.writeValueAsString(updateDTO)))
                 .andExpect(status().isOk())
                 .andReturn();
 
@@ -347,16 +347,16 @@ class SaunaAdminEventControllerIntegrationTest {
         SaunaEventDTO updatedEvent = objectMapper.readValue(updateResponse, SaunaEventDTO.class);
 
         // 3. Verificér at ændringerne er gemt
-        assertEquals(originalEvent.id(), updatedEvent.id()); // ID skal være det samme
+        assertEquals(originalEvent.id(), updatedEvent.id());
         assertNotEquals(originalEvent.title(), updatedEvent.title());
         assertNotEquals(originalEvent.gusmesterName(), updatedEvent.gusmesterName());
         assertEquals("Opdateret Titel", updatedEvent.title());
-        assertEquals("Ny Gusmester", updatedEvent.gusmesterName());
+        assertEquals("Ny Gusmester", updatedEvent. gusmesterName());
         assertEquals(25, updatedEvent.capacity());
         assertEquals(250.0, updatedEvent.price());
 
         // 4. Hent event igen for at dobbelttjekke
-        MvcResult verifyResult = mockMvc.perform(get("/api/admin/events/1"))
+        MvcResult verifyResult = mockMvc.perform(get("/api/admin/events/" + event1Id))  // ✅ ÆNDRET
                 .andExpect(status().isOk())
                 .andReturn();
 
@@ -366,22 +366,21 @@ class SaunaAdminEventControllerIntegrationTest {
         assertEquals(updatedEvent.title(), verifiedEvent.title());
         assertEquals(updatedEvent.gusmesterName(), verifiedEvent.gusmesterName());
     }
-
     @Test
     @DisplayName("CRUD Flow: Slet event → 200 OK og efterfølgende 404 ved GET")
     @WithMockUser(username = "admin", roles = {"ADMIN"})
     void testCrudFlow_DeleteEvent_ThenGetReturns404() throws Exception {
         // 1. Verificér at event eksisterer
-        mockMvc.perform(get("/api/admin/events/2"))
+        mockMvc.perform(get("/api/admin/events/" + event2Id))  // ✅ ÆNDRET
                 .andExpect(status().isOk());
 
         // 2. Slet event
-        mockMvc.perform(delete("/api/admin/events/2")
+        mockMvc.perform(delete("/api/admin/events/" + event2Id)  // ✅ ÆNDRET
                         .with(csrf()))
                 .andExpect(status().isOk());
 
         // 3. Forsøg at hente slettet event → Skal give 404
-        mockMvc.perform(get("/api/admin/events/2"))
+        mockMvc.perform(get("/api/admin/events/" + event2Id))  // ✅ ÆNDRET
                 .andExpect(status().isNotFound());
     }
 
@@ -451,15 +450,13 @@ class SaunaAdminEventControllerIntegrationTest {
                         .content(objectMapper.writeValueAsString(testEventDTO)))
                 .andExpect(status().is3xxRedirection());
 
-        mockMvc.perform(put("/api/admin/events/1")
+        mockMvc.perform(put("/api/admin/events/" + event1Id)  // ✅ ÆNDRET
                         .with(csrf())
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(testEventDTO)))
+                        .content(objectMapper. writeValueAsString(testEventDTO)))
                 .andExpect(status().is3xxRedirection());
 
-        mockMvc.perform(delete("/api/admin/events/1")
+        mockMvc.perform(delete("/api/admin/events/" + event1Id)  // ✅ ÆNDRET
                         .with(csrf()))
                 .andExpect(status().is3xxRedirection());
-    }
-}
-
+    }    }
