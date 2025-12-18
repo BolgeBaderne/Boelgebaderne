@@ -102,7 +102,12 @@ public class WaitlistEntry {
         return saunaEvent;
     }
 
-    public void setEvent(SaunaEvent saunaEvent) {
+    public void setSaunaEvent(SaunaEvent saunaEvent) {
         this.saunaEvent = saunaEvent;
+    }
+
+    @Deprecated
+    public void setEvent(SaunaEvent saunaEvent) {
+        setSaunaEvent(saunaEvent);
     }
 }
