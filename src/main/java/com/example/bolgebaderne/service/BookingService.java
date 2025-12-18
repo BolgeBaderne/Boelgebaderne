@@ -38,21 +38,35 @@ public class BookingService {
         this.userRepo = userRepo;
     }
 
-    public List<AvailableTimeSlotDTO> getAvailableSlots(int userId) {
+    public List<AvailableTimeSlotDTO> getAvailableSlots(Integer userId) {
 
-        User user = userRepo.findById(userId).orElseThrow();
-        boolean member = user.isMember();
+        boolean guestMode = (userId == null);
+        boolean member = false;
+
+        if (!guestMode) {
+            User user = userRepo.findById(userId).orElseThrow();
+            member = user.isMember();
+        }
 
         DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        final boolean isMemberFinal = member;
+        final boolean guestModeFinal = guestMode;
+
 
         return eventRepo.findAll().stream().map(event -> {
             long booked = bookingRepo.countBySaunaEvent_EventId(event.getEventId());
             int available = event.getCapacity() - (int) booked;
 
             boolean userAllowed =
-                    (event.getTitle().contains("MEDLEM") && member) ||
+                    (event.getTitle().contains("MEDLEM") && isMemberFinal) ||
                             (event.getTitle().contains("GÆST")) ||
-                            (event.getTitle().contains("VAGT") && member);
+                            (event.getTitle().contains("VAGT") && isMemberFinal);
+
+            if (guestModeFinal) {
+                userAllowed = true;
+            }
+
+
 
             String startTimeFormatted = "";
             if (event.getStartTime() != null) {
@@ -163,10 +177,15 @@ public class BookingService {
         return bookingRepo.save(booking);
     }
 
-    public List<AvailableTimeSlotDTO> generateWeeklySchedule(int userId, LocalDate weekStart) {
+    public List<AvailableTimeSlotDTO> generateWeeklySchedule(Integer userId, LocalDate weekStart) {
 
-        User user = userRepo.findById(userId).orElseThrow();
-        boolean isMember = user.isMember();
+        boolean guestMode = (userId == null);
+        boolean isMember = false;
+
+        if (!guestMode) {
+            User user = userRepo.findById(userId).orElseThrow();
+            isMember = user.isMember();
+        }
 
         List<AvailableTimeSlotDTO> slots = new ArrayList<>();
 

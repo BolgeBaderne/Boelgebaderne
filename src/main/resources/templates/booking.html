@@ -62,7 +62,8 @@
             <div class="booking-header">
                 <h1>Book saunaen</h1>
                 <p>Vælg et tidsrum for at booke saunaen. Medlemmer kan booke alle medlemstider.</p>
-                <p class="booking-user" th:text="'Du er logget ind som: ' + ${userName}"></p>
+                <p class="booking-user" th:if="${isLoggedIn}" th:text="'Du er logget ind som: ' + ${userName}"></p>
+                <p class="booking-user" th:unless="${isLoggedIn}">Du er ikke logget ind.</p>
             </div>
 
             <div class="week-header">
@@ -108,6 +109,7 @@
 <!-- DATA + SCRIPTS -->
 <script th:inline="javascript">
     const userId = [[${userId}]];
+    const isLoggedIn = [[${isLoggedIn}]];
 </script>
 <script src="/js/lang.js" defer></script>
 <script src="/js/main.js" defer></script>
