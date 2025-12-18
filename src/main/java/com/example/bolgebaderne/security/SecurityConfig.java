@@ -1,5 +1,3 @@
-
-
 package com.example.bolgebaderne.security;
 
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
