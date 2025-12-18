@@ -94,8 +94,11 @@ public class SecurityConfig {
                         return;
                     }
 
-                    // Fallback
-                    response.sendRedirect("/member/profile");
+                    boolean isMemberOrAdmin = authentication.getAuthorities().stream().anyMatch(a ->
+                            a.getAuthority().equals("ROLE_MEMBER") || a.getAuthority().equals("ROLE_ADMIN"));
+
+                    response.sendRedirect(isMemberOrAdmin ? "/member/profile" : "/booking");
+
                 })
                 .failureUrl("/login?error")
                 .permitAll()
