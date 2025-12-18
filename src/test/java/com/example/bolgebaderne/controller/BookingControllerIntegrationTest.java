@@ -271,7 +271,7 @@ class BookingControllerIntegrationTest {
                 6
         );
 
-        // Forvent exception for ikke-medlem
+        // Forvent exception for ikke-medlem.
         assertThrows(Exception.class, () -> bookingService.createBooking(request));
     }
 }
