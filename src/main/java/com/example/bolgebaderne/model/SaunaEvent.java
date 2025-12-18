@@ -46,8 +46,10 @@ public class SaunaEvent {
         this.status = status;
     }
 
-    public SaunaEvent(int i, String title, String s, String s1, LocalDateTime start, int i1, int capacity, double price, EventStatus eventStatus) {
-    }
+
+
+    // public SaunaEvent(int i, String title, String s, String s1, LocalDateTime start, int i1, int capacity, double price, EventStatus eventStatus) {
+   // }
 
     public int getAvailableSpots() {
         return capacity - currentBookings;
