@@ -1,8 +1,5 @@
 package com.example.bolgebaderne.security;
 
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
-import org.springframework.security.web.SecurityFilterChain;
-
 import com.example.bolgebaderne.repository.UserRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
