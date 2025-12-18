@@ -69,5 +69,5 @@ public class SaunaEventService {
 
         event.setStatus(EventStatus.valueOf(dto.status())); // "UPCOMING" osv.
 
-
-    }}
+    }
+}
