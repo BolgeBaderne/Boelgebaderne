@@ -25,16 +25,15 @@
         <!-- ACCOUNT -->
         <div class="top-right-controls account-menu">
             <button class="account-trigger">
-                Anna Jensen
-                <span class="admin-badge">Admin</span>
+                Indlæser...
             </button>
 
             <!-- DROPDOWN (HTML only) -->
-            <div class="account-dropdown">
+            <div class="account-dropdown hidden">
                 <a href="#">Min profil</a>
                 <a href="#">Kontingent & betalinger</a>
                 <hr>
-                <a href="#">Log ud</a>
+                <a href="/logout">Log ud</a>
             </div>
         </div>
     </div>
@@ -45,7 +44,7 @@
 
     <!-- INTRO -->
     <section class="dashboard-intro">
-        <h1>Velkommen, Anna</h1>
+        <h1></h1>
         <p>Vi håber at se dig ved vandet i dag!</p>
     </section>
 
@@ -57,12 +56,12 @@
             <h3>Dine bookinger</h3>
 
             <ul class="dashboard-list">
-                <li>Saunagus · 14. marts kl. 18</li>
-                <li>Åben sauna · 18. marts kl. 16</li>
-                <li>Saunagus · 22. marts kl. 10</li>
+                <!-- JS fetches <li> -->
             </ul>
 
-            <button class="btn btn-pill">Administrer bookinger</button>
+            <button class="btn btn-pill">
+                Administrer bookinger
+            </button>
         </article>
 
 
@@ -70,12 +69,12 @@
             <h3>Dine vagter</h3>
 
             <ul class="dashboard-list">
-                <li>Vært · 14. marts kl. 18</li>
-                <li>Vært · 18. marts kl. 16</li>
-                <li>Rengøring · 22. marts kl. 10</li>
+                <!-- JS fetches <li> -->
             </ul>
 
-            <button class="btn btn-pill">Administrer vagter</button>
+            <button class="btn btn-pill">
+                Administrer vagter
+            </button>
         </article>
     </section>
 
@@ -85,12 +84,16 @@
 
         <article class="updates-card">
             <h3>Skriv en opdatering</h3>
-            <textarea rows="3" placeholder="Del noget med fællesskabet..."></textarea>
-            <button class="btn btn-pill">Post</button>
+            <textarea id="postContent"
+                      rows="3"
+                      placeholder="Del noget med fællesskabet..."></textarea>
+
+            <button class="btn btn-pill" onclick="createPost()">
+                Post
+            </button>
         </article>
         <article class="updates-card-update">
-            <p><strong>Mette:</strong> Husk der er gus i morgen 🌿</p>
-            <p><i>Dato: 17-12-2025</i></p>
+            <!-- JS fetches posts -->
         </article>
     </section>
 
@@ -99,22 +102,27 @@
         <h2 class="section-title">Deltag & book</h2>
 
         <div class="dashboard-actions">
+
             <article class="updates-card">
                 <h3>Book saunatid</h3>
                 <p>Find ledige tider i kalenderen</p>
-                <button class="btn btn-pill">Book</button>
+                <button class="btn btn-pill" onclick="goToBookingCalendar()">Book</button>
             </article>
 
             <article class="updates-card">
                 <h3>Tilmeld saunagus</h3>
                 <p>Se kommende events</p>
-                <button class="btn btn-pill">Se events</button>
+                <button class="btn btn-pill" onclick="goToEvents()">
+                    Se events
+                </button>
             </article>
 
             <article class="updates-card">
                 <h3>Bliv frivillig</h3>
                 <p>Hjælp fællesskabet og mød andre</p>
-                <button class="btn btn-pill">Se vagter</button>
+                <button class="btn btn-pill" onclick="goToShifts()">
+                    Se vagter
+                </button>
             </article>
         </div>
     </section>
@@ -126,31 +134,22 @@
 
         <article class="updates-card admin-card">
             <h3>Saunagus events</h3>
-            <p>4 kommende events</p>
 
-            <button class="btn btn-pill">+ Opret event</button>
+            <button class="btn btn-pill" onclick="createEvent()">
+                + Opret event
+            </button>
 
             <ul class="admin-list">
-                <li>
-                    Torsdag kl. 18:00
-                    <div class="admin-actions">
-                        <button class="btn btn-pill btn-sm">Rediger</button>
-                        <button class="btn btn-pill btn-danger">Slet</button>
-                    </div>
-                </li>
-
-                <li>
-                    Lørdag kl. 10:00
-                    <div class="admin-actions">
-                        <button class="btn btn-pill btn-sm">Rediger</button>
-                        <button class="btn btn-pill btn-danger">Slet</button>
-                    </div>
-                </li>
+                <!-- JS fetches events -->
             </ul>
         </article>
     </section>
 
 </main>
 
+<script src="/js/main.js"></script>
+<script src="/js/dashboard.js"></script>
+
 </body>
+
 </html>

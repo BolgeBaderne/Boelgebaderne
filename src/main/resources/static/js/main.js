@@ -47,17 +47,17 @@ document.addEventListener("DOMContentLoaded", () => {
 // -------------------------------------------
 
 const gusSchedule = {
-    mandag:     { medlem: "7-11 & 16-21", åben: "-" },
-    tirsdag:    { medlem: "7-11 & 16-21", åben: "-" },
-    onsdag:     { medlem: "7-9", åben: "9-11 & 15-21" },
-    torsdag:    { medlem: "7-11 & 16-21", åben: "-" },
-    fredag:     { medlem: "7-11 & 16-21", åben: "-" },
-    lørdag:     { medlem: "7-11 & 16-21", åben: "11-15" },
-    søndag:     { medlem: "7-11 & 16-21", åben: "11-15" }
+    mandag: {medlem: "7-11 & 16-21", åben: "-"},
+    tirsdag: {medlem: "7-11 & 16-21", åben: "-"},
+    onsdag: {medlem: "7-9", åben: "9-11 & 15-21"},
+    torsdag: {medlem: "7-11 & 16-21", åben: "-"},
+    fredag: {medlem: "7-11 & 16-21", åben: "-"},
+    lørdag: {medlem: "7-11 & 16-21", åben: "11-15"},
+    søndag: {medlem: "7-11 & 16-21", åben: "11-15"}
 };
 
 const weekdays = [
-    "søndag","mandag","tirsdag","onsdag","torsdag","fredag","lørdag"
+    "søndag", "mandag", "tirsdag", "onsdag", "torsdag", "fredag", "lørdag"
 ];
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -147,5 +147,26 @@ window.addEventListener("scroll", () => {
 });
 
 scrollBtn.addEventListener("click", () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    window.scrollTo({top: 0, behavior: "smooth"});
 });
+
+// -------------------------------------------
+// LOAD POSTS
+// -------------------------------------------
+
+function loadPosts() {
+    fetch("/api/posts")
+        .then(res => res.json())
+        .then(posts => {
+            const container = document.querySelector(".dashboard-section .updates-card-update");
+            container.innerHTML = "";
+
+            posts.forEach(p => {
+                container.innerHTML += `
+          <article class="updates-card-update">
+            <p><strong>${p.author}:</strong> ${p.content}</p>
+            <p><i>Dato: ${p.createdAt}</i></p>
+          </article>`;
+            });
+        });
+}
