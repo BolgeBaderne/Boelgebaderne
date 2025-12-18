@@ -79,14 +79,15 @@ class BookingControllerIntegrationTest {
                 "Offentlig Gus",
                 "Test event",
                 "Test Gusmester",
-                "https://example.com/gusmester.jpg",
+                null, // gusmesterImageUrl
                 LocalDateTime.of(2025, 12, 20, 10, 0),
-                120,
-                6,
-                80.0,
+                120, // durationMinutes
+                6,   // capacity
+                80.0, // price
                 EventStatus.UPCOMING,
-                0,
-                6
+                0,   // currentBookings
+                6    // availableSpots
+
         );
 
         testEvent = saunaEventRepository.save(testEvent);
@@ -256,14 +257,14 @@ class BookingControllerIntegrationTest {
                 "MEDLEM-GUS",
                 "For medlemmer",
                 "Gusmester",
-                "https://example.com/gusmester.jpg",
+                null, // gusmesterImageUrl
                 LocalDateTime.of(2025, 12, 21, 10, 0),
-                120,
-                6,
-                0.0,
+                120, // durationMinutes
+                6,   // capacity
+                0.0, // price
                 EventStatus.UPCOMING,
-                0,
-                6
+                0,   // currentBookings
+                6    // availableSpots
         );
 
         memberEvent = saunaEventRepository.save(memberEvent);

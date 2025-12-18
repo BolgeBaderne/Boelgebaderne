@@ -41,6 +41,8 @@ public class SaunaEvent {
     public SaunaEvent(int eventId, String title, String description, String gusmesterName, String gusmesterImageUrl,
                       LocalDateTime startTime, int durationMinutes, int capacity,
                       double price, EventStatus eventStatus, int currentBookings, int availableSpots) {
+
+
         this.eventId = eventId;
         this.title = title;
         this.description = description;

@@ -66,40 +66,52 @@ class BookingServiceTest {
         nonMemberUser.setMembershipStatus("INACTIVE");
 
         // Setup member event using setters (constructor signature may have changed)
-        memberEvent = new SaunaEvent();
-        memberEvent.setEventId(1);
-        memberEvent.setTitle("MEDLEM åbent • 07:00-11:00");
-        memberEvent.setDescription("Members only event");
-        memberEvent.setGusmesterName("Gusmester");
-        memberEvent.setStartTime(LocalDateTime.of(2025, 12, 20, 7, 0));
-        memberEvent.setDurationMinutes(240);
-        memberEvent.setCapacity(12);
-        memberEvent.setPrice(0.0);
-        memberEvent.setEventStatus(EventStatus.UPCOMING);
+        memberEvent = new SaunaEvent(
+                1,
+                "MEDLEM åbent • 07:00-11:00",
+                "Members only event",
+                "Gusmester",
+                null, // gusmesterImageUrl
+                LocalDateTime.of(2025, 12, 20, 7, 0),
+                240, // durationMinutes
+                12,  // capacity
+                0.0, // price
+                EventStatus.UPCOMING,
+                0,   // currentBookings
+                12   // availableSpots
+        );
 
         // Setup guest event using setters
-        guestEvent = new SaunaEvent();
-        guestEvent.setEventId(2);
-        guestEvent.setTitle("GÆST åbent • 09:00-10:00");
-        guestEvent.setDescription("Public event");
-        guestEvent.setGusmesterName("Gusmester");
-        guestEvent.setStartTime(LocalDateTime.of(2025, 12, 20, 9, 0));
-        guestEvent.setDurationMinutes(60);
-        guestEvent.setCapacity(12);
-        guestEvent.setPrice(80.0);
-        guestEvent.setEventStatus(EventStatus.UPCOMING);
+        guestEvent = new SaunaEvent(
+                2,
+                "GÆST åbent • 09:00-10:00",
+                "Public event",
+                "Gusmester",
+                null, // gusmesterImageUrl
+                LocalDateTime.of(2025, 12, 20, 9, 0),
+                60,  // durationMinutes
+                12,  // capacity
+                80.0, // price
+                EventStatus.UPCOMING,
+                0,   // currentBookings
+                12   // availableSpots
+        );
 
         // Setup vagt event using setters
-        vagtEvent = new SaunaEvent();
-        vagtEvent.setEventId(3);
-        vagtEvent.setTitle("VAGT • 20:00-21:00");
-        vagtEvent.setDescription("Shift event");
-        vagtEvent.setGusmesterName("Gusmester");
-        vagtEvent.setStartTime(LocalDateTime.of(2025, 12, 20, 20, 0));
-        vagtEvent.setDurationMinutes(60);
-        vagtEvent.setCapacity(12);
-        vagtEvent.setPrice(0.0);
-        vagtEvent.setEventStatus(EventStatus.UPCOMING);
+        vagtEvent = new SaunaEvent(
+                3,
+                "VAGT • 20:00-21:00",
+                "Shift event",
+                "Gusmester",
+                null, // gusmesterImageUrl
+                LocalDateTime. of(2025, 12, 20, 20, 0),
+                60,  // durationMinutes
+                12,  // capacity
+                0.0, // price
+                EventStatus.UPCOMING,
+                0,   // currentBookings
+                12   // availableSpots
+        );
     }
 
     // ==================== Tests for getAvailableSlots ====================
@@ -216,16 +228,20 @@ class BookingServiceTest {
         );
 
         // Build newEvent with setters to match entity fields
-        SaunaEvent newEvent = new SaunaEvent();
-        newEvent.setEventId(100);
-        newEvent.setTitle("Offentlig åbent");
-        newEvent.setDescription("");
-        newEvent.setGusmesterName("");
-        newEvent.setStartTime(LocalDateTime.parse("2025-12-25T10:00"));
-        newEvent.setDurationMinutes(60);
-        newEvent.setCapacity(12);
-        newEvent.setPrice(80.0);
-        newEvent.setEventStatus(EventStatus.UPCOMING);
+        SaunaEvent newEvent = new SaunaEvent(
+                100,
+                "Offentlig åbent",
+                "",
+                "",
+                null, // gusmesterImageUrl
+                LocalDateTime.parse("2025-12-25T10:00"),
+                60,  // durationMinutes
+                12,  // capacity
+                80.0, // price
+                EventStatus.UPCOMING,
+                0,   // currentBookings
+                12   // availableSpots
+        );
 
         when(userRepository.findById(1)).thenReturn(Optional.of(memberUser));
         when(saunaEventRepository.findById(999)).thenReturn(Optional.empty());
@@ -443,16 +459,20 @@ class BookingServiceTest {
     void testGenerateWeeklySchedule_WithExistingBookings_ShowsCorrectAvailability() {
         // Arrange
         LocalDate monday = LocalDate.of(2025, 12, 15);
-        SaunaEvent existingEvent = new SaunaEvent();
-        existingEvent.setEventId(10);
-        existingEvent.setTitle("Offentlig åbent • 11:00-12:00");
-        existingEvent.setDescription("");
-        existingEvent.setGusmesterName("");
-        existingEvent.setStartTime(LocalDateTime.of(2025, 12, 20, 11, 0));
-        existingEvent.setDurationMinutes(60);
-        existingEvent.setCapacity(12);
-        existingEvent.setPrice(80.0);
-        existingEvent.setEventStatus(EventStatus.UPCOMING);
+        SaunaEvent existingEvent = new SaunaEvent(
+                10,
+                "Offentlig åbent • 11:00-12:00",
+                "",
+                "",
+                null, // gusmesterImageUrl
+                LocalDateTime.of(2025, 12, 20, 11, 0),
+                60,  // durationMinutes
+                12,  // capacity
+                80.0, // price
+                EventStatus.UPCOMING,
+                0,   // currentBookings
+                12   // availableSpots
+        );
 
         when(userRepository.findById(1)).thenReturn(Optional.of(memberUser));
         when(saunaEventRepository.findByTitleAndStartTime(anyString(), any(LocalDateTime.class)))
