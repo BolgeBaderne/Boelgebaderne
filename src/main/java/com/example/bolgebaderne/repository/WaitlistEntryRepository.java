@@ -16,6 +16,7 @@ public interface WaitlistEntryRepository extends JpaRepository<WaitlistEntry, In
     boolean existsByUserAndSaunaEvent(User user, SaunaEvent saunaEvent);
     Optional<WaitlistEntry> findByUserAndSaunaEvent(User user, SaunaEvent saunaEvent);
 
+    void deleteBySaunaEvent_EventId(int eventId);
 }
 
 

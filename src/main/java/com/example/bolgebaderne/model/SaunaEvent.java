@@ -135,10 +135,13 @@ public class SaunaEvent {
 
     public void setCurrentBookings(int currentBookings) {
         this.currentBookings = currentBookings;
+        this.availableSpots = this.capacity - currentBookings;
+
     }
 
     public int getAvailableSpots() {
-        return availableSpots;
+            return capacity - currentBookings;
+
     }
 
     public void setAvailableSpots(int availableSpots) {

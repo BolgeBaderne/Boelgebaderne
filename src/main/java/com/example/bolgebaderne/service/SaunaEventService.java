@@ -4,7 +4,10 @@ import com.example.bolgebaderne.dto.SaunaAdminEventDTO;
 import com.example.bolgebaderne.exceptions.EventNotFoundException;
 import com.example.bolgebaderne.model.EventStatus;
 import com.example.bolgebaderne.model.SaunaEvent;
+import com.example.bolgebaderne.repository.BookingRepository;
 import com.example.bolgebaderne.repository.SaunaEventRepository;
+import com.example.bolgebaderne.repository.WaitlistEntryRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -13,18 +16,24 @@ import java.util.List;
 @Service
 public class SaunaEventService {
 
-    private final SaunaEventRepository repository;
+    private SaunaEventRepository saunaEventRepository;
+    private final BookingRepository bookingRepository;
+    private final WaitlistEntryRepository waitlistEntryRepository;
 
-    public SaunaEventService(SaunaEventRepository repository) {
-        this.repository = repository;
+    public SaunaEventService(SaunaEventRepository repository,
+                             BookingRepository bookingRepository,
+                             WaitlistEntryRepository waitlistEntryRepository) {
+        this.saunaEventRepository = saunaEventRepository;
+        this.bookingRepository = bookingRepository;
+        this.waitlistEntryRepository = waitlistEntryRepository;
     }
 
     public List<SaunaEvent> getAllEvents() {
-        return repository.findAll();
+        return saunaEventRepository.findAll();
     }
 
     public SaunaEvent getById(int id) {
-        return repository.findById(id)
+        return saunaEventRepository.findById(id)
                 .orElseThrow(() -> new EventNotFoundException("Det valgte event findes ikke."));
     }
 
@@ -34,7 +43,7 @@ public class SaunaEventService {
         SaunaEvent event = new SaunaEvent();
         copyDtoToEntity(dto, event);
         event.setCurrentBookings(0);
-        return repository.save(event);
+        return saunaEventRepository.save(event);
     }
 
     // ===== Opdatering =====
@@ -42,17 +51,28 @@ public class SaunaEventService {
     public SaunaEvent updateEvent(int id, SaunaAdminEventDTO dto) {
         SaunaEvent event = getById(id);   // smider EventNotFoundException hvis ikke findes
         copyDtoToEntity(dto, event);
-        return repository.save(event);
+        return saunaEventRepository.save(event);
     }
 
     // ===== Sletning =====
+    @Transactional
+    public void deleteEvent(int eventId) {
+        // First, delete all related bookings
+        bookingRepository.deleteBySaunaEvent_EventId(eventId);
 
-    public void deleteEvent(int id) {
-        if (!repository.existsById(id)) {
-            throw new EventNotFoundException("Det valgte event findes ikke.");
-        }
-        repository.deleteById(id);
+        // Then delete all waitlist entries (if applicable)
+        waitlistEntryRepository.deleteBySaunaEvent_EventId(eventId);
+
+        // Finally, delete the event itself
+        saunaEventRepository.deleteById(eventId);
     }
+
+//    public void deleteEvent(int id) {
+//        if (!repository.existsById(id)) {
+//            throw new EventNotFoundException("Det valgte event findes ikke.");
+//        }
+//        repository.deleteById(id);
+//    }
 
     // ===== Helper: kopier data fra admin-DTO til entity =====
     private void copyDtoToEntity(SaunaAdminEventDTO dto, SaunaEvent event) {

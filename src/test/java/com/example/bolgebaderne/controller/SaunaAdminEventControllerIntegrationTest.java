@@ -2,6 +2,10 @@ package com.example.bolgebaderne.controller;
 
 import com.example.bolgebaderne.dto.SaunaAdminEventDTO;
 import com.example.bolgebaderne.dto.SaunaEventDTO;
+import com.example.bolgebaderne.repository.BookingRepository;
+import com.example.bolgebaderne.repository.SaunaEventRepository;
+import com.example.bolgebaderne.repository.UserRepository;
+import com.example.bolgebaderne.repository.WaitlistEntryRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -33,10 +37,19 @@ class SaunaAdminEventControllerIntegrationTest {
     private ObjectMapper objectMapper;
 
     private SaunaAdminEventDTO testEventDTO;
+    private BookingRepository bookingRepository;
+    private SaunaEventRepository saunaEventRepository;
+    private WaitlistEntryRepository waitlistEntryRepository;
+    private UserRepository userRepository;
     private LocalDateTime testStartTime;
 
     @BeforeEach
     void setUp() {
+        // Delete in correct order:  bookings first, then events, then users
+        bookingRepository.deleteAll();
+        waitlistEntryRepository.deleteAll(); // If you have this
+        saunaEventRepository.deleteAll();
+        userRepository.deleteAll();
         testStartTime = LocalDateTime.of(2025, 12, 25, 14, 0);
 
         testEventDTO = new SaunaAdminEventDTO(
