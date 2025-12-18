@@ -14,7 +14,7 @@ import com.example.bolgebaderne.service.MemberShiftService;
 import java.util.List;
 
 @RestController
-@RequestMapping("/member")
+@RequestMapping("/api/member")
 @PreAuthorize("hasAnyRole('MEMBER','ADMIN')")
 public class MemberController {
 
