@@ -7,16 +7,19 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
-public class MemberBookingPageController
-{
+public class MemberBookingPageController {
 
     @GetMapping("/booking")
-    public String bookingPage(@AuthenticationPrincipal User user, Model model)
-    {
-        // Hvis brugeren ikke er logget ind, send til login
-        if (user == null)
-        {
-            return "redirect:/login?auth=required";
+    public String bookingPage(@AuthenticationPrincipal User user, Model model) {
+
+        // Hvis brugeren ikke er logget ind, viser vi stadig booking-siden (guest mode)
+        boolean isLoggedIn = (user != null);
+        model.addAttribute("isLoggedIn", isLoggedIn);
+
+        if (!isLoggedIn) {
+            model.addAttribute("userId", null);
+            model.addAttribute("userName", "");
+            return "booking";
         }
 
         // Læg user-info i modellen til booking.html

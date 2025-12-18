@@ -13,6 +13,10 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.http.HttpMethod;
+import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
+import org.springframework.security.web.savedrequest.SavedRequest;
+
 
 @Configuration
 @EnableWebSecurity
@@ -34,6 +38,14 @@ public class SecurityConfig {
                 // ekstra static paths I bruger (icons er ikke "common location")
                 .requestMatchers("/icons/**").permitAll()
                 .requestMatchers("/api/events/**").permitAll()
+                // Booking-kalenderen skal kunne ses uden login
+                .requestMatchers("/booking").permitAll()
+
+                // Booking-kalenderen skal kunne ses uden login
+                .requestMatchers("/booking").permitAll()
+
+                // Alle må hente booking-data (kalenderen) via GET
+                .requestMatchers(HttpMethod.GET, "/api/bookings/**").permitAll()
 
 
                 //Public pages
@@ -47,6 +59,7 @@ public class SecurityConfig {
 
                 //Public API / system endpoints
                 .requestMatchers(
+
                         "/api/public/**",
                         "/api/auth/**",
                         "/h2-console/**",
@@ -76,7 +89,27 @@ public class SecurityConfig {
                 .loginPage("/login")
                 .usernameParameter("email")
                 .passwordParameter("password")
-                .defaultSuccessUrl("/member/profile", true)
+                .successHandler((request, response, authentication) -> {
+                    // Hvis vi kommer fra /login?redirect=..., så gå dertil efter login
+                    String redirect = request.getParameter("redirect");
+                    if (redirect != null && !redirect.isBlank()) {
+                        response.sendRedirect(redirect);
+                        return;
+                    }
+
+                    // Ellers: brug saved request hvis den findes
+                    SavedRequest savedRequest = new HttpSessionRequestCache().getRequest(request, response);
+                    if (savedRequest != null) {
+                        response.sendRedirect(savedRequest.getRedirectUrl());
+                        return;
+                    }
+
+                    boolean isMemberOrAdmin = authentication.getAuthorities().stream().anyMatch(a ->
+                            a.getAuthority().equals("ROLE_MEMBER") || a.getAuthority().equals("ROLE_ADMIN"));
+
+                    response.sendRedirect(isMemberOrAdmin ? "/member/profile" : "/booking");
+
+                })
                 .failureUrl("/login?error")
                 .permitAll()
         );
