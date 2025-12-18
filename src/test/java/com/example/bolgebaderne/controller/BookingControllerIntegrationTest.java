@@ -49,7 +49,8 @@ class BookingControllerIntegrationTest {
     private SaunaEvent testEvent;
 
     @BeforeEach
-    void setUp() {
+    void setUp()
+    {
         // Ryd data før hver test
         bookingRepository.deleteAll();
         saunaEventRepository.deleteAll();
@@ -78,12 +79,16 @@ class BookingControllerIntegrationTest {
                 "Offentlig Gus",
                 "Test event",
                 "Test Gusmester",
+                "https://example.com/gusmester.jpg",
                 LocalDateTime.of(2025, 12, 20, 10, 0),
-                120, // duration i minutter
+                120,
                 6,
                 80.0,
-                EventStatus.UPCOMING
+                EventStatus.UPCOMING,
+                0,
+                6
         );
+
         testEvent = saunaEventRepository.save(testEvent);
     }
 
@@ -120,7 +125,7 @@ class BookingControllerIntegrationTest {
         assertNotNull(booking.getBookingId());
         assertEquals(BookingStatus.ACTIVE, booking.getStatus());
         assertEquals(testMember.getUserId(), booking.getUser().getUserId());
-        assertEquals(testEvent.getEventId(), booking.getEvent().getEventId());
+        assertEquals(testEvent.getEventId(), booking.getSaunaEvent().getEventId());
 
         // Verificer at booking er i databasen
         long count = bookingRepository.countBySaunaEvent_EventId(testEvent.getEventId());
@@ -133,7 +138,7 @@ class BookingControllerIntegrationTest {
         for (int i = 0; i < testEvent.getCapacity(); i++) {
             Booking booking = new Booking();
             booking.setUser(testMember);
-            booking.setEvent(testEvent);
+            booking.setSaunaEvent(testEvent);
             booking.setStatus(BookingStatus.ACTIVE);
             booking.setCreatedAt(LocalDateTime.now());
             bookingRepository.save(booking);
@@ -164,8 +169,8 @@ class BookingControllerIntegrationTest {
         Booking booking = bookingService.createBooking(request);
 
         assertNotNull(booking);
-        assertEquals("GÆSTE-GUS", booking.getEvent().getTitle());
-        assertEquals(120.0, booking.getEvent().getPrice());
+        assertEquals("GÆSTE-GUS", booking.getSaunaEvent().getTitle());
+        assertEquals(120.0, booking.getSaunaEvent().getPrice());
 
         // Verificer at nyt event er oprettet i databasen
         long eventCount = saunaEventRepository.count();
@@ -194,7 +199,7 @@ class BookingControllerIntegrationTest {
         // Opret en booking
         Booking booking = new Booking();
         booking.setUser(testMember);
-        booking.setEvent(testEvent);
+        booking.setSaunaEvent(testEvent);
         booking.setStatus(BookingStatus.ACTIVE);
         booking.setCreatedAt(LocalDateTime.now());
         bookingRepository.save(booking);
@@ -251,13 +256,18 @@ class BookingControllerIntegrationTest {
                 "MEDLEM-GUS",
                 "For medlemmer",
                 "Gusmester",
+                "https://example.com/gusmester.jpg",
                 LocalDateTime.of(2025, 12, 21, 10, 0),
                 120,
                 6,
                 0.0,
-                EventStatus.UPCOMING
+                EventStatus.UPCOMING,
+                0,
+                6
         );
+
         memberEvent = saunaEventRepository.save(memberEvent);
+
 
         CreateBookingRequest request = new CreateBookingRequest(
                 testNonMember.getUserId(),
