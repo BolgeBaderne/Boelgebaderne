@@ -13,7 +13,7 @@ import java.util.Optional;
 public interface WaitlistEntryRepository extends JpaRepository<WaitlistEntry, Integer> {
     List<WaitlistEntry> findBySaunaEventOrderByPositionAsc(SaunaEvent saunaEvent);
     int countBySaunaEvent(SaunaEvent saunaEvent);
-    boolean existsByUserAndEvent(User user, SaunaEvent saunaEvent);
+    boolean existsByUserAndSaunaEvent(User user, SaunaEvent saunaEvent);
     Optional<WaitlistEntry> findByUserAndSaunaEvent(User user, SaunaEvent saunaEvent);
 
 }
