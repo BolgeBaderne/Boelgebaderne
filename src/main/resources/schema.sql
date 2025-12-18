@@ -12,10 +12,12 @@ CREATE TABLE sauna_events (
                               title VARCHAR(255) NOT NULL,
                               description TEXT,
                               gusmester_name VARCHAR(255),
+                              gusmester_image_url VARCHAR(500),
                               start_time TIMESTAMP NOT NULL,
                               duration_minutes INT NOT NULL,
                               capacity INT NOT NULL,
                               price DECIMAL(10,2),
+                              current_bookings INT DEFAULT 0,
                               status VARCHAR(50)
 );
 
