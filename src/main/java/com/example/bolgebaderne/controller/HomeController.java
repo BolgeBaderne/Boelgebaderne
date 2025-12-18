@@ -6,9 +6,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class HomeController {
 
-    @GetMapping("/")
-    public String home() {
-        return "home"; // peger på home.html
+        @GetMapping("/")
+        public String root() {
+            return "forward:/index.html"; // src/main/resources/static/index.html
+        }
+
+        @GetMapping("/home")
+        public String home() {
+            return "home"; // src/main/resources/templates/home.html
+        }
     }
 
-}
+

@@ -11,6 +11,7 @@ import com.example.bolgebaderne.model.User;
 import com.example.bolgebaderne.repository.BookingRepository;
 import com.example.bolgebaderne.repository.SaunaEventRepository;
 import com.example.bolgebaderne.repository.UserRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 import com.example.bolgebaderne.model.EventStatus;
 
@@ -45,7 +46,7 @@ public class BookingService {
         DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
         return eventRepo.findAll().stream().map(event -> {
-            long booked = bookingRepo.countByEvent_EventId(event.getEventId());
+            long booked = bookingRepo.countBySaunaEvent_EventId(event.getEventId());
             int available = event.getCapacity() - (int) booked;
 
             boolean userAllowed =
@@ -117,9 +118,11 @@ public class BookingService {
                     60,
                     req.capacity(),
                     price,
+                    EventStatus.UPCOMING,
                     0,
-                    EventStatus.UPCOMING
+                    req.capacity()
             );
+
 
             event = eventRepo.save(newEvent);
         }
@@ -131,7 +134,7 @@ public class BookingService {
                 ? ""
                 : event.getTitle().toUpperCase();
 
-// Medlemskrav: MEDLEM, MEDLEMSGUS og VAGT
+        // Medlemskrav: MEDLEM, MEDLEMSGUS og VAGT
         if ((upperTitle.contains("MEDLEM")
                 || upperTitle.contains("MEDLEMSGUS")
                 || upperTitle.contains("VAGT"))
@@ -142,19 +145,19 @@ public class BookingService {
         }
 
         // Stop hvis brugeren allerede har booket denne tid
-        if (bookingRepo.existsByUser_UserIdAndEvent_EventId(
+        if (bookingRepo.existsByUser_UserIdAndSaunaEvent_EventId(
                 user.getUserId(), event.getEventId())) {
             throw new IllegalArgumentException("Du har allerede booket denne tid.");
         }
 
-        long booked = bookingRepo.countByEvent_EventId(event.getEventId());
+        long booked = bookingRepo.countBySaunaEvent_EventId(event.getEventId());
         if (booked >= event.getCapacity()) {
             throw new TimeSlotFullException("Denne tid er allerede fuldt booket.");
         }
 
         Booking booking = new Booking();
         booking.setUser(user);
-        booking.setEvent(event);
+        booking.setSaunaEvent(event);
         booking.setCreatedAt(LocalDateTime.now());
         booking.setStatus(BookingStatus.ACTIVE);
 
@@ -273,7 +276,7 @@ public class BookingService {
         if (event != null) {
             eventId = event.getEventId();
             effectiveCapacity = event.getCapacity();
-            booked = (int) bookingRepo.countByEvent_EventId(event.getEventId());
+            booked = (int) bookingRepo.countBySaunaEvent_EventId(event.getEventId());
             full = booked >= effectiveCapacity;
         }
 
@@ -315,7 +318,7 @@ public class BookingService {
         if (event != null) {
             eventId = event.getEventId();
             effectiveCapacity = event.getCapacity();
-            booked = (int) bookingRepo.countByEvent_EventId(event.getEventId());
+            booked = (int) bookingRepo.countBySaunaEvent_EventId(event.getEventId());
             full = booked >= effectiveCapacity;
         }
 
@@ -339,4 +342,19 @@ public class BookingService {
 
     }
 
+    //Afmelder en booking og frigiver pladsen til første på ventelisten.
+    @Transactional
+    public void cancelBooking(int bookingId) {
+        Booking booking = bookingRepo.findById(bookingId)
+                .orElseThrow(() -> new RuntimeException("Booking not found: " + bookingId));
+
+        SaunaEvent event = booking.getSaunaEvent();
+
+        // enten delete eller markér som CANCELLED – her tager vi den simple
+        bookingRepo.delete(booking);
+
+        // TODO: hvis der findes en waitlist-service, promover første på ventelisten her
+        // fx: waitlistEntryService.promoteFirstInQueue(event);
+    }
 }
+

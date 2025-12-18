@@ -121,7 +121,7 @@ body {
 }
 
 .event__container {
-    width: 100%; /* (nu bruger fuld bredde)*/
+    max-width: 1100px;
     margin: 0 auto;
     display: grid;
     grid-template-columns: minmax(0, 1.6fr) minmax(0, 1.1fr);

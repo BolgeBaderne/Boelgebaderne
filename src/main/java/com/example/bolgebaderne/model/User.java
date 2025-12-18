@@ -30,8 +30,9 @@ public class User implements UserDetails {
 
     // ===== Dine helper-metoder =====
 
+    // Alle roller er har medlemstilgang undtagen GUEST
     public boolean isMember() { return role == Role.MEMBER || role == Role.ADMIN; }
-    public boolean isAdmin() { return role == Role.ADMIN; }
+
 
     // ===== Konstruktør(er) =====
 
@@ -99,4 +100,4 @@ public class User implements UserDetails {
     @Override public boolean isEnabled() {
         return true;
     }
-    }
+}

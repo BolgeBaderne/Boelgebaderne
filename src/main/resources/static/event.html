@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="https://foreninglet-static-files.s3.eu-west-1.amazonaws.com/static/icon/favicon.ico">
+    <title>Bølgebaderne</title>
+    <link rel="stylesheet" href="/css/event.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<!-- NAVBAR -->
+<header class="site-header">
+    <div class="header-inner">
+
+        <!-- LOGO -->
+        <a href="/" class="logo" aria-label="Bølgebaderne - hjem">
+            <img src="/images/logo.png" alt="Bølgebaderne logo">
+        </a>
+
+        <!-- MOBILE LANGUAGE SWITCH -->
+        <div class="mobile-lang">
+            <button class="lang-switch" data-lang="da">DA</button>
+            <button class="lang-switch" data-lang="en">EN</button>
+        </div>
+
+        <!-- HAMBURGER MENU -->
+        <button class="nav-toggle"
+                aria-expanded="false"
+                aria-controls="main-nav"
+                aria-label="Åbn menu">
+            <span class="bars" aria-hidden="true">☰</span>
+        </button>
+
+        <!-- NAVIGATION WRAPPER -->
+        <nav id="main-nav" class="main-nav" aria-label="Hovednavigation">
+
+            <!-- CLOSE BUTTON (MOBILE) -->
+            <button class="close-menu" aria-label="Luk menu">×</button>
+
+            <!-- CENTERED NAVIGATION -->
+            <ul class="nav-list">
+                <li><a href="/about.html" data-i18n="nav.about">Om os</a></li>
+                <li><a href="/membership.html" data-i18n="nav.membership">Medlemskab</a></li>
+                <li><a href="/sauna-info.html" data-i18n="nav.sauna">Sauna info</a></li>
+                <li><a href="/faq.html" data-i18n="faq">FAQ</a></li>
+                <li><a href="#contact" data-i18n="nav.contact">Kontakt</a></li>
+            </ul>
+
+            <!-- LANGUAGE SWITCH (DESKTOP)-->
+            <div class="desktop-lang">
+                <button class="lang-switch" data-lang="da">DA</button>
+                <button class="lang-switch" data-lang="en">EN</button>
+            </div>
+
+            <!-- RIGHT SIDE (DESKTOP) -->
+            <div class="top-right-controls">
+                <a class="btn btn-primary" href="/login" data-i18n="actions.login">Log ind</a>
+            </div>
+
+        </nav>
+    </div>
+</header>
+
+
+<main>
+    <!-- Hero med baggrund og titel -->
+    <section class="hero">
+        <div class="hero__overlay"></div>
+        <div class="hero__content">
+            <p class="hero__badge" id="event-status">Event</p>
+            <h1 id="event-title">Eventtitel</h1>
+            <p class="hero__meta">
+                <span id="event-starttime">Dato & tid</span>
+                ·
+                <span id="event-duration">Varighed</span>
+            </p>
+        </div>
+    </section>
+
+    <!-- Selve detalje-layoutet -->
+    <section class="event">
+        <div class="event__container">
+            <!-- Venstre: beskrivelse + gusmester -->
+            <div class="event__column event__column--main">
+                <div class="card">
+                    <h2>Om eventet</h2>
+                    <p id="event-description" class="event__description">
+                        Beskrivelsen kommer her…
+                    </p>
+                </div>
+
+                <div class="card card--gusmester">
+                    <div class="gusmester__image-wrapper">
+                        <img id="gusmester-image"
+                             src=""
+                             alt="Gusmester"
+                             class="gusmester__image">
+                    </div>
+                    <div class="gusmester__info">
+                        <p class="gusmester__label">Gusmester</p>
+                        <p id="gusmester-name" class="gusmester__name">
+                            Navn på gusmester
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Højre: praktisk info / booking -->
+            <aside class="event__column event__column--side">
+                <div class="card card--info">
+                    <h3>Praktisk info</h3>
+                    <dl class="info-list">
+                        <div class="info-list__row">
+                            <dt>Varighed</dt>
+                            <dd id="info-duration">–</dd>
+                        </div>
+                        <div class="info-list__row">
+                            <dt>Kapacitet</dt>
+                            <dd id="info-capacity">–</dd>
+                        </div>
+                        <div class="info-list__row">
+                            <dt>Bookinger</dt>
+                            <dd id="info-bookings">–</dd>
+                        </div>
+                        <div class="info-list__row">
+                            <dt>Ledige pladser</dt>
+                            <dd id="info-available">–</dd>
+                        </div>
+                        <div class="info-list__row">
+                            <dt>Pris</dt>
+                            <dd id="info-price">–</dd>
+                        </div>
+                    </dl>
+
+                    <button class="btn btn--primary" id="book-button">
+                        Book eventet
+                    </button>
+                    <p class="hint">
+                        (Booking-knappen må gerne være “fake” til demo – fokus
+                        er på visning af detaljer)
+                    </p>
+                </div>
+
+                <div class="card card--error hidden" id="error-box">
+                    <p id="error-message"></p>
+                </div>
+            </aside>
+        </div>
+    </section>
+</main>
+
+<!-- FOOTER -->
+<footer class="footer">
+    <div class="footer-inner">
+
+        <p class="footer-title">Følg os</p>
+
+        <div class="footer-socials">
+            <a href="https://www.facebook.com/groups/405258223878568" target="_blank" aria-label="Facebook">
+                <img src="/icons/facebook.svg" alt="facebook-ikon">
+            </a>
+            <a href="https://www.instagram.com/boelge.baderne/" target="_blank" aria-label="Instagram">
+                <img src="/icons/instagram.svg" alt="instagram-ikon">
+            </a>
+        </div>
+
+        <div class="footer-links">
+            <a href="#">Handelsbetingelser</a>
+            <span>•</span>
+            <a href="#">Privatlivspolitik</a>
+        </div>
+
+        <p class="footer-copy">© 2025 Bølgebaderne</p>
+
+    </div>
+</footer>
+
+<!-- SCROLL TO TOP BUTTON -->
+<button id="scrollTopBtn" aria-label="Til toppen">
+    <img src="/icons/up-arrow.svg" alt="pil op-ikon" />
+</button>
+
+
+<!-- SCRIPTS -->
+<script src="/js/lang.js" defer></script>
+<script src="/js/main.js" defer></script>
+<script src="/js/event.js" defer></script>
+
+
+</body>
+
+</html>
