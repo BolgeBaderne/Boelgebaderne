@@ -30,16 +30,7 @@ public class MemberController {
         this.shiftService = shiftService;
     }
 
-//// Simpel profil-endpoint til test uden login
-//    @GetMapping("/profile")
-//    public MemberProfileResponseDTO getProfile(
-//        @RequestParam(required = false) String email
-//) {
-//    if (email == null || email.isBlank()) {
-//        email = "member1@example.com";  // default test-bruger
-//    }
-//    return memberProfileService.getProfile(email);
-//}
+
    @GetMapping("/profile")
    public MemberProfileResponseDTO getProfile(@AuthenticationPrincipal User currentUser) {
     return memberProfileService.getProfile(currentUser.getEmail());

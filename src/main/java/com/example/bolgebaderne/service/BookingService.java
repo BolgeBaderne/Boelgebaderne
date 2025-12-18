@@ -91,7 +91,7 @@ public class BookingService {
         // Find bruger
         User user = userRepo.findById(req.userId()).orElseThrow();
 
-        // 1) Prøv først at finde event på det eventId, vi har fået
+        // 1) Prøver først at finde et event på det eventId, vi har
         SaunaEvent event = eventRepo.findById(req.eventId()).orElse(null);
 
         // 2) Hvis det ikke findes
@@ -266,7 +266,7 @@ public class BookingService {
     }
 
 
-    // ---------- HJÆLPEMETHODS ----------
+    // ---------- HJÆLPEMETODER----------
     private AvailableTimeSlotDTO makeOpenSlot(LocalDateTime start, int duration, int capacity, String label, boolean isMember) {
         return new AvailableTimeSlotDTO(999,
                 label + " • " + start.toLocalTime() + "-" + start.plusMinutes(duration).toLocalTime(),
@@ -325,7 +325,7 @@ public class BookingService {
                 + start.toLocalTime()
                 + "-" + start.plusMinutes(duration).toLocalTime();
 
-        // Slå op i DB om der allerede findes et event for den her gus
+        // SlåR op i DB om der allerede findes et event for den her gus
         SaunaEvent event = eventRepo.findByTitleAndStartTime(title, start).orElse(null);
 
         int effectiveCapacity = capacity;
@@ -370,9 +370,6 @@ public class BookingService {
 
         // enten delete eller markér som CANCELLED – her tager vi den simple
         bookingRepo.delete(booking);
-
-        // TODO: hvis der findes en waitlist-service, promover første på ventelisten her
-        // fx: waitlistEntryService.promoteFirstInQueue(event);
     }
 }
 

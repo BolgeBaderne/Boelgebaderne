@@ -84,7 +84,6 @@ public class WaitlistEntryService {
     }
 
 
-
     public SaunaEvent getEventOrThrow(int eventId) {
         return eventRepo.findById(eventId)
                 .orElseThrow(() -> new EventNotFoundException(
