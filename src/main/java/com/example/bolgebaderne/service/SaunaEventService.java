@@ -18,29 +18,25 @@ import java.util.List;
 @Service
 public class SaunaEventService {
 
-    @Autowired
     private BookingRepository bookingRepository;
-    @Autowired
-    private SaunaEventRepository saunaEventRepository;
-    @Autowired
+    private SaunaEventRepository repository;
     private WaitlistEntryRepository waitlistEntryRepository;
-    @Autowired
-    private UserRepository userRepository;
+
 
     public SaunaEventService(SaunaEventRepository repository,
                              BookingRepository bookingRepository,
                              WaitlistEntryRepository waitlistEntryRepository) {
-        this.saunaEventRepository = saunaEventRepository;
+        this.repository = repository;
         this.bookingRepository = bookingRepository;
         this.waitlistEntryRepository = waitlistEntryRepository;
     }
 
     public List<SaunaEvent> getAllEvents() {
-        return saunaEventRepository.findAll();
+        return repository.findAll();
     }
 
     public SaunaEvent getById(int id) {
-        return saunaEventRepository.findById(id)
+        return repository.findById(id)
                 .orElseThrow(() -> new EventNotFoundException("Det valgte event findes ikke."));
     }
 
@@ -50,7 +46,7 @@ public class SaunaEventService {
         SaunaEvent event = new SaunaEvent();
         copyDtoToEntity(dto, event);
         event.setCurrentBookings(0);
-        return saunaEventRepository.save(event);
+        return repository.save(event);
     }
 
     // ===== Opdatering =====
@@ -58,7 +54,7 @@ public class SaunaEventService {
     public SaunaEvent updateEvent(int id, SaunaAdminEventDTO dto) {
         SaunaEvent event = getById(id);   // smider EventNotFoundException hvis ikke findes
         copyDtoToEntity(dto, event);
-        return saunaEventRepository.save(event);
+        return repository.save(event);
     }
 
     // ===== Sletning =====
@@ -71,7 +67,7 @@ public class SaunaEventService {
         waitlistEntryRepository.deleteBySaunaEvent_EventId(eventId);
 
         // Finally, delete the event itself
-        saunaEventRepository.deleteById(eventId);
+        repository.deleteById(eventId);
     }
 
 //    public void deleteEvent(int id) {

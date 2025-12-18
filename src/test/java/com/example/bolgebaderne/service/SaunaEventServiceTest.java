@@ -4,7 +4,9 @@ import com.example.bolgebaderne.dto.SaunaAdminEventDTO;
 import com.example.bolgebaderne.exceptions.EventNotFoundException;
 import com.example.bolgebaderne.model.EventStatus;
 import com.example.bolgebaderne.model.SaunaEvent;
+import com.example.bolgebaderne.repository.BookingRepository;
 import com.example.bolgebaderne.repository.SaunaEventRepository;
+import com.example.bolgebaderne.repository.WaitlistEntryRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -12,6 +14,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
@@ -30,9 +33,14 @@ class SaunaEventServiceTest {
     @Mock
     private SaunaEventRepository repository;
 
+    @Mock
+    private BookingRepository bookingRepository;
+
+    @Mock
+    private WaitlistEntryRepository waitlistEntryRepository;
+
     @InjectMocks
     private SaunaEventService service;
-
     private SaunaEvent testEvent;
     private SaunaAdminEventDTO validDTO;
     private LocalDateTime testStartTime;
@@ -290,12 +298,16 @@ class SaunaEventServiceTest {
     void testDeleteEvent_Success() {
         // Arrange
         when(repository.existsById(1)).thenReturn(true);
+        doNothing().when(bookingRepository).deleteBySaunaEvent_EventId(1);
+        doNothing().when(waitlistEntryRepository).deleteBySaunaEvent_EventId(1);
         doNothing().when(repository).deleteById(1);
 
         // Act
         service.deleteEvent(1);
 
         // Assert
+        verify(bookingRepository, times(1)).deleteBySaunaEvent_EventId(1);
+        verify(waitlistEntryRepository, times(1)).deleteBySaunaEvent_EventId(1);
         verify(repository, times(1)).existsById(1);
         verify(repository, times(1)).deleteById(1);
     }
@@ -304,7 +316,11 @@ class SaunaEventServiceTest {
     @DisplayName("Slet event - Event findes ikke")
     void testDeleteEvent_EventNotFound_ThrowsException() {
         // Arrange
-        when(repository.existsById(999)).thenReturn(false);
+
+        doNothing().when(bookingRepository).deleteBySaunaEvent_EventId(999);
+        doNothing().when(waitlistEntryRepository).deleteBySaunaEvent_EventId(999);
+        doThrow(new EventNotFoundException("Det valgte event findes ikke."))
+                .when(repository).deleteById(999);
 
         // Act & Assert
         EventNotFoundException exception = assertThrows(

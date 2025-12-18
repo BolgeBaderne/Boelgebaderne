@@ -37,18 +37,23 @@ class SaunaAdminEventControllerIntegrationTest {
     private ObjectMapper objectMapper;
 
     private SaunaAdminEventDTO testEventDTO;
-    private BookingRepository bookingRepository;
-    private SaunaEventRepository saunaEventRepository;
-    private WaitlistEntryRepository waitlistEntryRepository;
-    private UserRepository userRepository;
     private LocalDateTime testStartTime;
+    @Autowired
+    private BookingRepository bookingRepository;
+    @Autowired
+    private SaunaEventRepository repository;
+    @Autowired
+    private WaitlistEntryRepository waitlistEntryRepository;
+    @Autowired
+    private UserRepository userRepository;
+
 
     @BeforeEach
     void setUp() {
         // Delete in correct order:  bookings first, then events, then users
         bookingRepository.deleteAll();
         waitlistEntryRepository.deleteAll(); // If you have this
-        saunaEventRepository.deleteAll();
+        repository.deleteAll();
         userRepository.deleteAll();
         testStartTime = LocalDateTime.of(2025, 12, 25, 14, 0);
 
