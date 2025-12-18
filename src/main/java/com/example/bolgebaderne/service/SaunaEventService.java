@@ -2,6 +2,7 @@ package com.example.bolgebaderne.service;
 
 import com.example.bolgebaderne.dto.SaunaAdminEventDTO;
 import com.example.bolgebaderne.exceptions.EventNotFoundException;
+import com.example.bolgebaderne.exceptions.InvalidSaunaEventException;
 import com.example.bolgebaderne.model.EventStatus;
 import com.example.bolgebaderne.model.SaunaEvent;
 import com.example.bolgebaderne.repository.SaunaEventRepository;
@@ -31,10 +32,25 @@ public class SaunaEventService {
     // ===== Oprettelse =====
 
     public SaunaEvent createEvent(SaunaAdminEventDTO dto) {
+        validateEventData(dto);
         SaunaEvent event = new SaunaEvent();
         copyDtoToEntity(dto, event);
         event.setCurrentBookings(0);
         return repository.save(event);
+    }
+
+    // ===== Validering =====
+
+    private void validateEventData(SaunaAdminEventDTO dto) {
+        if (dto.title() == null || dto.title().isBlank()) {
+            throw new InvalidSaunaEventException("Titel må ikke være tom");
+        }
+        if (dto.capacity() < 0) {
+            throw new InvalidSaunaEventException("Kapacitet må ikke være negativ");
+        }
+        if (dto.price() < 0) {
+            throw new InvalidSaunaEventException("Pris må ikke være negativ");
+        }
     }
 
     // ===== Opdatering =====

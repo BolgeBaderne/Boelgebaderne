@@ -2,6 +2,7 @@ package com.example.bolgebaderne.service;
 
 import com.example.bolgebaderne.dto.SaunaAdminEventDTO;
 import com.example.bolgebaderne.exceptions.EventNotFoundException;
+import com.example.bolgebaderne.exceptions.InvalidSaunaEventException;
 import com.example.bolgebaderne.model.EventStatus;
 import com.example.bolgebaderne.model.SaunaEvent;
 import com.example.bolgebaderne.repository.SaunaEventRepository;
@@ -108,14 +109,13 @@ class SaunaEventServiceTest {
         );
 
         // Act & Assert
-        // Note: I produktionskode bør du tilføje validering i service/controller
-        // Her tester vi at systemet håndterer invalid data
-        assertThrows(IllegalArgumentException.class, () -> {
-            if (invalidDTO.capacity() < 0) {
-                throw new IllegalArgumentException("Kapacitet må ikke være negativ");
-            }
-            service.createEvent(invalidDTO);
-        });
+        InvalidSaunaEventException exception = assertThrows(
+                InvalidSaunaEventException.class,
+                () -> service.createEvent(invalidDTO)
+        );
+
+        assertEquals("Kapacitet må ikke være negativ", exception.getMessage());
+        verify(repository, never()).save(any(SaunaEvent.class));
     }
     @Test
     @DisplayName("Opret event med negativ pris - Invalid Data")
@@ -134,12 +134,13 @@ class SaunaEventServiceTest {
         );
 
         // Act & Assert
-        assertThrows(IllegalArgumentException.class, () -> {
-            if (invalidDTO.price() < 0) {
-                throw new IllegalArgumentException("Pris må ikke være negativ");
-            }
-            service.createEvent(invalidDTO);
-        });
+        InvalidSaunaEventException exception = assertThrows(
+                InvalidSaunaEventException.class,
+                () -> service.createEvent(invalidDTO)
+        );
+
+        assertEquals("Pris må ikke være negativ", exception.getMessage());
+        verify(repository, never()).save(any(SaunaEvent.class));
     }
 
     @Test
@@ -159,12 +160,13 @@ class SaunaEventServiceTest {
         );
 
         // Act & Assert
-        assertThrows(IllegalArgumentException.class, () -> {
-            if (invalidDTO.title() == null || invalidDTO.title().isBlank()) {
-                throw new IllegalArgumentException("Titel må ikke være tom");
-            }
-            service.createEvent(invalidDTO);
-        });
+        InvalidSaunaEventException exception = assertThrows(
+                InvalidSaunaEventException.class,
+                () -> service.createEvent(invalidDTO)
+        );
+
+        assertEquals("Titel må ikke være tom", exception.getMessage());
+        verify(repository, never()).save(any(SaunaEvent.class));
     }
 
     // ===== LÆSNING TESTS =====
