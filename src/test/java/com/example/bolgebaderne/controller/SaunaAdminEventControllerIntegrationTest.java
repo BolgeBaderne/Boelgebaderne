@@ -2,6 +2,8 @@ package com.example.bolgebaderne.controller;
 
 import com.example.bolgebaderne.dto.SaunaAdminEventDTO;
 import com.example.bolgebaderne.dto.SaunaEventDTO;
+import com.example.bolgebaderne.model.EventStatus;
+import com.example.bolgebaderne.model.SaunaEvent;
 import com.example.bolgebaderne.repository.BookingRepository;
 import com.example.bolgebaderne.repository.SaunaEventRepository;
 import com.example.bolgebaderne.repository.UserRepository;
@@ -52,10 +54,38 @@ class SaunaAdminEventControllerIntegrationTest {
     void setUp() {
         // Delete in correct order:  bookings first, then events, then users
         bookingRepository.deleteAll();
-        waitlistEntryRepository.deleteAll(); // If you have this
+        waitlistEntryRepository.deleteAll();
         repository.deleteAll();
         userRepository.deleteAll();
+
         testStartTime = LocalDateTime.of(2025, 12, 25, 14, 0);
+
+        // CREATE TEST EVENTS so they exist for the tests
+        SaunaEvent event1 = new SaunaEvent();
+        event1.setTitle("Test Event 1");
+        event1.setGusmesterName("Test Gusmester 1");
+        event1.setGusmesterImageUrl("https://example.com/test1.jpg");
+        event1.setDescription("Test beskrivelse 1");
+        event1.setStartTime(testStartTime);
+        event1.setDurationMinutes(60);
+        event1.setCapacity(15);
+        event1.setPrice(150.0);
+        event1.setEventStatus(EventStatus.UPCOMING);
+        event1.setCurrentBookings(0);
+        repository.save(event1);
+
+        SaunaEvent event2 = new SaunaEvent();
+        event2.setTitle("Test Event 2");
+        event2.setGusmesterName("Test Gusmester 2");
+        event2.setGusmesterImageUrl("https://example.com/test2.jpg");
+        event2.setDescription("Test beskrivelse 2");
+        event2.setStartTime(testStartTime. plusDays(1));
+        event2.setDurationMinutes(90);
+        event2.setCapacity(20);
+        event2.setPrice(200.0);
+        event2.setEventStatus(EventStatus. UPCOMING);
+        event2.setCurrentBookings(0);
+        repository.save(event2);
 
         testEventDTO = new SaunaAdminEventDTO(
                 "Integration Test Event",
