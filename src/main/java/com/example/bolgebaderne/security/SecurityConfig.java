@@ -2,6 +2,7 @@
 
 package com.example.bolgebaderne.security;
 
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 import com.example.bolgebaderne.repository.UserRepository;
@@ -13,7 +14,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 
@@ -97,10 +98,10 @@ public class SecurityConfig {
 
         return http.build();
     }
+
     @Bean
     public PasswordEncoder passwordEncoder() {
-        // simpelt til udvikling/eksamen – plaintext passwords
-        return NoOpPasswordEncoder.getInstance();
+        return  NoOpPasswordEncoder.getInstance();
     }
 
     @Bean
