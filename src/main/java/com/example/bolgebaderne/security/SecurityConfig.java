@@ -81,11 +81,6 @@ public class SecurityConfig {
                                 .accessDeniedHandler((request, response, accessDeniedException) -> {
                                     // Brugeren er logget ind, men har ikke den rigtige rolle
                                     response.sendRedirect("/membership-required");
-//                                    response.sendRedirect("/access-denied");
-//
-//                                    // Ikke nok rettigheder → 403 + simpel tekst
-//                                    response.sendError(403, "Kun administratorer må udføre denne handling.");
-
                                 })
                         )
 
@@ -106,20 +101,7 @@ public class SecurityConfig {
     public UserDetailsService userDetailsService(UserRepository userRepository) {
         return email -> userRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found: " + email));
-    }}
-
-
-//                    !!!!    ANDEN METODE AT GIVE FEJLBESKED MHT HTTP RESPONS !!!!
-//                        .exceptionHandling(ex -> ex
-//                                // Ikke logget ind
-//                                .authenticationEntryPoint((request, response, authException) -> {
-//                                    response.setStatus(HttpServletResponse.SC_UNAUTHORIZED); // 401
-//                                })
-//                                // Logget ind men forkert rolle
-//                                .accessDeniedHandler((request, response, accessDeniedException) -> {
-//                                    response.setStatus(HttpServletResponse.SC_FORBIDDEN); // 403
-//                                })
-//                        )
-//                )
+    }
+}
 
 
