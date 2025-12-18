@@ -65,44 +65,41 @@ class BookingServiceTest {
         nonMemberUser.setPasswordHash("hash456");
         nonMemberUser.setMembershipStatus("INACTIVE");
 
-        // Setup member event
-        memberEvent = new SaunaEvent(
-                1,
-                "MEDLEM åbent • 07:00-11:00",
-                "Members only event",
-                "Gusmester",
-                LocalDateTime.of(2025, 12, 20, 7, 0),
-                240,
-                12,
-                0.0,
-                EventStatus.UPCOMING
-        );
+        // Setup member event using setters (constructor signature may have changed)
+        memberEvent = new SaunaEvent();
+        memberEvent.setEventId(1);
+        memberEvent.setTitle("MEDLEM åbent • 07:00-11:00");
+        memberEvent.setDescription("Members only event");
+        memberEvent.setGusmesterName("Gusmester");
+        memberEvent.setStartTime(LocalDateTime.of(2025, 12, 20, 7, 0));
+        memberEvent.setDurationMinutes(240);
+        memberEvent.setCapacity(12);
+        memberEvent.setPrice(0.0);
+        memberEvent.setEventStatus(EventStatus.UPCOMING);
 
-        // Setup guest event
-        guestEvent = new SaunaEvent(
-                2,
-                "GÆST åbent • 09:00-10:00",
-                "Public event",
-                "Gusmester",
-                LocalDateTime.of(2025, 12, 20, 9, 0),
-                60,
-                12,
-                80.0,
-                EventStatus.UPCOMING
-        );
+        // Setup guest event using setters
+        guestEvent = new SaunaEvent();
+        guestEvent.setEventId(2);
+        guestEvent.setTitle("GÆST åbent • 09:00-10:00");
+        guestEvent.setDescription("Public event");
+        guestEvent.setGusmesterName("Gusmester");
+        guestEvent.setStartTime(LocalDateTime.of(2025, 12, 20, 9, 0));
+        guestEvent.setDurationMinutes(60);
+        guestEvent.setCapacity(12);
+        guestEvent.setPrice(80.0);
+        guestEvent.setEventStatus(EventStatus.UPCOMING);
 
-        // Setup vagt event
-        vagtEvent = new SaunaEvent(
-                3,
-                "VAGT • 20:00-21:00",
-                "Shift event",
-                "Gusmester",
-                LocalDateTime.of(2025, 12, 20, 20, 0),
-                60,
-                12,
-                0.0,
-                EventStatus.UPCOMING
-        );
+        // Setup vagt event using setters
+        vagtEvent = new SaunaEvent();
+        vagtEvent.setEventId(3);
+        vagtEvent.setTitle("VAGT • 20:00-21:00");
+        vagtEvent.setDescription("Shift event");
+        vagtEvent.setGusmesterName("Gusmester");
+        vagtEvent.setStartTime(LocalDateTime.of(2025, 12, 20, 20, 0));
+        vagtEvent.setDurationMinutes(60);
+        vagtEvent.setCapacity(12);
+        vagtEvent.setPrice(0.0);
+        vagtEvent.setEventStatus(EventStatus.UPCOMING);
     }
 
     // ==================== Tests for getAvailableSlots ====================
@@ -112,8 +109,8 @@ class BookingServiceTest {
         // Arrange
         when(userRepository.findById(1)).thenReturn(Optional.of(memberUser));
         when(saunaEventRepository.findAll()).thenReturn(List.of(memberEvent, guestEvent));
-        when(bookingRepository.countByEvent_EventId(1)).thenReturn(5L);
-        when(bookingRepository.countByEvent_EventId(2)).thenReturn(3L);
+        when(bookingRepository.countBySaunaEvent_EventId(1)).thenReturn(5L);
+        when(bookingRepository.countBySaunaEvent_EventId(2)).thenReturn(3L);
 
         // Act
         List<AvailableTimeSlotDTO> slots = bookingService.getAvailableSlots(1);
@@ -140,8 +137,8 @@ class BookingServiceTest {
         // Arrange
         when(userRepository.findById(2)).thenReturn(Optional.of(nonMemberUser));
         when(saunaEventRepository.findAll()).thenReturn(List.of(memberEvent, guestEvent));
-        when(bookingRepository.countByEvent_EventId(1)).thenReturn(5L);
-        when(bookingRepository.countByEvent_EventId(2)).thenReturn(3L);
+        when(bookingRepository.countBySaunaEvent_EventId(1)).thenReturn(5L);
+        when(bookingRepository.countBySaunaEvent_EventId(2)).thenReturn(3L);
 
         // Act
         List<AvailableTimeSlotDTO> slots = bookingService.getAvailableSlots(2);
@@ -164,7 +161,7 @@ class BookingServiceTest {
         // Arrange
         when(userRepository.findById(1)).thenReturn(Optional.of(memberUser));
         when(saunaEventRepository.findAll()).thenReturn(List.of(memberEvent));
-        when(bookingRepository.countByEvent_EventId(1)).thenReturn(12L); // Full capacity
+        when(bookingRepository.countBySaunaEvent_EventId(1)).thenReturn(12L); // Full capacity
 
         // Act
         List<AvailableTimeSlotDTO> slots = bookingService.getAvailableSlots(1);
@@ -192,8 +189,8 @@ class BookingServiceTest {
 
         when(userRepository.findById(1)).thenReturn(Optional.of(memberUser));
         when(saunaEventRepository.findById(2)).thenReturn(Optional.of(guestEvent));
-        when(bookingRepository.existsByUser_UserIdAndEvent_EventId(1, 2)).thenReturn(false);
-        when(bookingRepository.countByEvent_EventId(2)).thenReturn(5L);
+        when(bookingRepository.existsByUser_UserIdAndSaunaEvent_EventId(1, 2)).thenReturn(false);
+        when(bookingRepository.countBySaunaEvent_EventId(2)).thenReturn(5L);
         when(bookingRepository.save(any(Booking.class))).thenAnswer(i -> i.getArguments()[0]);
 
         // Act
@@ -202,7 +199,7 @@ class BookingServiceTest {
         // Assert
         assertNotNull(booking);
         assertEquals(memberUser, booking.getUser());
-        assertEquals(guestEvent, booking.getEvent());
+        assertEquals(guestEvent, booking.getSaunaEvent());
         assertEquals(BookingStatus.ACTIVE, booking.getStatus());
         verify(bookingRepository).save(any(Booking.class));
     }
@@ -218,25 +215,25 @@ class BookingServiceTest {
                 12
         );
 
-        SaunaEvent newEvent = new SaunaEvent(
-                100,
-                "Offentlig åbent",
-                "",
-                "",
-                LocalDateTime.parse("2025-12-25T10:00"),
-                60,
-                12,
-                80.0,
-                EventStatus.UPCOMING
-        );
+        // Build newEvent with setters to match entity fields
+        SaunaEvent newEvent = new SaunaEvent();
+        newEvent.setEventId(100);
+        newEvent.setTitle("Offentlig åbent");
+        newEvent.setDescription("");
+        newEvent.setGusmesterName("");
+        newEvent.setStartTime(LocalDateTime.parse("2025-12-25T10:00"));
+        newEvent.setDurationMinutes(60);
+        newEvent.setCapacity(12);
+        newEvent.setPrice(80.0);
+        newEvent.setEventStatus(EventStatus.UPCOMING);
 
         when(userRepository.findById(1)).thenReturn(Optional.of(memberUser));
         when(saunaEventRepository.findById(999)).thenReturn(Optional.empty());
         when(saunaEventRepository.findByTitleAndStartTime(anyString(), any(LocalDateTime.class)))
                 .thenReturn(Optional.empty());
         when(saunaEventRepository.save(any(SaunaEvent.class))).thenReturn(newEvent);
-        when(bookingRepository.existsByUser_UserIdAndEvent_EventId(anyInt(), anyInt())).thenReturn(false);
-        when(bookingRepository.countByEvent_EventId(anyInt())).thenReturn(0L);
+        when(bookingRepository.existsByUser_UserIdAndSaunaEvent_EventId(anyInt(), anyInt())).thenReturn(false);
+        when(bookingRepository.countBySaunaEvent_EventId(anyInt())).thenReturn(0L);
         when(bookingRepository.save(any(Booking.class))).thenAnswer(i -> i.getArguments()[0]);
 
         // Act
@@ -303,8 +300,8 @@ class BookingServiceTest {
 
         when(userRepository.findById(1)).thenReturn(Optional.of(memberUser));
         when(saunaEventRepository.findById(2)).thenReturn(Optional.of(guestEvent));
-        when(bookingRepository.existsByUser_UserIdAndEvent_EventId(1, 2)).thenReturn(false);
-        when(bookingRepository.countByEvent_EventId(2)).thenReturn(12L); // Full capacity
+        when(bookingRepository.existsByUser_UserIdAndSaunaEvent_EventId(1, 2)).thenReturn(false);
+        when(bookingRepository.countBySaunaEvent_EventId(2)).thenReturn(12L); // Full capacity
 
         // Act & Assert
         assertThrows(TimeSlotFullException.class, () ->
@@ -327,7 +324,7 @@ class BookingServiceTest {
 
         when(userRepository.findById(1)).thenReturn(Optional.of(memberUser));
         when(saunaEventRepository.findById(2)).thenReturn(Optional.of(guestEvent));
-        when(bookingRepository.existsByUser_UserIdAndEvent_EventId(1, 2)).thenReturn(true);
+        when(bookingRepository.existsByUser_UserIdAndSaunaEvent_EventId(1, 2)).thenReturn(true);
 
         // Act & Assert
         assertThrows(IllegalArgumentException.class, () ->
@@ -446,17 +443,16 @@ class BookingServiceTest {
     void testGenerateWeeklySchedule_WithExistingBookings_ShowsCorrectAvailability() {
         // Arrange
         LocalDate monday = LocalDate.of(2025, 12, 15);
-        SaunaEvent existingEvent = new SaunaEvent(
-                10,
-                "Offentlig åbent • 11:00-12:00",
-                "",
-                "",
-                LocalDateTime.of(2025, 12, 20, 11, 0),
-                60,
-                12,
-                80.0,
-                EventStatus.UPCOMING
-        );
+        SaunaEvent existingEvent = new SaunaEvent();
+        existingEvent.setEventId(10);
+        existingEvent.setTitle("Offentlig åbent • 11:00-12:00");
+        existingEvent.setDescription("");
+        existingEvent.setGusmesterName("");
+        existingEvent.setStartTime(LocalDateTime.of(2025, 12, 20, 11, 0));
+        existingEvent.setDurationMinutes(60);
+        existingEvent.setCapacity(12);
+        existingEvent.setPrice(80.0);
+        existingEvent.setEventStatus(EventStatus.UPCOMING);
 
         when(userRepository.findById(1)).thenReturn(Optional.of(memberUser));
         when(saunaEventRepository.findByTitleAndStartTime(anyString(), any(LocalDateTime.class)))
@@ -469,7 +465,7 @@ class BookingServiceTest {
                     }
                     return Optional.empty();
                 });
-        when(bookingRepository.countByEvent_EventId(10)).thenReturn(8L);
+        when(bookingRepository.countBySaunaEvent_EventId(10)).thenReturn(8L);
 
         // Act
         List<AvailableTimeSlotDTO> slots = bookingService.generateWeeklySchedule(1, monday);
@@ -485,4 +481,3 @@ class BookingServiceTest {
         assertFalse(bookedSlot.get().full());
     }
 }
-

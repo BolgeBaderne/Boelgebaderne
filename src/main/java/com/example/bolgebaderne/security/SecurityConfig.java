@@ -1,20 +1,17 @@
 package com.example.bolgebaderne.security;
 
 import com.example.bolgebaderne.repository.UserRepository;
+import org.springframework.boot.security.autoconfigure.web.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-
-import java.io.PrintWriter;
 
 @Configuration
 @EnableWebSecurity
@@ -22,70 +19,76 @@ import java.io.PrintWriter;
 public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
-                .csrf(csrf -> csrf.disable());
 
-                http.authorizeHttpRequests(auth -> auth
-                        // login + public endpoints må være åbne
-                        .requestMatchers(
-                                "/login",
-                                "/api/public/**",
-                                "/api/auth/**",
-                                "/h2-console/**"
-                        ).permitAll()
+        http.csrf(csrf -> csrf.disable());
 
-                        // FRONTEND-medlemssider:
-                        .requestMatchers("/member/**").hasAnyRole("MEMBER", "ADMIN")
-
-                        // kun MEMBER/ADMIN på member-API
-                        .requestMatchers("/api/member/**")
-                        .hasAnyRole("MEMBER", "ADMIN")
-
-                        // alt andet kræver login
-                        .anyRequest().authenticated()
-                )
-
-                // FORM LOGIN til browseren
-                .formLogin(form -> form
-                        .loginPage("/login")
-                        .usernameParameter("email")      // <- vigtig!
-                        .passwordParameter("password")   // valgfri, men fint
-//                        .defaultSuccessUrl("/api/member/profile", false)
-                        .failureUrl("/login?error")         // 👈 vigtig for fejlbesked
-                        .permitAll()
-                )
-
-                // LOGOUT (bare nice to have)
-                .logout(logout -> logout
-                        .logoutUrl("/logout")
-                        .logoutSuccessUrl("/login?logout") // 👈 vigtig for “du er logget ud”
-                )
-                        .exceptionHandling(ex -> ex
-                                // Ikke logget ind → redirect til login med auth=required
-                                .authenticationEntryPoint((request, response, authException) -> {
-                                    response.sendRedirect("/login?auth=required");
-                                })
-                                // Logget ind men forkert rolle → membership-required (har du allerede)
-                                .accessDeniedHandler((request, response, accessDeniedException) -> {
-                                    // Brugeren er logget ind, men har ikke den rigtige rolle
-                                    response.sendRedirect("/membership-required");
-                                })
-                        );
-
-        // H2 console
+        // H2 console (frames)
         http.headers(headers -> headers.frameOptions(frame -> frame.sameOrigin()));
+
+        http.authorizeHttpRequests(auth -> auth
+
+                //ALT statisk (css/js/images/webjars/favicon osv.)
+                .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
+
+                // ekstra static paths I bruger (icons er ikke "common location")
+                .requestMatchers("/icons/**").permitAll()
+                .requestMatchers("/api/events/**").permitAll()
+
+
+                //Public pages
+                .requestMatchers(
+                        "/", "/index.html",
+                        "/login", "/error", "/membership-required",
+                        "/event.html", "/about.html", "/faq.html",
+                        "/membership.html", "/sauna-info.html"
+
+                ).permitAll()
+
+                //Public API / system endpoints
+                .requestMatchers(
+                        "/api/public/**",
+                        "/api/auth/**",
+                        "/h2-console/**",
+                        "/api/timeslots/**",
+                        "/api/timeslots/*/waitlist/**"
+                ).permitAll()
+
+                //Medlemssider / medlem API
+                .requestMatchers("/member/**").hasAnyRole("MEMBER", "ADMIN")
+                .requestMatchers("/api/member/**").hasAnyRole("MEMBER", "ADMIN")
+
+                //Alt andet kræver login
+                .anyRequest().authenticated()
+        );
+
+        // FORM LOGIN til browseren (single, correct configuration)
+        http.formLogin(form -> form
+                .loginPage("/login")
+                .usernameParameter("email")
+                .passwordParameter("password")
+                .defaultSuccessUrl("/member/profile", true)
+                .failureUrl("/login?error")
+                .permitAll()
+        );
+
+        http.logout(logout -> logout
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/")
+                .permitAll()
+        );
 
         return http.build();
     }
+
     @Bean
-  public PasswordEncoder passwordEncoder() {
+    public PasswordEncoder passwordEncoder() {
       // simpelt til udvikling/eksamen – plaintext passwords
       return NoOpPasswordEncoder.getInstance();
-   }
+     }
 
     @Bean
-   public UserDetailsService userDetailsService(UserRepository userRepository) {
+    public UserDetailsService userDetailsService(UserRepository userRepository) {
        return email -> userRepository.findByEmail(email)
                .orElseThrow(() -> new UsernameNotFoundException("User not found: " + email));
-}}
-
+    }
+}

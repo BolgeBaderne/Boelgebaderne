@@ -5,12 +5,12 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "bookings")
-public class Booking {
-
+public class Booking
+{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "booking_id")
-    private int bookingId;
+    private Integer bookingId;
 
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
@@ -27,18 +27,18 @@ public class Booking {
     // FK til event
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "event_id", nullable = false)
-    private SaunaEvent event;
+    private SaunaEvent saunaEvent;
 
     public Booking() {
     }
 
     public Booking(int bookingId, LocalDateTime createdAt, BookingStatus status,
-                   User user, SaunaEvent event) {
+                   User user, SaunaEvent saunaEvent) {
         this.bookingId = bookingId;
         this.createdAt = createdAt;
         this.status = status;
         this.user = user;
-        this.event = event;
+        this.saunaEvent = saunaEvent;
     }
 
     public void cancel() {
@@ -48,6 +48,14 @@ public class Booking {
     public boolean isActive() {
         return this.status == BookingStatus.ACTIVE;
     }
+
+    public Booking(int bookingId, LocalDateTime createdAt, BookingStatus status)
+    {
+        this.bookingId = bookingId;
+        this.createdAt = createdAt;
+        this.status = status;
+    }
+
 
     // getters & setters
     public int getBookingId() { return bookingId; }
@@ -62,6 +70,6 @@ public class Booking {
     public User getUser() { return user; }
     public void setUser(User user) { this.user = user; }
 
-    public SaunaEvent getEvent() { return event; }
-    public void setEvent(SaunaEvent event) { this.event = event; }
+    public SaunaEvent getSaunaEvent() { return saunaEvent; }
+    public void setSaunaEvent(SaunaEvent saunaEvent) { this.saunaEvent = saunaEvent; }
 }

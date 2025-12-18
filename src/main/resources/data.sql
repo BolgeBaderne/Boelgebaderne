@@ -1,10 +1,59 @@
-INSERT INTO users (name, email, password_hash, role, membership_status) VALUES
-('Member One', 'member1@example.com', 'password', 'MEMBER', 'ACTIVE'),
-('Guest One',  'guest1@example.com', 'password', 'NON_MEMBER', 'NONE'),
-('Admin One',  'admin1@example.com', 'admin',    'ADMIN', 'ACTIVE');
+-- =============================
+-- USERS
+-- =============================
+INSERT INTO users (name, email, password_hash, role, membership_status)
+VALUES
+    ('Member One', 'member1@example.com', 'password', 'MEMBER', 'MEMBER'),
+    ('Guest One',  'guest1@example.com', 'password', 'NON_MEMBER', 'NON_MEMBER'),
+    ('Admin One',  'admin1@example.com', 'admin',    'ADMIN', 'MEMBER');
 
--- Eksempel-data til sauna events (uge med gæst/medlem/vagt tider)
-INSERT INTO sauna_events (title, description, gusmester_name, start_time, duration_minutes, capacity, price, status)
+
+-- =============================
+-- SAUNA EVENTS (singular table: sauna_event)
+-- =============================
+
+-- EVENT 1 - FULLY BOOKED (for waitlist test)
+INSERT INTO sauna_event
+(title, description, gusmester_name, gusmester_image_url,
+ start_time, duration_minutes, capacity, price,
+ current_bookings, available_spots, status)
+VALUES
+    ('Morgen Gus', 'Dejlig start på dagen', 'Jens Damp', NULL,
+     '2025-12-15 08:00:00', 60,
+     1, 50.00,
+     1, 0,
+     'FULLY_BOOKED');
+
+
+-- EVENT 2 - Ikke fuldt booket
+INSERT INTO sauna_event
+(title, description, gusmester_name, gusmester_image_url,
+ start_time, duration_minutes, capacity, price,
+ current_bookings, available_spots, status)
+VALUES
+    ('Aften Gus', 'Hyggelig aftenstemning', 'Sarah Sved', NULL,
+     '2025-12-15 20:00:00', 60,
+     5, 80.00,
+     2, 3,
+     'UPCOMING');
+
+
+-- =============================
+-- BOOKINGS AND WAITLIST
+-- =============================
+-- Booking for user 1 on event 1
+INSERT INTO bookings (created_at, status, user_id, event_id)
+VALUES (CURRENT_TIMESTAMP, 'ACTIVE', 1, 1);
+
+-- Waitlist-entry for user 2 on event 1
+INSERT INTO waitlist_entries (position, created_at, promoted, type, user_id, event_id)
+VALUES (1, CURRENT_TIMESTAMP, FALSE, 'MEMBER', 2, 1);
+
+
+-- =============================
+-- EXAMPLE GENERATED SAUNA EVENTS (same sauna_event table)
+-- =============================
+INSERT INTO sauna_event (title, description, gusmester_name, start_time, duration_minutes, capacity, price, status)
 VALUES
     ('GÆSTER • Onsdag Sauna • 09:00-11:00',
      'Åben sauna for gæster',

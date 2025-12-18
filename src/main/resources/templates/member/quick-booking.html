@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Hurtig booking</title>
-    <link rel="stylesheet" href="/styles.css">
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
 
@@ -17,9 +17,9 @@
 <h1>Hurtig booking</h1>
 
 <div th:each="booking : ${bookings}" class="card">
-    <p><strong>Event:</strong> <span th:text="${booking.eventName}"></span></p>
-    <p><strong>Dato:</strong> <span th:text="${booking.date}"></span></p>
-    <p><strong>Status:</strong> <span th:text="${booking.status}"></span></p>
+    <p><strong>Event:</strong> <span th:text="${booking.saunaEvent.title}">Event title</span></p>
+    <p><strong>Dato:</strong> <span th:text="${#dates.format(booking.saunaEvent.startTime, 'yyyy-MM-dd HH:mm')}">2025-12-01 09:00</span></p>
+    <p><strong>Status:</strong> <span th:text="${booking.status}">ACTIVE</span></p>
 </div>
 
 </body>

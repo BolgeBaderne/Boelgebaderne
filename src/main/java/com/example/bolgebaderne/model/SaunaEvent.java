@@ -2,10 +2,16 @@ package com.example.bolgebaderne.model;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
-@Table(name = "sauna_events")
+@Table(name = "sauna_event")
 public class SaunaEvent {
+
+    //Denne liste gør det nemt at hente et event inkl. ventelisten
+    @OneToMany(mappedBy = "saunaEvent", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<WaitlistEntry> waitlistEntries = new ArrayList<>();
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,6 +26,7 @@ public class SaunaEvent {
 
     @Column(name = "gusmester_name", nullable = false, length = 100)
     private String gusmesterName;
+    private String gusmesterImageUrl;
 
     @Column(name = "start_time", nullable = false)
     private LocalDateTime startTime;
@@ -33,27 +40,37 @@ public class SaunaEvent {
     @Column(name = "price", nullable = false)
     private double price;
 
+    private int currentBookings;
+    private int availableSpots;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false, length = 20)
-    private EventStatus status;
+    private EventStatus eventStatus;
 
-    protected SaunaEvent() {
-    }
 
-    public SaunaEvent(int eventId, String title, String description, String gusmesterName,
+
+    public SaunaEvent() {}
+
+    // Din egen constructor
+    public SaunaEvent(int eventId, String title, String description, String gusmesterName, String gusmesterImageUrl,
                       LocalDateTime startTime, int durationMinutes, int capacity,
-                      double price, EventStatus status) {
+                      double price, EventStatus eventStatus, int currentBookings, int availableSpots) {
         this.eventId = eventId;
         this.title = title;
         this.description = description;
         this.gusmesterName = gusmesterName;
+        this.gusmesterImageUrl = gusmesterImageUrl;
         this.startTime = startTime;
         this.durationMinutes = durationMinutes;
         this.capacity = capacity;
         this.price = price;
-        this.status = status;
+        this.eventStatus = eventStatus;
+        this.currentBookings = currentBookings;
+        this.availableSpots = availableSpots;
     }
 
+
+    //Getters and Setters
     public int getEventId() {
         return eventId;
     }
@@ -84,6 +101,14 @@ public class SaunaEvent {
 
     public void setGusmesterName(String gusmesterName) {
         this.gusmesterName = gusmesterName;
+    }
+
+    public String getGusmesterImageUrl() {
+        return gusmesterImageUrl;
+    }
+
+    public void setGusmesterImageUrl(String gusmesterImageUrl) {
+        this.gusmesterImageUrl = gusmesterImageUrl;
     }
 
     public LocalDateTime getStartTime() {
@@ -118,11 +143,29 @@ public class SaunaEvent {
         this.price = price;
     }
 
-    public EventStatus getStatus() {
-        return status;
+    public EventStatus getEventStatus() {
+        return eventStatus;
     }
 
-    public void setStatus(EventStatus status) {
-        this.status = status;
+    public void setEventStatus(EventStatus status) {
+        this.eventStatus = status;
     }
+
+    public int getCurrentBookings() {
+        return currentBookings;
+    }
+
+    public void setCurrentBookings(int currentBookings) {
+        this.currentBookings = currentBookings;
+    }
+
+    public int getAvailableSpots() {
+        return availableSpots;
+    }
+
+    public void setAvailableSpots(int availableSpots) {
+        this.availableSpots = availableSpots;
+    }
+
+
 }
