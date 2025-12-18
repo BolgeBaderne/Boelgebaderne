@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="https://foreninglet-static-files.s3.eu-west-1.amazonaws.com/static/icon/favicon.ico">
+    <title>Bølgebaderne</title>
+    <link rel="stylesheet" href="/css/style.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<!-- NAVBAR -->
+<header class="site-header">
+    <div class="header-inner">
+
+        <!-- LOGO -->
+        <a href="/" class="logo" aria-label="Bølgebaderne - hjem">
+            <img src="/images/logo.png" alt="Bølgebaderne logo">
+        </a>
+
+        <!-- MOBILE LANGUAGE SWITCH -->
+        <div class="mobile-lang">
+            <button class="lang-switch" data-lang="da">DA</button>
+            <button class="lang-switch" data-lang="en">EN</button>
+        </div>
+
+        <!-- HAMBURGER MENU -->
+        <button class="nav-toggle"
+                aria-expanded="false"
+                aria-controls="main-nav"
+                aria-label="Åbn menu">
+            <span class="bars" aria-hidden="true">☰</span>
+        </button>
+
+        <!-- NAVIGATION WRAPPER -->
+        <nav id="main-nav" class="main-nav" aria-label="Hovednavigation">
+
+            <!-- CLOSE BUTTON (MOBILE) -->
+            <button class="close-menu" aria-label="Luk menu">×</button>
+
+            <!-- CENTERED NAVIGATION -->
+            <ul class="nav-list">
+                <li><a href="/about.html">Om os</a></li>
+                <li><a href="/membership.html">Medlemskab</a></li>
+                <li><a href="/sauna-info.html">Sauna info</a></li>
+                <li><a href="/faq.html">FAQ</a></li>
+                <li><a href="/index.html#contact">Kontakt</a></li>
+            </ul>
+
+            <!-- LANGUAGE SWITCH (DESKTOP)-->
+            <div class="desktop-lang">
+                <button class="lang-switch" data-lang="da">DA</button>
+                <button class="lang-switch" data-lang="en">EN</button>
+            </div>
+
+            <!-- RIGHT SIDE (DESKTOP) -->
+            <div class="top-right-controls">
+                <a class="btn btn-primary" href="/login">Log ind</a>
+            </div>
+
+        </nav>
+    </div>
+</header>
+
+<!-- OVERLAY -->
+<div class="menu-overlay"></div>
+
+
+<section class="faq-section container">
+    <div class="faq-header">
+        <div class="faq-header-icon">
+            <img src="/icons/faq.png" alt="FAQ ikon">
+        </div>
+        <h2>FAQ – Bølgebadernes Sauna</h2>
+        <p class="faq-intro">
+            Her kan du læse svar på de oftest stillede spørgsmål om Bølgebadernes sauna.
+            Listen opdateres løbende. Hvis du savner noget, kontakt os på
+            <a href="mailto:boelgebad@gmail.com">boelgebad@gmail.com</a>.
+        </p>
+    </div>
+
+    <!-- ========================== -->
+    <!--   FAQ CATEGORY: Membership -->
+    <!-- ========================== -->
+    <h3 class="faq-category">Medlemskab & venteliste</h3>
+
+    <div class="accordion-item">
+        <button class="accordion-question" aria-expanded="false">
+            Hvordan kan jeg blive medlem? Er der en venteliste?
+        </button>
+        <div class="accordion-answer">
+            <div class="accordion-answer-inner">
+                <p>
+                    Vi har p.t. lukket for tilgang af nye medlemmer. Vi har oprettet en venteliste, som du finder
+                    på denne side. Ventelisten åbner hvert år d. 1. oktober, hvis der er ledige pladser.
+                    Nye medlemmer inviteres løbende ud fra ledige pladser og hensyn til belastning.
+                    <br><br>
+                    Medlemskab koster 700 kr. i indmeldelsesgebyr samt 650 kr. i kontingent.
+                </p>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- ============================== -->
+    <!--   FAQ CATEGORY: Opening hours  -->
+    <!-- ============================== -->
+    <h3 class="faq-category">Åbningstider & adgang</h3>
+
+    <div class="accordion-item">
+        <button class="accordion-question" aria-expanded="false">
+            Hvornår er saunaen åben for medlemmer?
+        </button>
+        <div class="accordion-answer">
+            <div class="accordion-answer-inner">
+            <p>
+                Medlemmer kan benytte saunaen:<br><br>
+                <strong>Alle dage undtagen onsdag:</strong> 07:00–11:00 og 16:00–21:00<br>
+                <strong>Onsdag:</strong> 07:00–09:00 (pga. offentlig adgang)<br><br>
+                Der må maks. være 12 personer i saunaen.
+            </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="accordion-item">
+        <button class="accordion-question" aria-expanded="false">
+            Hvornår er der offentlig adgang, og hvordan køber man billet?
+        </button>
+        <div class="accordion-answer">
+            <div class="accordion-answer-inner">
+            <p>
+                Offentlig adgang mod billetkøb:<br><br>
+                <strong>Onsdag:</strong> 09–11 og 15–21<br>
+                <strong>Lørdag & søndag:</strong> 11–15<br><br>
+                Billet: 80 kr. for 1 time. Købes online. Billetter kan ikke ændres eller refunderes.
+            </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="accordion-item">
+        <button class="accordion-question" aria-expanded="false">
+            Må der være medlemmer i den offentlige åbningstid?
+        </button>
+        <div class="accordion-answer">
+            <div class="accordion-answer-inner">
+            <p>
+                Ja — hvis der er ledige pladser. Betalende gæster har dog altid fortrinsret.
+                Makskapacitet er 12 personer.
+            </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="accordion-item">
+        <button class="accordion-question" aria-expanded="false">
+            Hvorfor er der ikke åbent for medlemmer hele dagen?
+        </button>
+        <div class="accordion-answer">
+            <div class="accordion-answer-inner">
+            <p>
+                Åbningstiderne hænger sammen med økonomi, elpris og krav fra Københavns Kommune
+                om 20% offentlig adgang som skal bemandes af frivillige. Saunaens åbningstider
+                kan justeres løbende efter bemanding, økonomi og medlemmernes behov.
+            </p>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- ========================= -->
+    <!--   FAQ CATEGORY: Sauna     -->
+    <!-- ========================= -->
+    <h3 class="faq-category">Saunaen</h3>
+
+    <div class="accordion-item">
+        <button class="accordion-question" aria-expanded="false">
+            Hvordan rengøres saunaen?
+        </button>
+        <div class="accordion-answer">
+            <div class="accordion-answer-inner">
+            <p>
+                Saunaen rengøres med vand fra havnen og rengøringsartikler fra skabet i
+                omklædningsrummet. Det sidste vagthold i offentlig tid rengør gulvet.
+                Medlemmer har fælles ansvar for løbende oprydning.
+                Professionel rengøring finder sted hver onsdag midt på dagen.
+            </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="accordion-item">
+        <button class="accordion-question" aria-expanded="false">
+            Kan der skrues mere op for varmen?
+        </button>
+        <div class="accordion-answer">
+            <div class="accordion-answer-inner">
+            <p>
+                Nej. Temperaturen er fast indstillet og kan ikke justeres manuelt.
+                Bemærk at displayet i omklædningsrummet viser lavere temperatur end inde i saunaen.
+            </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="accordion-item">
+        <button class="accordion-question" aria-expanded="false">
+            Må man hælde vand eller olier på ovnen?
+        </button>
+        <div class="accordion-answer">
+            <div class="accordion-answer-inner">
+            <p>
+                Nej — det er ikke tilladt for nogen. Kun godkendte gusmestre må bruge ovnen til gus.
+            </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="accordion-item">
+        <button class="accordion-question" aria-expanded="false">
+            Kommer der saunagus-events?
+        </button>
+        <div class="accordion-answer">
+            <div class="accordion-answer-inner">
+            <p>
+                Ja! Der er både offentlige og medlems-gus. Kun bestyrelsesgodkendte gusmestre
+                må udføre gus med dufte og vand.
+            </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="accordion-item">
+        <button class="accordion-question" aria-expanded="false">
+            Skal man slukke for saunaen efter brug?
+        </button>
+        <div class="accordion-answer">
+            <div class="accordion-answer-inner">
+            <p>
+                Nej. Saunaen slukker automatisk. Brug ikke displayet ved indgangen –
+                det kan forstyrre driften.
+            </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="accordion-item">
+        <button class="accordion-question" aria-expanded="false">
+            Hvem melder jeg fejl og mangler til?
+        </button>
+        <div class="accordion-answer">
+            <div class="accordion-answer-inner">
+            <p>
+                Skriv til: <a href="mailto:help.boelgebad@gmail.com">help.boelgebad@gmail.com</a>.
+            </p>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+<footer class="footer">
+    <div class="footer-inner">
+
+        <p class="footer-title">Følg os</p>
+
+        <div class="footer-socials">
+            <a href="https://www.facebook.com/groups/405258223878568" target="_blank">
+                <img src="/icons/facebook.svg" alt="facebook-ikon">
+            </a>
+            <a href="https://www.instagram.com/boelge.baderne/" target="_blank">
+                <img src="/icons/instagram.svg" alt="instagram-ikon">
+            </a>
+        </div>
+
+        <div class="footer-links">
+            <a href="#">Handelsbetingelser</a>
+            <span>•</span>
+            <a href="#">Privatlivspolitik</a>
+        </div>
+
+        <p class="footer-copy">© 2025 Bølgebaderne</p>
+
+    </div>
+</footer>
+
+<!-- SCROLL TO TOP BUTTON -->
+<button id="scrollTopBtn" aria-label="Til toppen">
+    <img src="/icons/up-arrow.svg" alt="pil op-ikon" />
+</button>
+
+<script src="/js/accordion.js" defer></script>
+<script src="/js/main.js" defer></script>
+
+</body>
+</html>

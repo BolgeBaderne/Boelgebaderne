@@ -3,6 +3,7 @@ package com.example.bolgebaderne.service;
 import com.example.bolgebaderne.dto.SaunaAdminEventDTO;
 import com.example.bolgebaderne.exceptions.EventNotFoundException;
 import com.example.bolgebaderne.model.EventStatus;
+import com.example.bolgebaderne.exceptions.EventNotFoundException;
 import com.example.bolgebaderne.model.SaunaEvent;
 import com.example.bolgebaderne.repository.SaunaEventRepository;
 import org.springframework.stereotype.Service;
@@ -19,8 +20,6 @@ public class SaunaEventService {
     public SaunaEventService(SaunaEventRepository repository) {
         this.repository = repository;
     }
-
-    // ===== Læsning =====
 
     public List<SaunaEvent> getAllEvents() {
         return repository.findAll();
