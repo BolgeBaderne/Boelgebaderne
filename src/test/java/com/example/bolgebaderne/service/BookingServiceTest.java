@@ -71,10 +71,12 @@ class BookingServiceTest {
                 "MEDLEM åbent • 07:00-11:00",
                 "Members only event",
                 "Gusmester",
+                "",
                 LocalDateTime.of(2025, 12, 20, 7, 0),
                 240,
-                12,
-                0.0,
+                10,
+                0,
+                0,
                 EventStatus.UPCOMING
         );
 
@@ -84,10 +86,12 @@ class BookingServiceTest {
                 "GÆST åbent • 09:00-10:00",
                 "Public event",
                 "Gusmester",
+                "",
                 LocalDateTime.of(2025, 12, 20, 9, 0),
                 60,
-                12,
+                10,
                 80.0,
+                0,
                 EventStatus.UPCOMING
         );
 
@@ -97,10 +101,12 @@ class BookingServiceTest {
                 "VAGT • 20:00-21:00",
                 "Shift event",
                 "Gusmester",
+                "",
                 LocalDateTime.of(2025, 12, 20, 20, 0),
                 60,
-                12,
+                10,
                 0.0,
+                0,
                 EventStatus.UPCOMING
         );
     }
@@ -223,10 +229,12 @@ class BookingServiceTest {
                 "Offentlig åbent",
                 "",
                 "",
+                "",
                 LocalDateTime.parse("2025-12-25T10:00"),
                 60,
                 12,
                 80.0,
+                0,
                 EventStatus.UPCOMING
         );
 
@@ -451,10 +459,12 @@ class BookingServiceTest {
                 "Offentlig åbent • 11:00-12:00",
                 "",
                 "",
+                "",
                 LocalDateTime.of(2025, 12, 20, 11, 0),
                 60,
                 12,
                 80.0,
+                0,
                 EventStatus.UPCOMING
         );
 

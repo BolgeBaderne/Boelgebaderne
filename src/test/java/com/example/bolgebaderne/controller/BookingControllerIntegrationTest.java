@@ -78,10 +78,12 @@ class BookingControllerIntegrationTest {
                 "Offentlig Gus",
                 "Test event",
                 "Test Gusmester",
+                "",
                 LocalDateTime.of(2025, 12, 20, 10, 0),
                 120, // duration i minutter
                 6,
                 80.0,
+                0,
                 EventStatus.UPCOMING
         );
         testEvent = saunaEventRepository.save(testEvent);
@@ -251,10 +253,12 @@ class BookingControllerIntegrationTest {
                 "MEDLEM-GUS",
                 "For medlemmer",
                 "Gusmester",
+                "",
                 LocalDateTime.of(2025, 12, 21, 10, 0),
                 120,
                 6,
                 0.0,
+                0,
                 EventStatus.UPCOMING
         );
         memberEvent = saunaEventRepository.save(memberEvent);
