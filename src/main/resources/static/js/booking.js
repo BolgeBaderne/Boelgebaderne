@@ -1,7 +1,3 @@
-if (userId == null) {
-    // guest mode: vis kalender, men disable booking-knapper / kald der kræver login
-}
-
 // Mandag i den aktuelle uge
 let currentWeekStart = startOfWeek(new Date());
 // Fyldes fra backend (/api/bookings/available?userId=...)

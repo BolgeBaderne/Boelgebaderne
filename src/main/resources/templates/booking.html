@@ -34,7 +34,7 @@
                 <li><a href="/member/profile">Profil</a></li>
                 <li><a href="/member/quick-booking">Hurtig booking</a></li>
                 <li><a href="/member/shifts">Vagtplan</a></li>
-                <li><a href="/member/booking" class="active">Book sauna</a></li>
+                <li><a href="/booking" class="active">Book sauna</a></li>
                 <li><a href="/logout">Log ud</a></li>
             </ul>
 
@@ -62,7 +62,10 @@
             <div class="booking-header">
                 <h1>Book saunaen</h1>
                 <p>Vælg et tidsrum for at booke saunaen. Medlemmer kan booke alle medlemstider.</p>
-                <p class="booking-user" th:text="'Du er logget ind som: ' + ${userName}"></p>
+                <p class="booking-user"
+                   th:if="${userName != null}"
+                   th:text="'Du er logget ind som: ' + ${userName}">  // viser brugernavn hvis tilgængeligt
+                </p>
             </div>
 
             <div class="week-header">
@@ -107,7 +110,7 @@
 
 <!-- DATA + SCRIPTS -->
 <script th:inline="javascript">
-    const userId = [[${userId}]];
+    const userId = [[${userId}]]; // bliver null hvis ikke logget ind
 </script>
 <script src="/js/lang.js" defer></script>
 <script src="/js/main.js" defer></script>

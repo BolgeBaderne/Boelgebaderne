@@ -14,8 +14,10 @@ html {
 
 /* Add reusable page content spacing so main content sits below header */
 .page-content {
-    padding-top: var(--header-height);
+   /* padding-top: var(--header-height); */
+    padding-top: 90px; /* prøv 80-110px */
 }
+
 
 /* small-screen header is taller because of stacked controls */
 @media (max-width: 767px) {
@@ -2005,53 +2007,6 @@ body.page-membership {
         font-size: 0.9rem;
     }
 }
-/* ============================ */
-/* WAITLIST-STATUS STYLE */
-/* Side-layout */
-.waitlist-page {
-    padding: 24px 0;
-}
-
-.waitlist-header {
-    margin-bottom: 16px;
-}
-
-.waitlist-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
-    margin-top: 16px;
-}
-
-/* Mobil */
-@media (max-width: 768px) {
-    .waitlist-grid {
-        grid-template-columns: 1fr;
-    }
-}
-
-/* Tekst */
-.muted {
-    opacity: 0.75;
-}
-
-.waitlist-actions {
-    display: flex;
-    gap: 12px;
-    margin-top: 12px;
-    flex-wrap: wrap;
-}
-
-/* Fejl */
-.waitlist-error {
-    margin-top: 16px;
-    border: 1px solid rgba(255, 0, 0, 0.25);
-}
-
-.hidden {
-    display: none;
-}
-
 
 /* ===== LOGIN PAGE ===== */
 

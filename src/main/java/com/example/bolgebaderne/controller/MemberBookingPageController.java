@@ -7,12 +7,15 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
-public class MemberBookingPageController {
+public class MemberBookingPageController
+{
 
     @GetMapping("/booking")
-    public String bookingPage(@AuthenticationPrincipal User user, Model model) {
+    public String bookingPage(@AuthenticationPrincipal User user, Model model)
+    {
         // Hvis brugeren ikke er logget ind, send til login
-        if (user == null) {
+        if (user == null)
+        {
             return "redirect:/login?auth=required";
         }
 

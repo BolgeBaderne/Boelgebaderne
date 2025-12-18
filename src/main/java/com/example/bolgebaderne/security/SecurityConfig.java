@@ -4,6 +4,7 @@ import com.example.bolgebaderne.repository.UserRepository;
 import org.springframework.boot.security.autoconfigure.web.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -40,7 +41,7 @@ public class SecurityConfig {
                         "/", "/index.html",
                         "/login", "/error", "/membership-required",
                         "/event.html", "/about.html", "/faq.html",
-                        "/membership.html", "/sauna-info.html"
+                        "/membership.html", "/sauna-info.html" , ("/booking")
 
                 ).permitAll()
 
@@ -56,6 +57,15 @@ public class SecurityConfig {
                 //Medlemssider / medlem API
                 .requestMatchers("/member/**").hasAnyRole("MEMBER", "ADMIN")
                 .requestMatchers("/api/member/**").hasAnyRole("MEMBER", "ADMIN")
+
+                        .requestMatchers("/", "/booking").permitAll()
+                        .requestMatchers("/css/**", "/js/**", "/images/**", "/icons/**").permitAll()
+
+                        // Gæster må se tider (read)
+                        .requestMatchers(HttpMethod.GET, "/api/bookings/week").permitAll()
+
+                        // Booking kræver login (write)
+                        .requestMatchers(HttpMethod.POST, "/api/bookings").authenticated()
 
                 //Alt andet kræver login
                 .anyRequest().authenticated()
