@@ -10,8 +10,9 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
+import org.springframework.security.web.SecurityFilterChain;
 
 
 @Configuration
@@ -104,19 +105,4 @@ public class SecurityConfig {
         return email -> userRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found: " + email));
     }}
-
-
-//                    !!!!    ANDEN METODE AT GIVE FEJLBESKED MHT HTTP RESPONS !!!!
-//                        .exceptionHandling(ex -> ex
-//                                // Ikke logget ind
-//                                .authenticationEntryPoint((request, response, authException) -> {
-//                                    response.setStatus(HttpServletResponse.SC_UNAUTHORIZED); // 401
-//                                })
-//                                // Logget ind men forkert rolle
-//                                .accessDeniedHandler((request, response, accessDeniedException) -> {
-//                                    response.setStatus(HttpServletResponse.SC_FORBIDDEN); // 403
-//                                })
-//                        )
-//                )
-
 
