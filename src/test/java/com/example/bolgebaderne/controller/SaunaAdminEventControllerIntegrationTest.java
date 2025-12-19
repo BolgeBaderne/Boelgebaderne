@@ -389,8 +389,8 @@ class SaunaAdminEventControllerIntegrationTest {
                 .andExpect(status().isOk());
 
         // 3. Forsøg at hente slettet event → Skal give 404
-        mockMvc.perform(get("/api/admin/events/" + event2Id))  // ✅ ÆNDRET
-                .andExpect(status().is5xxServerError());
+        mockMvc.perform(get("/api/admin/events/" + event2Id))
+                .andExpect(status().isNotFound());  // ✅ 404
     }
 
     @Test
@@ -442,7 +442,7 @@ class SaunaAdminEventControllerIntegrationTest {
 
         // 5. Verificér sletning (404)
         mockMvc.perform(get("/api/admin/events/" + eventId))
-                .andExpect(status().is5xxServerError());
+                .andExpect(status().isNotFound());  // ✅ 404
     }
 
     // ===== UNAUTHORIZED ACCESS TEST =====
