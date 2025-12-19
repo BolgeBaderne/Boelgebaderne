@@ -1,48 +1,49 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
+<html lang="da"
+      xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <body>
 
-<nav th:fragment="nav" class="navbar">
+<header class="site-header" th:fragment="nav">
+    <div class="site-header__inner">
 
-    <div class="navbar__logo">
-        <a href="/" class="logo-box">
-            BØLGE<br/>BADERNE
+        <!-- Logo (venstre) -->
+        <a class="site-logo" th:href="@{/}">
+            <span class="site-logo__box">BØLGE<br/>BADERNE</span>
         </a>
+
+        <!-- Links (midt) -->
+        <nav class="site-nav" aria-label="Primær navigation">
+            <a class="site-nav__link" th:href="@{/}">Forside</a>
+            <a class="site-nav__link" th:href="@{/sauna-info.html}">Sauna info</a>
+            <a class="site-nav__link" th:href="@{/sauna-info.html}">Gusmestre</a>
+            <a class="site-nav__link" th:href="@{/admin/events}">Events</a>
+
+
+            <!-- Kun admin -->
+            <a class="site-nav__link" sec:authorize="hasRole('ADMIN')" th:href="@{/admin/events}">
+                Admin
+            </a>
+        </nav>
+
+        <!-- Actions (højre) -->
+        <div class="site-actions">
+            <button class="lang-pill" type="button">DA</button>
+            <button class="lang-pill" type="button">EN</button>
+
+            <!-- Ikke logget ind -->
+            <a class="btn-login" sec:authorize="!isAuthenticated()" th:href="@{/login}">
+                Log ind
+            </a>
+
+            <!-- Logget ind -->
+            <form sec:authorize="isAuthenticated()" th:action="@{/logout}" method="post">
+                <button class="btn-login" type="submit">Log ud</button>
+            </form>
+        </div>
+
     </div>
-
-    <div class="navbar__links">
-        <a href="/">Forside</a>
-        <a href="#">Sauna</a>
-        <a href="#">Gusmestre</a>
-        <a href="#" class="active">Event</a>
-
-        <!-- MEMBER / ADMIN -->
-        <span sec:authorize="isAuthenticated()">
-            | <a href="/api/member/profile">Profil</a>
-            | <a href="/api/member/quick-booking">Hurtig booking</a>
-            | <a href="/api/member/shifts">Vagtplan</a>
-        </span>
-
-        <!-- ADMIN -->
-        <span sec:authorize="hasRole('ADMIN')">
-            | <a href="/admin/events">Admin</a>
-        </span>
-
-        <!-- GUEST -->
-        <span sec:authorize="!isAuthenticated()">
-            | <a href="/login">Log ind</a>
-        </span>
-
-        <!-- LOGOUT -->
-        <span sec:authorize="isAuthenticated()">
-            | <form th:action="@{/logout}" method="post" style="display:inline;">
-                <button type="submit" class="logout-btn">Log ud</button>
-              </form>
-        </span>
-    </div>
-
-</nav>
+</header>
 
 </body>
 </html>
