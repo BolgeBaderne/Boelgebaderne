@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="da" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin – Events</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" th:href="@{/css/admin-events.css}">
+    <script th:src="@{/js/admin-events.js}" defer></script>
+</head>
+
+<body>
+
+<header class="topbar">
+    <div class="brand">
+        <div class="logo-box">BØLGE<br>BADERNE</div>
+        <div>
+            <div class="brand-title">Admin</div>
+            <div class="brand-sub">Event administration</div>
+        </div>
+    </div>
+
+    <div class="topbar-actions">
+        <a class="link" href="/events">Offentlige events</a>
+        <form method="post" action="/logout">
+            <button class="btn btn-secondary" type="submit">Log ud</button>
+        </form>
+    </div>
+</header>
+
+<main class="container">
+
+    <section class="card">
+        <h1>Events</h1>
+        <p class="muted">Opret, rediger og slet saunagus events.</p>
+
+        <div id="formMessage" class="message muted"></div>
+
+        <!-- ✅ ÉN form til både POST og PUT -->
+        <form id="eventForm" class="form-grid">
+
+            <div class="field">
+                <label for="title">Titel</label>
+                <input id="title" name="title" type="text" required>
+            </div>
+
+            <div class="field">
+                <label for="startTime">Dato & tidspunkt</label>
+                <input id="startTime" name="startTime" type="datetime-local" required>
+            </div>
+
+            <div class="field">
+                <label for="saunagusMasterName">Gusmester navn</label>
+                <input id="saunagusMasterName" name="saunagusMasterName" type="text" required>
+            </div>
+
+            <div class="field">
+                <label for="saunagusMasterImageUrl">Gusmester billede URL</label>
+                <input id="saunagusMasterImageUrl" name="saunagusMasterImageUrl" type="text" placeholder="https://...">
+            </div>
+
+            <div class="field field--full">
+                <label for="description">Beskrivelse</label>
+                <textarea id="description" name="description" rows="4" placeholder="Kort beskrivelse..." required></textarea>
+            </div>
+
+            <div class="field">
+                <label for="durationMinutes">Varighed (min)</label>
+                <input id="durationMinutes" name="durationMinutes" type="number" min="1" value="45" required>
+            </div>
+
+            <div class="field">
+                <label for="capacity">Kapacitet</label>
+                <input id="capacity" name="capacity" type="number" min="1" value="12" required>
+            </div>
+
+            <div class="field">
+                <label for="price">Pris (kr.)</label>
+                <input id="price" name="price" type="number" min="0" step="1" value="99" required>
+            </div>
+
+            <div class="field">
+                <label for="status">Status</label>
+                <select id="status" name="status" required>
+                    <option value="UPCOMING">UPCOMING</option>
+                    <option value="FULLY_BOOKED">FULLY_BOOKED</option>
+                    <option value="CANCELLED">CANCELLED</option>
+                </select>
+            </div>
+
+            <div class="form-actions field--full">
+                <button class="btn btn-primary" type="submit" id="submitBtn">Gem</button>
+                <button class="btn btn-secondary" type="button" id="cancelEditBtn">Annuller redigering</button>
+            </div>
+
+        </form>
+    </section>
+
+    <section class="card">
+        <div class="table-head">
+            <h2>Alle events</h2>
+            <button class="btn btn-secondary" id="refreshBtn" type="button">Opdater</button>
+        </div>
+
+        <div class="table-wrap">
+            <table class="table" aria-label="Events table">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Titel</th>
+                    <th>Gusmester</th>
+                    <th>Kapacitet</th>
+                    <th>Pris</th>
+                    <th>Status</th>
+                    <th>Handling</th>
+                </tr>
+                </thead>
+                <tbody id="eventsBody">
+                <tr>
+                    <td colspan="7" class="muted">Indlæser...</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div id="tableError" class="message error hidden"></div>
+    </section>
+
+</main>
+
+</body>
+</html>

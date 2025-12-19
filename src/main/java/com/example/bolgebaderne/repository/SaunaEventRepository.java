@@ -9,7 +9,5 @@ import java.util.Optional;
 
 @Repository
 public interface SaunaEventRepository extends JpaRepository<SaunaEvent, Integer> {
-
-    // Bruges til at finde et event ud fra titel + starttid,
-    Optional<SaunaEvent> findByTitleAndStartTime(String title, LocalDateTime startTime);
+Optional<SaunaEvent> findByTitleAndStartTime(String title, LocalDateTime startTime);
 }

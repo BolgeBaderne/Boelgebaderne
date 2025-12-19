@@ -18,7 +18,7 @@ INSERT INTO sauna_event
  start_time, duration_minutes, capacity, price,
  current_bookings, available_spots, status)
 VALUES
-    ('Morgen Gus', 'Dejlig start på dagen', 'Jens Damp', NULL,
+    ('Morgen Gus', 'Dejlig start på dagen', 'Jens Damp', '',
      '2025-12-15 08:00:00', 60,
      1, 50.00,
      1, 0,
@@ -31,11 +31,33 @@ INSERT INTO sauna_event
  start_time, duration_minutes, capacity, price,
  current_bookings, available_spots, status)
 VALUES
-    ('Aften Gus', 'Hyggelig aftenstemning', 'Sarah Sved', NULL,
+    ('Aften Gus', 'Hyggelig aftenstemning', 'Sarah Sved', '',
      '2025-12-15 20:00:00', 60,
      5, 80.00,
      2, 3,
      'UPCOMING');
+
+
+-- =============================
+-- EXAMPLE GENERATED SAUNA EVENTS (same sauna_event table)
+-- =============================
+INSERT INTO sauna_event
+(title, description, gusmester_name, gusmester_image_url,
+ start_time, duration_minutes, capacity, price,
+ current_bookings, available_spots, status)
+VALUES
+    ('GÆSTER • Onsdag Sauna • 09:00-11:00', 'Åben sauna for gæster', 'Peter A.', '',
+     '2025-12-10 09:00:00', 120, 12, 40.00, 0, 12, 'UPCOMING'),
+
+    ('MEDLEMSGUS • Tirsdag Gus • 20:00-21:00', 'Saunagus kun for medlemmer', 'Lars N.', '',
+     '2025-12-09 20:00:00', 60, 12, 0.00, 0, 12, 'FULLY_BOOKED'),
+
+    ('ÅBEN GUS • Fredag Gus • 19:00-20:00', 'Åben gus for alle', 'Maria S.', '',
+     '2025-12-12 19:00:00', 60, 12, 60.00, 0, 12, 'UPCOMING'),
+
+    ('MEDLEMSGUS • Morgen Gus • 07:00-08:00', 'Saunagus kun for medlemmer', 'Nana K.', '',
+     '2025-12-10 07:00:00', 60, 12, 0.00, 0, 12, 'CANCELLED');
+
 
 
 -- =============================
@@ -50,43 +72,3 @@ INSERT INTO waitlist_entries (position, created_at, promoted, type, user_id, eve
 VALUES (1, CURRENT_TIMESTAMP, FALSE, 'MEMBER', 2, 1);
 
 
--- =============================
--- EXAMPLE GENERATED SAUNA EVENTS (same sauna_event table)
--- =============================
-INSERT INTO sauna_event (title, description, gusmester_name, start_time, duration_minutes, capacity, price, status)
-VALUES
-    ('GÆSTER • Onsdag Sauna • 09:00-11:00',
-     'Åben sauna for gæster',
-     'Peter A.',
-     '2025-12-10 09:00:00',
-     120,
-     12,
-     40.00,
-     'UPCOMING'),
-
-    ('MEDLEMSGUS • Tirsdag Gus • 20:00-21:00',
-     'Saunagus kun for medlemmer',
-     'Lars N.',
-     '2025-12-09 20:00:00',
-     60,
-     12,
-     0.00,
-     'UPCOMING'),
-
-    ('ÅBEN GUS • Fredag Gus • 19:00-20:00',
-     'Åben gus for alle',
-     'Maria S.',
-     '2025-12-12 19:00:00',
-     60,
-     15,
-     60.00,
-     'UPCOMING'),
-
-    ('VAGT • Onsdag Vagt • 15:00-21:00',
-     'Medlem kan tage vagt og tjekke billetter',
-     'VAGT',
-     '2025-12-10 15:00:00',
-     360,
-     1,
-     0.00,
-     'UPCOMING');

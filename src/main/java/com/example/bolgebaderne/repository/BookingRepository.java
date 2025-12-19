@@ -14,4 +14,6 @@ public interface BookingRepository extends JpaRepository<Booking, Integer> {
 
     // Corrected method name to reference SaunaEvent property (was referencing non-existent 'event')
     boolean existsByUser_UserIdAndSaunaEvent_EventId(int userId, int eventId);
+
+    void deleteBySaunaEvent_EventId(int eventId);
 }

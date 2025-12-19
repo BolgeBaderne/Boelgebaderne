@@ -1,47 +1,34 @@
 <!DOCTYPE html>
 <html lang="da"
-      xmlns:th="http://www.thymeleaf.org">
-<link rel="stylesheet" th:href="@{/css/main.css}">
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <body>
-
 <nav th:fragment="nav">
-    <!-- Offentlig menu -->
+
     <a href="/">Forside</a>
 
-    <!-- Kun for MEMBER og ADMIN -->
-    <span th:if="${role == 'MEMBER' or role == 'ADMIN'}">
+    <span sec:authorize="isAuthenticated()">
         | <a href="/api/member/profile">Profil</a>
         | <a href="/api/member/quick-booking">Hurtig booking</a>
         | <a href="/api/member/shifts">Vagtplan</a>
     </span>
 
-    <!-- Hvis man IKKE er logget ind (GUEST) -->
-    <span th:if="${role == 'GUEST'}">
+    <span sec:authorize="hasRole('ADMIN')">
+        | <a href="/admin/events">Admin</a>
+    </span>
+
+    <span sec:authorize="!isAuthenticated()">
         | <a href="/login">Log ind</a>
     </span>
 
-    <!-- Hvis man ER logget ind -->
-    <span th:if="${role != 'GUEST'}">
-        | <a href="/logout">Log ud</a>
+    <span sec:authorize="isAuthenticated()">
+        | <form th:action="@{/logout}" method="post" style="display:inline;">
+            <button type="submit" style="background:none;border:none;color:blue;cursor:pointer;padding:0;">
+                Log ud
+            </button>
+          </form>
     </span>
 
-    <ul>
-        <!-- Offentlige links -->
-        <li><a href="/home">Forside</a></li>
-        <li><a href="/public/info">Information</a></li>
-
-        <!-- Medlems-links: kun hvis man er logget ind OG medlem/admin -->
-        <li th:if="${currentUser != null and (currentUser.member or currentUser.admin)}">
-            <a href="/member/profile">Profil</a>
-        </li>
-        <li th:if="${currentUser != null and (currentUser.member or currentUser.admin)}">
-            <a href="/member/quick-booking">Hurtig booking</a>
-        </li>
-        <li th:if="${currentUser != null and (currentUser.member or currentUser.admin)}">
-            <a href="/member/shifts">Vagtplan</a>
-        </li>
-    </ul>
 </nav>
-
 </body>
 </html>
