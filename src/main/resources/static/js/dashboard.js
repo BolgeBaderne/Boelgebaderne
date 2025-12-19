@@ -55,7 +55,7 @@ function loadBookings() {
 
             bookings.forEach(b => {
                 list.innerHTML += `
-                    <li>${b.type} · ${formatDate(b.dateTime)}</li>
+                    <li>${b.title} · ${formatDate(b.startTime)}</li>
                 `;
             });
         });
@@ -68,19 +68,28 @@ function loadShifts() {
     fetch("/api/shifts/me")
         .then(res => res.json())
         .then(shifts => {
+            const list = document.getElementById("shiftList");
+            list.innerHTML = "";
 
-            const lists = document.querySelectorAll(".dashboard-list");
-            const shiftList = lists[1]; // anden liste = vagter
-
-            shiftList.innerHTML = "";
+            if (shifts.length === 0) {
+                list.innerHTML = "<li>Ingen vagter endnu</li>";
+                return;
+            }
 
             shifts.forEach(s => {
-                shiftList.innerHTML += `
-                    <li>${s.role} · ${formatDate(s.dateTime)}</li>
+                list.innerHTML += `
+                    <li>
+                        ${s.label} · ${formatShiftDate(
+                    s.date,
+                    s.startTime,
+                    s.endTime
+                )}
+                    </li>
                 `;
             });
         });
 }
+
 
 // -------------------------------------------
 // EVENTS (ADMIN)
@@ -183,3 +192,8 @@ function formatDate(dateString) {
         minute: "2-digit"
     });
 }
+
+function formatShiftDate(date, start, end) {
+    return `${date} kl. ${start}–${end}`;
+}
+

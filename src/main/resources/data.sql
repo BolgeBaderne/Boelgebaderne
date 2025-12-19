@@ -72,3 +72,19 @@ INSERT INTO waitlist_entries (position, created_at, promoted, type, user_id, eve
 VALUES (1, CURRENT_TIMESTAMP, FALSE, 'MEMBER', 2, 1);
 
 
+
+-- =============================
+-- SHIFTS (Dashboard test data)
+-- =============================
+
+INSERT INTO shifts (date, start_time, end_time, label, user_id)
+VALUES
+    -- Næste uge
+    ('2025-12-16', '08:00:00', '12:00:00', 'Morgenvagt', 1),
+    ('2025-12-16', '12:00:00', '16:00:00', 'Middagsvagt', 1),
+
+    -- Senere på ugen
+    ('2025-12-18', '16:00:00', '20:00:00', 'Aftenvagt', 1),
+
+    -- Weekend
+    ('2025-12-21', '11:00:00', '15:00:00', 'Weekendvagt', 1);

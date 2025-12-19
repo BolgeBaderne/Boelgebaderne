@@ -1,9 +1,12 @@
 package com.example.bolgebaderne.controller;
 
 import com.example.bolgebaderne.dto.AvailableTimeSlotDTO;
+import com.example.bolgebaderne.dto.BookingResponseDTO;
 import com.example.bolgebaderne.dto.CreateBookingRequest;
 import com.example.bolgebaderne.model.Booking;
+import com.example.bolgebaderne.model.User;
 import com.example.bolgebaderne.service.BookingService;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import com.example.bolgebaderne.model.User;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -67,4 +70,12 @@ public class BookingController
                                               @RequestParam String weekStart) {LocalDate start = LocalDate.parse(weekStart);   // fx "2025-12-08"
         return bookingService.generateWeeklySchedule(userId, start);
     }
+
+    @GetMapping("/me")
+    public List<BookingResponseDTO> getMyBookings(
+            @AuthenticationPrincipal User user
+    ) {
+        return bookingService.getBookingsForUser(user.getUserId());
+    }
+
 }
