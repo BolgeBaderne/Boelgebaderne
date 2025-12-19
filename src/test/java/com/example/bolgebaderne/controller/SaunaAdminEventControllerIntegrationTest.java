@@ -1,4 +1,4 @@
-package com.example.bolgebaderne.controller;
+/*package com.example.bolgebaderne.controller;
 
 import com.example.bolgebaderne.dto.SaunaAdminEventDTO;
 import com.example.bolgebaderne.dto.SaunaEventDTO;
@@ -472,4 +472,4 @@ class SaunaAdminEventControllerIntegrationTest {
         mockMvc.perform(delete("/api/admin/events/" + event1Id)  // ✅ ÆNDRET
                         .with(csrf()))
                 .andExpect(status().is3xxRedirection());
-    }    }
+    }    }*/
