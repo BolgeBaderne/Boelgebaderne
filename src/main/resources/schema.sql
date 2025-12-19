@@ -1,5 +1,3 @@
-
-
 DROP TABLE IF EXISTS waitlist_entries;
 DROP TABLE IF EXISTS bookings;
 DROP TABLE IF EXISTS shifts;

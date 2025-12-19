@@ -34,7 +34,7 @@ public class User implements UserDetails {
     public boolean isMember() { return role == Role.MEMBER || role == Role.ADMIN; }
 
 
-    // ===== Konstruktør(er) =====
+    // ===== Contructor =====
 
     public User() { }
 
@@ -48,7 +48,7 @@ public class User implements UserDetails {
         this.membershipStatus = membershipStatus;
     }
 
-    // ===== Getters/setters (som du havde) =====
+    // ===== Getters/setters  =====
 
     public int getUserId() { return userId; }
     public void setUserId(int userId) { this.userId = userId; }

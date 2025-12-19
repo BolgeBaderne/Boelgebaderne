@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 public class Notification
 {
     private int notificationId;
-    private NotificationsType type;
+    private NotificationType type;
     private NotificationChannel channel;
     private String message;
     private LocalDateTime createdAt;

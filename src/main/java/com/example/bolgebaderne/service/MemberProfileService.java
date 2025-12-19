@@ -41,6 +41,6 @@ public class MemberProfileService {
                         user.getMembershipStatus(),
                         user.getRole().name()
                 ))
-                .toList();                   // <- husk .toList() med stort L
+                .toList();
     }
 }

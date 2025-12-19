@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class NotificationService
 {
-    //Simuler at vi sender en mail/sms/notifikation til brugeren, når de er rykket op fra venteliste til booking.
+    // Simpel notifikation ved forfremmelse fra venteliste
     public void sendWaitlistPromotion(User user, SaunaEvent event)
     {
         // Simpel version: bare log til konsollen

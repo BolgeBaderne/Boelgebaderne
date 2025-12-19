@@ -1,6 +1,6 @@
 package com.example.bolgebaderne.model;
 
-public enum NotificationsType
+public enum NotificationType
 {
     BOOKING_CONFIRMATION,
     WAITLIST_PROMOTION,

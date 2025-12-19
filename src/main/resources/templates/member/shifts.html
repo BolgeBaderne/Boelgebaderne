@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+    <meta charset="UTF-8">
+    <title>Vagtplan</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+
+<div class="nav">
+    <a href="/member/profile">Profil</a>
+    <a href="/member/quick-booking">Hurtig booking</a>
+    <a href="/member/shifts">Vagtplan</a>
+    <a href="/logout">Log ud</a>
+</div>
+
+<h1>Vagtplan</h1>
+
+<div th:each="shift : ${shifts}" class="card">
+    <p><strong>Dato:</strong> <span th:text="${shift.date}"></span></p>
+    <p><strong>Tidspunkt:</strong> <span th:text="${shift.time}"></span></p>
+    <p><strong>Lokation:</strong> <span th:text="${shift.location}"></span></p>
+</div>
+
+</body>
+</html>

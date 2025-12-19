@@ -10,13 +10,13 @@ import java.util.List;
 @Repository
 public interface BookingRepository extends JpaRepository<Booking, Integer> {
     int countBySaunaEvent(SaunaEvent saunaEvent);
-
-    // Fixed: use property name 'saunaEvent' (matches Booking.saunaEvent) for nested property lookup
+    // Added method to count bookings by event ID
     long countBySaunaEvent_EventId(int eventId);
-
-    // Corrected method name to reference SaunaEvent property (was referencing non-existent 'event')
+    // Added method to check if a booking exists for a given user ID and event ID
     boolean existsByUser_UserIdAndSaunaEvent_EventId(int userId, int eventId);
 
     // Dashboard
     List<Booking> findByUser_UserId(int userId);
+
+    void deleteBySaunaEvent_EventId(int eventId);
 }

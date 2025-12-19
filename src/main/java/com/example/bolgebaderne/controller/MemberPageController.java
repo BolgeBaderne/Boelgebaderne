@@ -3,6 +3,7 @@ package com.example.bolgebaderne.controller;
 import com.example.bolgebaderne.model.User;
 import com.example.bolgebaderne.service.MemberProfileService;
 import com.example.bolgebaderne.service.MemberQuickBookingService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import com.example.bolgebaderne.service.ShiftService;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -11,7 +12,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/member")
+@RequestMapping("/api/member")
+@PreAuthorize("hasAnyRole('MEMBER', 'ADMIN')")
 public class MemberPageController {
 
     private final MemberProfileService memberProfileService;

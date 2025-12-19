@@ -8,12 +8,12 @@ public class HomeController {
 
         @GetMapping("/")
         public String root() {
-            return "forward:/index.html"; // src/main/resources/static/index.html
+            return "forward:/index.html";
         }
 
         @GetMapping("/home")
         public String home() {
-            return "home"; // src/main/resources/templates/home.html
+            return "home";
         }
     }
 
