@@ -1,34 +1,48 @@
 <!DOCTYPE html>
-<html lang="da"
-      xmlns:th="http://www.thymeleaf.org"
+<html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <body>
-<nav th:fragment="nav">
 
-    <a href="/">Forside</a>
+<nav th:fragment="nav" class="navbar">
 
-    <span sec:authorize="isAuthenticated()">
-        | <a href="/api/member/profile">Profil</a>
-        | <a href="/api/member/quick-booking">Hurtig booking</a>
-        | <a href="/api/member/shifts">Vagtplan</a>
-    </span>
+    <div class="navbar__logo">
+        <a href="/" class="logo-box">
+            BØLGE<br/>BADERNE
+        </a>
+    </div>
 
-    <span sec:authorize="hasRole('ADMIN')">
-        | <a href="/admin/events">Admin</a>
-    </span>
+    <div class="navbar__links">
+        <a href="/">Forside</a>
+        <a href="#">Sauna</a>
+        <a href="#">Gusmestre</a>
+        <a href="#" class="active">Event</a>
 
-    <span sec:authorize="!isAuthenticated()">
-        | <a href="/login">Log ind</a>
-    </span>
+        <!-- MEMBER / ADMIN -->
+        <span sec:authorize="isAuthenticated()">
+            | <a href="/api/member/profile">Profil</a>
+            | <a href="/api/member/quick-booking">Hurtig booking</a>
+            | <a href="/api/member/shifts">Vagtplan</a>
+        </span>
 
-    <span sec:authorize="isAuthenticated()">
-        | <form th:action="@{/logout}" method="post" style="display:inline;">
-            <button type="submit" style="background:none;border:none;color:blue;cursor:pointer;padding:0;">
-                Log ud
-            </button>
-          </form>
-    </span>
+        <!-- ADMIN -->
+        <span sec:authorize="hasRole('ADMIN')">
+            | <a href="/admin/events">Admin</a>
+        </span>
+
+        <!-- GUEST -->
+        <span sec:authorize="!isAuthenticated()">
+            | <a href="/login">Log ind</a>
+        </span>
+
+        <!-- LOGOUT -->
+        <span sec:authorize="isAuthenticated()">
+            | <form th:action="@{/logout}" method="post" style="display:inline;">
+                <button type="submit" class="logout-btn">Log ud</button>
+              </form>
+        </span>
+    </div>
 
 </nav>
+
 </body>
 </html>
