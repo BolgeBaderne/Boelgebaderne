@@ -5,32 +5,17 @@
     <title>Bølgebaderne – Event detaljer</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" th:href="@{/css/event.css}">
-    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
     <script th:src="@{/js/event.js}" defer></script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
+
 <body>
 <div th:replace="fragments/nav :: nav"></div>
 
-<h1>Administration af events</h1>
-
-<!-- Kun ADMIN må se siden -->
-<!-- <div th:if="${role == 'ADMIN'}">   </div> ingen behov pga preauthorize-->
-
-<header class="navbar">
-    <div class="navbar__logo">
-        <div class="logo-box">BØLGE<br>BADERNE</div>
-    </div>
-    <nav class="navbar__links">
-        <a href="/static">Forside</a>
-        <a href="#">Sauna</a>
-        <a href="#">Gusmestre</a>
-        <a href="#" class="active">Event</a>
-    </nav>
-</header>
 
 <main>
     <!-- Hero med baggrund og titel -->
@@ -105,10 +90,7 @@
                     <button class="btn btn--primary" id="book-button">
                         Book eventet
                     </button>
-                    <p class="hint">
-                        (Booking-knappen må gerne være “fake” til demo – fokus
-                        er på visning af detaljer)
-                    </p>
+
                 </div>
 
                 <div class="card card--error hidden" id="error-box">
