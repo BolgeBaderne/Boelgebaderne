@@ -86,6 +86,7 @@ public class SecurityConfig {
                 .loginPage("/login")
                 .usernameParameter("email")
                 .passwordParameter("password")
+                .defaultSuccessUrl("/dashboard.html", true)
                 .successHandler((request, response, authentication) -> {
                     // Hvis vi kommer fra /login?redirect=..., så gå dertil efter login
                     String redirect = request.getParameter("redirect");

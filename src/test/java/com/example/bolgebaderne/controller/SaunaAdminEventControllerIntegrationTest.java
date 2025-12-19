@@ -1,13 +1,10 @@
-/*package com.example.bolgebaderne.controller;
+package com.example.bolgebaderne.controller;
 
 import com.example.bolgebaderne.dto.SaunaAdminEventDTO;
 import com.example.bolgebaderne.dto.SaunaEventDTO;
 import com.example.bolgebaderne.model.EventStatus;
 import com.example.bolgebaderne.model.SaunaEvent;
-import com.example.bolgebaderne.repository.BookingRepository;
-import com.example.bolgebaderne.repository.SaunaEventRepository;
-import com.example.bolgebaderne.repository.UserRepository;
-import com.example.bolgebaderne.repository.WaitlistEntryRepository;
+import com.example.bolgebaderne.repository.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -38,7 +35,6 @@ class SaunaAdminEventControllerIntegrationTest {
     @Autowired
     private ObjectMapper objectMapper;
 
-
     private SaunaAdminEventDTO testEventDTO;
     private LocalDateTime testStartTime;
 
@@ -59,11 +55,11 @@ class SaunaAdminEventControllerIntegrationTest {
 
     @BeforeEach
     void setUp() {
-        bookingRepository.deleteAll();
-        waitlistEntryRepository.deleteAll();
-        repository.deleteAll();
-        shiftRepository.deleteAll();
-        userRepository.deleteAll();
+            bookingRepository.deleteAll();
+            waitlistEntryRepository.deleteAll();
+            repository.deleteAll();
+            shiftRepository.deleteAll();
+            userRepository.deleteAll();
 
         testStartTime = LocalDateTime.of(2025, 12, 25, 14, 0);
 
@@ -472,4 +468,4 @@ class SaunaAdminEventControllerIntegrationTest {
         mockMvc.perform(delete("/api/admin/events/" + event1Id)  // ✅ ÆNDRET
                         .with(csrf()))
                 .andExpect(status().is3xxRedirection());
-    }    }*/
+    }    }

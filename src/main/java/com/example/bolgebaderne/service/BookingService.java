@@ -1,6 +1,7 @@
 package com.example.bolgebaderne.service;
 
 import com.example.bolgebaderne.dto.AvailableTimeSlotDTO;
+import com.example.bolgebaderne.dto.BookingResponseDTO;
 import com.example.bolgebaderne.dto.CreateBookingRequest;
 import com.example.bolgebaderne.exceptions.NotMemberEligibleException;
 import com.example.bolgebaderne.exceptions.TimeSlotFullException;
@@ -29,13 +30,15 @@ public class BookingService {
     private final BookingRepository bookingRepo;
     private final SaunaEventRepository eventRepo;
     private final UserRepository userRepo;
+    private final BookingRepository bookingRepository;
 
     public BookingService(BookingRepository bookingRepo,
                           SaunaEventRepository eventRepo,
-                          UserRepository userRepo) {
+                          UserRepository userRepo, BookingRepository bookingRepository) {
         this.bookingRepo = bookingRepo;
         this.eventRepo = eventRepo;
         this.userRepo = userRepo;
+        this.bookingRepository = bookingRepository;
     }
 
     public List<AvailableTimeSlotDTO> getAvailableSlots(Integer userId) {
@@ -371,6 +374,37 @@ public class BookingService {
 
         // enten delete eller markér som CANCELLED – her tager vi den simple
         bookingRepo.delete(booking);
+    }
+
+
+    public List<BookingResponseDTO> getBookingsForUser(int userId) {
+
+        List<Booking> bookings = bookingRepo.findByUser_UserId(userId);
+
+        List<BookingResponseDTO> bookingResponses = new ArrayList<>();
+
+        for (Booking booking : bookings) {
+            BookingResponseDTO bookingResponseDTO =
+                    toBookingResponseDTO(booking);
+            bookingResponses.add(bookingResponseDTO);
+        }
+        return bookingResponses;
+    }
+
+    private BookingResponseDTO toBookingResponseDTO(Booking booking) {
+
+        SaunaEvent saunaEvent = booking.getSaunaEvent();
+
+        return new BookingResponseDTO(
+                saunaEvent.getEventId(),
+                saunaEvent.getTitle(),
+                saunaEvent.getStartTime(),
+                saunaEvent.getDurationMinutes(),
+                saunaEvent.getCapacity(),
+                saunaEvent.getAvailableSpots(),
+                saunaEvent.getPrice(),
+                booking.getStatus().name()
+        );
     }
 }
 
