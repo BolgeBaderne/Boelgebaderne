@@ -53,21 +53,18 @@ body {
     text-align: center;
 }
 
-.navbar__links {
+.navbar {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: #ffffff;
+    border-bottom: 1px solid var(--color-border);
     display: flex;
-    gap: 1.5rem;
-    font-size: 0.95rem;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.75rem 4vw;
 }
 
-.navbar__links a {
-    text-decoration: none;
-    color: var(--color-muted);
-    font-weight: 500;
-}
-
-.navbar__links a.active {
-    color: var(--color-primary);
-}
 
 /* HERO */
 
