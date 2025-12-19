@@ -39,6 +39,9 @@ class BookingControllerIntegrationTest {
     private UserRepository userRepository;
 
     @Autowired
+    private ShiftRepository shiftRepository;
+
+    @Autowired
     private SaunaEventRepository saunaEventRepository;
 
     @Autowired
@@ -54,6 +57,7 @@ class BookingControllerIntegrationTest {
         // Ryd data før hver test
         bookingRepository.deleteAll();
         saunaEventRepository.deleteAll();
+        shiftRepository.deleteAll();
         userRepository.deleteAll();
 
         // Opret testbrugere
