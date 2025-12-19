@@ -3,8 +3,24 @@
 //   durationMinutes, capacity, price, currentBookings, availableSpots, status }
 
 (() => {
-    const params = new URLSearchParams(window.location.search);
-    const eventId = params.get("id") || "1";
+    // Priority 1: Check if eventId was injected by Thymeleaf
+    let eventId = window.EVENT_ID;
+
+    // Priority 2: Extract from URL path: /api/events/view/{id}
+    if (!eventId) {
+        const pathParts = window.location.pathname.split('/');
+        const lastPart = pathParts[pathParts.length - 1];
+        if (!isNaN(lastPart) && lastPart !== 'view' && lastPart !== '') {
+            eventId = lastPart;
+        }
+    }
+
+    // Priority 3: Try query parameter as fallback
+    if (!eventId) {
+        const params = new URLSearchParams(window.location.search);
+        eventId = params.get("id") || "1";
+    }
+
     const apiUrl = `/api/events/${encodeURIComponent(eventId)}`;
 
     const els = {
