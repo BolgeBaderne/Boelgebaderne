@@ -9,7 +9,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import com.example.bolgebaderne.service.MemberProfileService;
 import com.example.bolgebaderne.service.MemberQuickBookingService;
-import com.example.bolgebaderne.service.MemberShiftService;
+import com.example.bolgebaderne.service.ShiftService;
 
 import java.util.List;
 
@@ -20,11 +20,11 @@ public class MemberController {
 
     private final MemberProfileService memberProfileService;
     private final MemberQuickBookingService quickBookingService;
-    private final MemberShiftService shiftService;
+    private final ShiftService shiftService;
 
     public MemberController(MemberProfileService memberProfileService,
                             MemberQuickBookingService quickBookingService,
-                            MemberShiftService shiftService) {
+                            ShiftService shiftService) {
         this.memberProfileService = memberProfileService;
         this.quickBookingService = quickBookingService;
         this.shiftService = shiftService;

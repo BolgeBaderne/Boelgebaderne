@@ -5,6 +5,8 @@ import com.example.bolgebaderne.model.SaunaEvent;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface BookingRepository extends JpaRepository<Booking, Integer> {
     int countBySaunaEvent(SaunaEvent saunaEvent);
@@ -14,4 +16,7 @@ public interface BookingRepository extends JpaRepository<Booking, Integer> {
 
     // Corrected method name to reference SaunaEvent property (was referencing non-existent 'event')
     boolean existsByUser_UserIdAndSaunaEvent_EventId(int userId, int eventId);
+
+    // Dashboard
+    List<Booking> findByUser_UserId(int userId);
 }

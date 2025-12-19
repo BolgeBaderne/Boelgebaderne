@@ -3,7 +3,7 @@ package com.example.bolgebaderne.controller;
 import com.example.bolgebaderne.model.User;
 import com.example.bolgebaderne.service.MemberProfileService;
 import com.example.bolgebaderne.service.MemberQuickBookingService;
-import com.example.bolgebaderne.service.MemberShiftService;
+import com.example.bolgebaderne.service.ShiftService;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,11 +16,11 @@ public class MemberPageController {
 
     private final MemberProfileService memberProfileService;
     private final MemberQuickBookingService quickBookingService;
-    private final MemberShiftService shiftService;
+    private final ShiftService shiftService;
 
     public MemberPageController(MemberProfileService memberProfileService,
                                 MemberQuickBookingService quickBookingService,
-                                MemberShiftService shiftService) {
+                                ShiftService shiftService) {
         this.memberProfileService = memberProfileService;
         this.quickBookingService = quickBookingService;
         this.shiftService = shiftService;

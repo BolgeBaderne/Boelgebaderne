@@ -2003,222 +2003,224 @@ body.page-membership {
 
     .dashboard-list li {
         font-size: 0.9rem;
+
     }
 }
 /* ============================ */
-/* WAITLIST-STATUS STYLE */
-/* Side-layout */
+/*        WAITLIST STATUS       */
+/* ============================ */
+
 .waitlist-page {
-    padding: 24px 0;
+    padding: 4rem 1rem;
+    background: #f7fbfc;
 }
 
 .waitlist-header {
-    margin-bottom: 16px;
+    margin-bottom: 2rem;
 }
 
 .waitlist-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
-    margin-top: 16px;
-}
-
-/* Mobil */
-@media (max-width: 768px) {
-    .waitlist-grid {
-        grid-template-columns: 1fr;
-    }
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
 }
 
 /* Tekst */
 .muted {
-    opacity: 0.75;
+    color: rgba(11,36,48,0.65);
+    font-size: 0.95rem;
 }
 
+/* Actions */
 .waitlist-actions {
     display: flex;
-    gap: 12px;
-    margin-top: 12px;
+    gap: 0.6rem;
+    margin-top: 1.4rem;
     flex-wrap: wrap;
 }
 
-/* Fejl */
+/* Fejl / alert */
 .waitlist-error {
-    margin-top: 16px;
-    border: 1px solid rgba(255, 0, 0, 0.25);
+    margin-top: 1.6rem;
+    padding: 1.2rem 1.4rem;
+    border-radius: 12px;
+    background: rgba(217, 115, 4, 0.08);
+    border: 1px solid rgba(217, 115, 4, 0.25);
+    color: #9a4a00;
+    font-size: 0.95rem;
 }
 
+/* Utility */
 .hidden {
     display: none;
 }
 
+/* ============================ */
+/*           LOGIN PAGE         */
+/* ============================ */
 
-/* ===== LOGIN PAGE ===== */
-
-body {
-    margin: 0;
-    padding: 0;
-    font-family: Arial, Helvetica, sans-serif;
-    background-color: #f4f6f8;
+body.page-login {
+    background: #f7fbfc;
 }
 
-/* Container der centrerer login */
+/* Centering */
 .login-container {
     min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
+    padding: 1rem;
 }
 
-/* Selve login-boksen */
+/* Login card */
 .login-box {
-    background-color: #ffffff;
-    padding: 32px;
+    background: #ffffff;
+    padding: 2.8rem 2.4rem;
     width: 100%;
-    max-width: 380px;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    max-width: 420px;
+    border-radius: 18px;
+    box-shadow: 0 8px 28px rgba(0,0,0,0.06);
+    border: 1px solid rgba(10,122,140,0.15);
 }
 
 /* Titel */
 .login-box h1 {
-    margin-bottom: 24px;
+    font-family: "Playfair Display", serif;
+    margin-bottom: 2rem;
     text-align: center;
-    font-size: 24px;
-    color: #333;
+    font-size: 2rem;
+    color: #0b2430;
 }
 
 /* Labels */
 .login-box label {
     display: block;
-    margin-bottom: 6px;
-    font-size: 14px;
-    color: #555;
+    margin-bottom: 0.35rem;
+    font-size: 0.85rem;
+    color: rgba(11,36,48,0.75);
+    font-weight: 500;
 }
 
-/* Input felter */
+/* Inputs */
 .login-box input[type="email"],
 .login-box input[type="password"] {
     width: 100%;
-    padding: 10px;
-    margin-bottom: 16px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 14px;
+    padding: 0.75rem 0.85rem;
+    margin-bottom: 1.4rem;
+    border-radius: 10px;
+    border: 1px solid rgba(0,0,0,0.15);
+    font-size: 0.95rem;
+    font-family: "Inter", system-ui, sans-serif;
 }
 
-/* Fokus på input */
+/* Fokus */
 .login-box input:focus {
     outline: none;
-    border-color: #3b82f6;
+    border-color: #0A7A8C;
 }
 
-/* Login-knap */
-.login-box button {
-    width: 100%;
-    padding: 10px;
-    background-color: #3b82f6;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    font-size: 15px;
-    cursor: pointer;
-}
+/* ========================================================= */
+/*                     BOOKING CSS                           */
+/* ========================================================= */
 
-/* Hover-effekt */
-.login-box button:hover {
-    background-color: #2563eb;
-}
-
-
-/* BOOKING CSS */
-
-body {
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+body.page-booking {
+    font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     margin: 0;
-    background-color: #f5f7fb;
+    background-color: #f7fbfc;
 }
 
 .booking-wrapper {
     max-width: 1100px;
     margin: 0 auto;
-    padding: 32px 16px 48px;
+    padding: 8rem 1rem 4rem;
 }
 
 .booking-header {
     text-align: center;
-    margin-bottom: 24px;
+    margin-bottom: 2rem;
 }
 
 .booking-header h1 {
-    margin: 0 0 8px;
-    font-size: 32px;
+    margin: 0 0 0.5rem;
+    font-family: "Playfair Display", serif;
+    font-size: 2.4rem;
 }
 
 .booking-header p {
     margin: 0;
-    color: #555;
+    color: rgba(11,36,48,0.65);
 }
+
+/* ========================================================= */
+/*                     WEEK NAV                              */
+/* ========================================================= */
 
 .week-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 16px;
+    margin-bottom: 1.2rem;
 }
 
 .week-nav button {
-    border: 1px solid #ccc;
-    background: white;
-    padding: 6px 10px;
-    border-radius: 6px;
+    border: 1px solid rgba(10,122,140,0.35);
+    background: #ffffff;
+    padding: 0.45rem 0.8rem;
+    border-radius: 8px;
     cursor: pointer;
+    font-size: 0.85rem;
+    color: #0A7A8C;
 }
 
 .week-nav button:hover {
-    background: #f0f0f0;
+    background: rgba(10,122,140,0.08);
 }
 
-/* Selve uge-kalenderen */
+/* ========================================================= */
+/*                     CALENDAR GRID                         */
+/* ========================================================= */
+
 .calendar-grid {
     display: grid;
     grid-template-columns: 80px repeat(7, 1fr);
-    background: white;
-    border-radius: 12px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+    background: #ffffff;
+    border-radius: 18px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.06);
     overflow: hidden;
-    position: relative; /* vigtig for den røde tids-linje */
+    position: relative;
+    border: 1px solid rgba(10,122,140,0.15);
 }
 
 .calendar-time-col {
-    border-right: 1px solid #eee;
-    padding: 8px;
-    font-size: 12px;
-    color: #888;
+    border-right: 1px solid rgba(0,0,0,0.06);
+    padding: 0.5rem;
+    font-size: 0.75rem;
+    color: rgba(11,36,48,0.55);
 }
 
 .time-slot-label {
     height: 60px;
-    border-bottom: 1px solid #f3f3f3;
+    border-bottom: 1px solid rgba(0,0,0,0.04);
 }
 
 .calendar-day-col {
-    border-left: 1px solid #f7f7f7;
-    padding: 4px;
+    border-left: 1px solid rgba(0,0,0,0.04);
+    padding: 0.25rem;
 }
 
 .day-header {
     text-align: center;
-    padding: 8px 4px;
-    border-bottom: 1px solid #eee;
-    font-size: 12px;
-    color: #555;
+    padding: 0.5rem 0.25rem;
+    border-bottom: 1px solid rgba(0,0,0,0.06);
+    font-size: 0.7rem;
+    color: rgba(11,36,48,0.6);
 }
 
 .day-header strong {
     display: block;
-    font-size: 13px;
-    margin-bottom: 2px;
+    font-size: 0.8rem;
+    margin-bottom: 0.1rem;
+    color: #0b2430;
 }
 
 .day-body {
@@ -2226,42 +2228,48 @@ body {
     min-height: 840px;
 }
 
+/* ========================================================= */
+/*                     SESSIONS                              */
+/* ========================================================= */
+
 .session-card {
     position: absolute;
     left: 6px;
     right: 6px;
-    border-radius: 8px;
-    padding: 6px 8px;
-    font-size: 11px;
+    border-radius: 10px;
+    padding: 0.4rem 0.5rem;
+    font-size: 0.7rem;
     box-sizing: border-box;
     cursor: pointer;
     overflow: hidden;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.12);
 }
 
+/* Typer */
 .session-member {
-    background: #e1f0ff;
-    border: 1px solid #b7d4ff;
+    background: #e8f4f8;
+    border: 1px solid rgba(10,122,140,0.35);
 }
 
 .session-guest {
-    background: #f0e4ff;
-    border: 1px solid #d5c0ff;
+    background: #fbe8d3;
+    border: 1px solid rgba(217,115,4,0.35);
 }
 
 .session-gus {
     background: #ffe7f0;
-    border: 1px solid #ffc5de;
+    border: 1px solid rgba(217,115,4,0.35);
 }
 
-/* Baggrund for åbningstider */
+/* Åbningstider */
 .session-open-member {
-    background: #d5f5d8;      /* lys grøn */
+    background: rgba(10,122,140,0.18);
     border: none;
-    opacity: 0.7;
+    opacity: 0.75;
 }
 
 .session-open-guest {
-    background: #fff7c2;      /* pastel gul */
+    background: rgba(217,115,4,0.18);
     border: none;
     opacity: 0.8;
 }
@@ -2272,7 +2280,7 @@ body {
 
 .session-card-title {
     font-weight: 600;
-    margin-bottom: 2px;
+    margin-bottom: 0.15rem;
 }
 
 .session-card-meta {
@@ -2282,37 +2290,44 @@ body {
 }
 
 .session-capacity {
-    font-size: 10px;
+    font-size: 0.65rem;
 }
 
 .session-lock {
-    font-size: 11px;
+    font-size: 0.7rem;
 }
 
-/* RØD TIDS-LINJE (current time) */
-/* Selve linjen får position/placering via JavaScript */
+/* ========================================================= */
+/*                  CURRENT TIME LINE                        */
+/* ========================================================= */
+
 #current-time-line {
     position: absolute;
     height: 2px;
-    background-color: #ff2d55;
+    background-color: #D97304;
     z-index: 10;
     pointer-events: none;
-    display: none; /* skjult, hvis vi ikke er på nuværende dag/uge */
+    display: none;
 }
 
+/* ========================================================= */
+/*                     PAST DAYS                             */
+/* ========================================================= */
 
-/* Grå/låste dage (tidligere i ugen) */
 .past-day {
     opacity: 0.35;
     background-color: #f0f0f0;
-    pointer-events: none; /* kan ikke klikkes */
+    pointer-events: none;
 }
 
 .past-day .session-card {
     cursor: default;
 }
 
-/* Simpel modal */
+/* ========================================================= */
+/*                         MODAL                             */
+/* ========================================================= */
+
 .modal-backdrop {
     position: fixed;
     inset: 0;
@@ -2324,56 +2339,73 @@ body {
 }
 
 .modal {
-    background: white;
-    border-radius: 12px;
-    padding: 20px;
+    background: #ffffff;
+    border-radius: 18px;
+    padding: 1.4rem;
     max-width: 360px;
     width: 100%;
-    box-shadow: 0 8px 30px rgba(0,0,0,0.18);
+    box-shadow: 0 8px 28px rgba(0,0,0,0.18);
 }
 
 .modal h2 {
     margin-top: 0;
+    font-size: 1.3rem;
 }
+
+/* ========================================================= */
+/*                     MODAL ACTIONS                         */
+/* ========================================================= */
 
 .modal-actions {
     display: flex;
     justify-content: flex-end;
-    gap: 8px;
-    margin-top: 16px;
+    gap: 0.6rem;
+    margin-top: 1.2rem;
 }
 
 .btn {
-    border-radius: 8px;
-    border: 1px solid #0070f3;
-    background: #0070f3;
+    border-radius: 999px;
+    border: none;
+    background: #0A7A8C;
     color: white;
-    padding: 6px 12px;
+    padding: 0.35rem 0.8rem;
     cursor: pointer;
-    font-size: 13px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.btn:hover {
+    background: #095e6d;
 }
 
 .btn-secondary {
-    background: white;
-    color: #0070f3;
+    background: transparent;
+    border: 1px solid rgba(10,122,140,0.35);
 }
 
+/* ========================================================= */
+/*                         ALERTS                            */
+/* ========================================================= */
+
 .alert {
-    margin-top: 12px;
-    font-size: 13px;
+    margin-top: 0.75rem;
+    font-size: 0.75rem;
 }
 
 .alert-error {
-    color: #b00020;
+    color: #9a4a00;
 }
 
 .alert-success {
-    color: #0b7a31;
+    color: #0A7A8C;
 }
+
+/* ========================================================= */
+/*                     PAGE FIX                              */
+/* ========================================================= */
 
 .booking-page {
     padding-top: 0;
-    /* ...existing booking-page styles if any remain... */
 }
 
 
