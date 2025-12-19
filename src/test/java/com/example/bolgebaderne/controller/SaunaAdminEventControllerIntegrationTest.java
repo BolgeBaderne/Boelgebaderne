@@ -38,6 +38,7 @@ class SaunaAdminEventControllerIntegrationTest {
     @Autowired
     private ObjectMapper objectMapper;
 
+
     private SaunaAdminEventDTO testEventDTO;
     private LocalDateTime testStartTime;
 
@@ -50,6 +51,8 @@ class SaunaAdminEventControllerIntegrationTest {
     @Autowired
     private SaunaEventRepository repository;
     @Autowired
+    private ShiftRepository shiftRepository;
+    @Autowired
     private WaitlistEntryRepository waitlistEntryRepository;
     @Autowired
     private UserRepository userRepository;
@@ -59,6 +62,7 @@ class SaunaAdminEventControllerIntegrationTest {
         bookingRepository.deleteAll();
         waitlistEntryRepository.deleteAll();
         repository.deleteAll();
+        shiftRepository.deleteAll();
         userRepository.deleteAll();
 
         testStartTime = LocalDateTime.of(2025, 12, 25, 14, 0);
