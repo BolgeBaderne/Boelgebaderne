@@ -1,7 +1,6 @@
 package com.example.bolgebaderne.security;
 
 import com.example.bolgebaderne.repository.UserRepository;
-import org.springframework.boot.security.autoconfigure.web.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -32,8 +31,6 @@ public class SecurityConfig {
 
         http.authorizeHttpRequests(auth -> auth
 
-                //ALT statisk (css/js/images/webjars/favicon osv.)
-                .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
 
                 // ekstra static paths I bruger (icons er ikke "common location")
                 .requestMatchers("/icons/**").permitAll()

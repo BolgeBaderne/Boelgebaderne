@@ -15,31 +15,17 @@ public class SaunaEvent {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "event_id")
     private int eventId;
 
-    @Column(name = "title", nullable = false, length = 150)
     private String title;
-
-    @Column(name = "description", nullable = false, length = 500)
     private String description;
-
-    @Column(name = "gusmester_name", nullable = false, length = 100)
     private String gusmesterName;
     private String gusmesterImageUrl;
 
-    @Column(name = "start_time", nullable = false)
     private LocalDateTime startTime;
-
-    @Column(name = "duration_minutes", nullable = false)
     private int durationMinutes;
-
-    @Column(name = "capacity", nullable = false)
     private int capacity;
-
-    @Column(name = "price", nullable = false)
     private double price;
-
     private int currentBookings;
     private int availableSpots;
 
@@ -55,6 +41,8 @@ public class SaunaEvent {
     public SaunaEvent(int eventId, String title, String description, String gusmesterName, String gusmesterImageUrl,
                       LocalDateTime startTime, int durationMinutes, int capacity,
                       double price, EventStatus eventStatus, int currentBookings, int availableSpots) {
+
+
         this.eventId = eventId;
         this.title = title;
         this.description = description;
@@ -69,8 +57,6 @@ public class SaunaEvent {
         this.availableSpots = availableSpots;
     }
 
-
-    //Getters and Setters
     public int getEventId() {
         return eventId;
     }
@@ -143,29 +129,30 @@ public class SaunaEvent {
         this.price = price;
     }
 
-    public EventStatus getEventStatus() {
-        return eventStatus;
-    }
-
-    public void setEventStatus(EventStatus status) {
-        this.eventStatus = status;
-    }
-
     public int getCurrentBookings() {
         return currentBookings;
     }
 
     public void setCurrentBookings(int currentBookings) {
         this.currentBookings = currentBookings;
+        this.availableSpots = this.capacity - currentBookings;
+
     }
 
     public int getAvailableSpots() {
-        return availableSpots;
+            return capacity - currentBookings;
+
     }
 
     public void setAvailableSpots(int availableSpots) {
         this.availableSpots = availableSpots;
     }
 
+    public EventStatus getEventStatus() {
+        return eventStatus;
+    }
 
-}
+    public void setEventStatus(EventStatus eventStatus) {
+        this.eventStatus = eventStatus;
+    }    }
+

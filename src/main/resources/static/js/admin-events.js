@@ -1,0 +1,242 @@
+const API_BASE = "/api/admin/events";
+
+// Hent event ID fra URL hvis det findes (fx /admin/events/2)
+function getEventIdFromUrl() {
+    const pathParts = window.location.pathname.split('/');
+    const lastPart = pathParts[pathParts.length - 1];
+    const idFromPath = parseInt(lastPart);
+
+    // Hvis sidste del af path er et nummer, return det
+    if (!isNaN(idFromPath)) {
+        return idFromPath;
+    }
+
+    return null; // Ingen specifikt event ID i URL
+}
+
+const urlEventId = getEventIdFromUrl();
+
+const form = document.getElementById("eventForm");
+const formMessage = document.getElementById("formMessage");
+const cancelEditBtn = document.getElementById("cancelEditBtn");
+const refreshBtn = document.getElementById("refreshBtn");
+
+const tbody = document.getElementById("eventsBody");
+const tableError = document.getElementById("tableError");
+
+function showMessage(text, type = "success") {
+    formMessage.className = `message ${type}`;
+    formMessage.textContent = text;
+}
+
+function showTableError(text) {
+    tableError.classList.remove("hidden");
+    tableError.textContent = text;
+}
+
+function clearTableError() {
+    tableError.classList.add("hidden");
+    tableError.textContent = "";
+}
+
+function resetEditMode() {
+    delete form.dataset.editId;
+    cancelEditBtn.style.display = "none";
+    showMessage("Opret nyt event.", "success");
+    form.reset();
+    document.getElementById("status").value = "UPCOMING";
+}
+
+cancelEditBtn.addEventListener("click", resetEditMode);
+refreshBtn.addEventListener("click", loadEvents);
+
+// datetime-local -> "YYYY-MM-DDTHH:mm:ss"
+function toIsoLocalDateTime(v) {
+    return v && v.length === 16 ? v + ":00" : v;
+}
+
+// "2025-12-06T08:00:00" -> datetime-local value "2025-12-06T08:00"
+function toDatetimeLocalValue(iso) {
+    if (!iso) return "";
+    return iso.length >= 16 ? iso.substring(0, 16) : iso;
+}
+
+function createRow(event) {
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
+    <td>${event.id ?? "-"}</td>
+    <td>${event.title ?? "-"}</td>
+    <td>${event.gusmesterName ?? "-"}</td>
+    <td>${event.capacity ?? "-"}</td>
+    <td>${event.price ?? 0} kr.</td>
+    <td>${event.status ?? "-"}</td>
+    <td>
+      <div class="actions">
+        <button class="btn btn-secondary edit-btn" data-id="${event.id}">Rediger</button>
+        <button class="btn btn-danger delete-btn" data-id="${event.id}">Slet</button>
+      </div>
+    </td>
+  `;
+    return tr;
+}
+
+async function loadEvents() {
+    clearTableError();
+    tbody.innerHTML = `<tr><td colspan="7" class="muted">Indlæser...</td></tr>`;
+
+    try {
+        const res = await fetch(API_BASE, { credentials: "same-origin" });
+        if (!res.ok) throw new Error(`Kunne ikke hente events. Status: ${res.status}`);
+
+        const events = await res.json();
+        if (!Array.isArray(events) || events.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="7" class="muted">Ingen events endnu.</td></tr>`;
+            return;
+        }
+
+        tbody.innerHTML = "";
+        events.forEach(e => tbody.appendChild(createRow(e)));
+    } catch (err) {
+        console.error(err);
+        tbody.innerHTML = `<tr><td colspan="7" class="muted">Fejl ved hentning.</td></tr>`;
+        showTableError(err.message);
+    }
+}
+
+tbody.addEventListener("click", async (e) => {
+    const target = e.target;
+
+    // SLET
+    if (target.classList.contains("delete-btn")) {
+        const id = target.dataset.id;
+        if (!confirm(`Vil du slette event #${id}?`)) return;
+
+        try {
+            const res = await fetch(`${API_BASE}/${id}`, {
+                method: "DELETE",
+                credentials: "same-origin"
+            });
+            if (!res.ok) throw new Error(`Slet fejlede. Status: ${res.status}`);
+
+            showMessage(`Event #${id} slettet.`, "success");
+            await loadEvents();
+        } catch (err) {
+            console.error(err);
+            showMessage(err.message, "error");
+        }
+    }
+
+    // REDIGER
+    if (target.classList.contains("edit-btn")) {
+        const id = target.dataset.id;
+
+        try {
+            const res = await fetch(`${API_BASE}/${id}`, { credentials: "same-origin" });
+            if (!res.ok) throw new Error(`Kunne ikke hente event #${id}. Status: ${res.status}`);
+
+            const event = await res.json();
+
+            document.getElementById("title").value = event.title ?? "";
+            document.getElementById("startTime").value = toDatetimeLocalValue(event.startTime);
+
+            document.getElementById("saunagusMasterName").value = event.gusmesterName ?? "";
+            document.getElementById("saunagusMasterImageUrl").value = event.gusmesterImageUrl ?? "";
+            document.getElementById("description").value = event.description ?? "";
+
+            document.getElementById("durationMinutes").value = event.durationMinutes ?? 45;
+            document.getElementById("capacity").value = event.capacity ?? 12;
+            document.getElementById("price").value = event.price ?? 99;
+            document.getElementById("status").value = event.status ?? "UPCOMING";
+
+            form.dataset.editId = id;
+            cancelEditBtn.style.display = "inline-block";
+            showMessage(`Redigerer event #${id}`, "success");
+            window.scrollTo({ top: 0, behavior: "smooth" });
+        } catch (err) {
+            console.error(err);
+            showMessage(err.message, "error");
+        }
+    }
+});
+
+form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const dto = {
+        title: document.getElementById("title").value.trim(),
+        gusmesterName: document.getElementById("saunagusMasterName").value.trim(),
+        gusmesterImageUrl: document.getElementById("saunagusMasterImageUrl").value.trim(),
+        description: document.getElementById("description").value.trim(),
+        startTime: toIsoLocalDateTime(document.getElementById("startTime").value),
+        durationMinutes: Number(document.getElementById("durationMinutes").value),
+        capacity: Number(document.getElementById("capacity").value),
+        price: Number(document.getElementById("price").value),
+        status: document.getElementById("status").value
+    };
+
+    const editId = form.dataset.editId;
+    const url = editId ? `${API_BASE}/${editId}` : API_BASE;
+    const method = editId ? "PUT" : "POST";
+
+    try {
+        const res = await fetch(url, {
+            method,
+            headers: { "Content-Type": "application/json" },
+            credentials: "same-origin",
+            body: JSON.stringify(dto)
+        });
+
+        if (!res.ok) {
+            let msg = `Gem fejlede. Status: ${res.status}`;
+            try {
+                const body = await res.json();
+                msg = body.message || body.error || msg;
+            } catch {}
+            throw new Error(msg);
+        }
+
+        const saved = await res.json();
+        showMessage(editId ? `Event #${saved.id} opdateret.` : `Event #${saved.id} oprettet.`, "success");
+
+        resetEditMode();
+        await loadEvents();
+    } catch (err) {
+        console.error(err);
+        showMessage(err.message, "error");
+    }
+});
+
+document.addEventListener("DOMContentLoaded", async () => {
+    cancelEditBtn.style.display = "none";
+    showMessage("Opret nyt event.", "success");
+    await loadEvents();
+
+    // Hvis der er et event ID i URL'en, load det automatisk til redigering
+    if (urlEventId) {
+        console.log(`Auto-loading event #${urlEventId} for redigering`);
+        try {
+            const res = await fetch(`${API_BASE}/${urlEventId}`, { credentials: "same-origin" });
+            if (!res.ok) throw new Error(`Kunne ikke hente event #${urlEventId}. Status: ${res.status}`);
+
+            const event = await res.json();
+
+            document.getElementById("title").value = event.title ?? "";
+            document.getElementById("startTime").value = toDatetimeLocalValue(event.startTime);
+            document.getElementById("saunagusMasterName").value = event.gusmesterName ?? "";
+            document.getElementById("saunagusMasterImageUrl").value = event.gusmesterImageUrl ?? "";
+            document.getElementById("description").value = event.description ?? "";
+            document.getElementById("durationMinutes").value = event.durationMinutes ?? 45;
+            document.getElementById("capacity").value = event.capacity ?? 12;
+            document.getElementById("price").value = event.price ?? 99;
+            document.getElementById("status").value = event.status ?? "UPCOMING";
+
+            form.dataset.editId = urlEventId;
+            cancelEditBtn.style.display = "inline-block";
+            showMessage(`Redigerer event #${urlEventId}`, "success");
+            window.scrollTo({ top: 0, behavior: "smooth" });
+        } catch (err) {
+            console.error(err);
+            showMessage(err.message, "error");
+        }
+    }
+});

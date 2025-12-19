@@ -127,6 +127,7 @@ body {
     grid-template-columns: minmax(0, 1.6fr) minmax(0, 1.1fr);
     gap: 2rem;
     align-items: flex-start;
+    padding: 0 2rem;
 }
 
 .card {

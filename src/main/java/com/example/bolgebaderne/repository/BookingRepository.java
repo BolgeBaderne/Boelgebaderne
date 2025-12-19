@@ -12,4 +12,6 @@ public interface BookingRepository extends JpaRepository<Booking, Integer> {
     long countBySaunaEvent_EventId(int eventId);
     // Added method to check if a booking exists for a given user ID and event ID
     boolean existsByUser_UserIdAndSaunaEvent_EventId(int userId, int eventId);
+
+    void deleteBySaunaEvent_EventId(int eventId);
 }

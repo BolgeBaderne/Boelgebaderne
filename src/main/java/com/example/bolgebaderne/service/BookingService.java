@@ -118,10 +118,11 @@ public class BookingService {
             }
 
             // Brug den offentlige constructor:
-            // SaunaEvent(int eventId, String title, String description, String gusmesterName,
-            //            LocalDateTime startTime, int durationMinutes, int capacity,
-            //            double price, EventStatus status)
-            SaunaEvent newEvent = new SaunaEvent(
+//           public SaunaEvent(int eventId, String title, String description, String gusmesterName,
+//                    String gusmesterImageUrl, LocalDateTime startTime, int durationMinutes,
+//            int capacity, double price, int currentBookings, EventStatus status) {
+
+                SaunaEvent newEvent = new SaunaEvent(
                     0,
                     req.title(),
                     "",
